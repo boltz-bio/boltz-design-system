@@ -1,0 +1,10 @@
+{
+  "codeConnect": {
+    "include": ["packages/ui/src/**/*.figma.tsx"],
+    "parser": "react",
+    "importPaths": {
+      "@boltz/ui": "packages/ui/src/index.ts"
+    },
+    "figmaFileUrl": "https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0"
+  }
+}
