@@ -71,7 +71,7 @@ export const EyebrowLabel = React.forwardRef<HTMLSpanElement, EyebrowLabelProps>
           className={cn(
             'h-28 px-12 rounded-full border',
             'inline-flex items-center',
-            'font-sans font-regular text-body-sm whitespace-nowrap',
+            'text-body-sm whitespace-nowrap',
             showCircle && '-ml-px',
             borderColor[variant],
           )}

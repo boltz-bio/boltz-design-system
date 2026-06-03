@@ -41,7 +41,7 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
         'group inline-flex items-center gap-8',
         'h-36 pl-20 pr-4',
         'rounded-full',
-        'font-sans font-regular text-body-sm whitespace-nowrap',
+        'text-body-sm whitespace-nowrap',
         interactive,
         'active:scale-active',
         focusRing,

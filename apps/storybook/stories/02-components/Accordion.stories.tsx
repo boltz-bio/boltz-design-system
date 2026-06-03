@@ -77,7 +77,7 @@ export const MultipleOpen: Story = {
 export const NoBadge: Story = {
   args: { type: 'single' },
   render: () => (
-    <Accordion type="single" collapsible defaultValue="q1" className="max-w-[700px]">
+    <Accordion type="single" collapsible defaultValue="q1" className="max-w-body">
       <AccordionItem value="q1" title="How accurate are the predictions?">
         <p className="font-sans font-regular text-body-md text-text-secondary">
           BoltzProt achieves state-of-the-art accuracy on CASP15 benchmarks, with a GDT_TS
@@ -87,5 +87,34 @@ export const NoBadge: Story = {
       <AccordionItem value="q2" title="What input formats are supported?" />
       <AccordionItem value="q3" title="Is there an API?" />
     </Accordion>
+  ),
+};
+
+// On background — the accordion sits inside tinted surface panels (as on a real
+// page). Items are transparent with a hairline separator, so they adapt to any
+// Boltz canvas. Mirrors the "on background" treatment of the other components.
+export const OnBackground: Story = {
+  args: { type: 'single' },
+  render: () => (
+    <div className="flex flex-col gap-lg">
+      {([
+        { bg: 'bg-white border border-border-light', label: 'White card' },
+        { bg: 'bg-surface-secondary', label: 'Surface secondary' },
+        { bg: 'bg-sage-pale', label: 'Sage pale' },
+        { bg: 'bg-blue-pale', label: 'Blue pale' },
+      ] as const).map(({ bg, label }) => (
+        <div key={label} className={`rounded-lg p-lg ${bg}`}>
+          <p className="text-body-sm text-text-muted mb-sm">{label}</p>
+          <Accordion type="single" collapsible defaultValue="a" className="max-w-body">
+            <AccordionItem value="a" title="BoltzMol 1.1" badge={<Badge variant="primary">Beta</Badge>}>
+              <p className="font-sans font-regular text-body-md text-text-secondary">
+                Small-molecule screening and hit discovery, powered by multi-modal foundation models.
+              </p>
+            </AccordionItem>
+            <AccordionItem value="b" title="BoltzProt 1.1" badge={<Badge variant="secondary">New</Badge>} />
+          </Accordion>
+        </div>
+      ))}
+    </div>
   ),
 };

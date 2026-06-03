@@ -71,7 +71,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className={cn(
             'h-36 rounded-full border',
             'inline-flex items-center',
-            'font-sans font-regular text-body-sm whitespace-nowrap',
+            'text-body-sm whitespace-nowrap',
             'pl-16 pr-16',
             // On hover: expand right padding by the circle's width so the fill
             // stretches under the circle → 16 + 36 = 52
@@ -93,7 +93,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             className={cn(
               'h-36 w-36 overflow-hidden rounded-full border flex-shrink-0',
               'inline-flex items-center justify-center',
-              'font-sans font-regular text-body-sm leading-none',
+              'text-body-sm leading-none',
               // On hover: pull circle left so it sits on top of the extended label fill
               'ml-0 group-hover:-ml-36',
               'transition-[margin,background-color,border-color,color] duration-spring ease-spring',

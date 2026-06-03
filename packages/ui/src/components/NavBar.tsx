@@ -72,10 +72,10 @@ export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
     <a
       ref={ref}
       className={cn(
-        'h-[36px] px-[20px] rounded-full',
+        'h-36 px-20 rounded-full',
         'border border-action-primary',
         'inline-flex items-center',
-        'font-sans font-regular text-body-sm whitespace-nowrap',
+        'text-body-sm whitespace-nowrap',
         'text-text-primary no-underline',
         'transition-colors duration-base ease-standard',
         active
@@ -109,7 +109,7 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
     <nav
       ref={ref}
       className={cn(
-        'w-full h-[60px] px-[40px]',
+        'w-full h-60 px-40',
         'flex items-center justify-between',
         'sticky top-0 z-50',
         'transition-[background-color,backdrop-filter] duration-300 ease-standard',

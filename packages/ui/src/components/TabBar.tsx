@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ViewGrid, List } from 'iconoir-react';
 import { cn } from '../utils';
+import { focusRing, interactive } from '../styles';
 
 // Spec: components.html tab-bar / filter-tab-bar (Figma node 57-4617)
 //
@@ -26,15 +27,15 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
       role="tab"
       aria-selected={active}
       className={cn(
-        'h-[36px] px-[20px] rounded-full border border-action-primary',
+        'h-36 px-20 rounded-full border border-action-primary',
         'inline-flex items-center',
-        'font-sans font-regular text-body-sm whitespace-nowrap',
-        'cursor-pointer select-none',
+        'text-body-sm whitespace-nowrap',
+        interactive,
         '-ml-px first:ml-0',   // merge border seam
         active
           ? 'bg-action-primary text-text-on-dark relative z-10'
           : 'bg-transparent text-text-primary hover:bg-surface-secondary',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+        focusRing,
         className,
       )}
       {...rest}
@@ -85,7 +86,7 @@ export const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(
 TabBar.displayName = 'TabBar';
 
 // ── ViewToggle ────────────────────────────────────────────────────────────────
-// Grid / list view switcher — two 36×36 pill buttons, gap-[4px].
+// Grid / list view switcher — two 36×36 pill buttons, gap-4.
 // Uses Unicode chars by default; swap for Iconoir icons via `gridIcon`/`listIcon`.
 
 export type ViewMode = 'grid' | 'list';
@@ -99,7 +100,7 @@ export interface ViewToggleProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const ViewToggle = React.forwardRef<HTMLDivElement, ViewToggleProps>(
   ({ className, value = 'grid', onValueChange, gridIcon, listIcon, ...rest }, ref) => (
-    <div ref={ref} className={cn('flex gap-[4px]', className)} {...rest}>
+    <div ref={ref} className={cn('flex gap-4', className)} {...rest}>
       {(['grid', 'list'] as ViewMode[]).map((mode) => {
         const isActive = value === mode;
         const icon = mode === 'grid'
@@ -112,10 +113,11 @@ export const ViewToggle = React.forwardRef<HTMLDivElement, ViewToggleProps>(
             aria-pressed={isActive}
             onClick={() => onValueChange?.(mode)}
             className={cn(
-              'w-[36px] h-[36px] rounded-full border border-action-primary',
+              'w-36 h-36 rounded-full border border-action-primary',
               'inline-flex items-center justify-center',
-              'font-sans text-body-sm cursor-pointer select-none',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+              'text-body-sm',
+              interactive,
+              focusRing,
               isActive
                 ? 'bg-action-primary text-text-on-dark'
                 : 'bg-transparent text-text-primary hover:bg-surface-secondary',

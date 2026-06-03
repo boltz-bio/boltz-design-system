@@ -63,7 +63,7 @@ export const AccordionItem = ({
               right by the ml-auto on the +/− control below.
               Line-height + tracking come from the text-heading-md token (which is
               responsive) — do not re-specify them here. */}
-          <span className="font-sans font-regular text-heading-md text-text-primary">
+          <span className="text-heading-md text-text-primary">
             {title}
           </span>
           {badge}

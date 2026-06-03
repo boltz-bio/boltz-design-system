@@ -17,7 +17,7 @@ const badgeVariants = cva(
   [
     'inline-flex items-center justify-center shrink-0',
     'h-28 px-12 rounded-full',
-    'font-sans font-regular text-body-sm whitespace-nowrap',
+    'text-body-sm whitespace-nowrap',
     'text-text-primary',
   ],
   {
