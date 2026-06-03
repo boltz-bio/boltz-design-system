@@ -40,4 +40,11 @@ export type { StatMetricProps, StatMetricRowProps } from './components/StatMetri
 export { TextButton } from './components/TextButton';
 export type { TextButtonProps } from './components/TextButton';
 
+// ── Sections ──────────────────────────────────────────────────────────────────
+export { SplitSection } from './components/SplitSection';
+export type { SplitSectionProps } from './components/SplitSection';
+
+export { Hero } from './components/Hero';
+export type { HeroProps } from './components/Hero';
+
 export { cn } from './utils';

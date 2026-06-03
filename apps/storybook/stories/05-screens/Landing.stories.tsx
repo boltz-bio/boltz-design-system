@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, Button,
+  NavBar, NavLink, EyebrowLabel, Button, Hero,
   CardMedium, CardWide, StatMetric, StatMetricRow,
   Accordion, AccordionItem, AccordionActions, Badge, TextButton,
 } from '@boltz/ui';
@@ -42,23 +42,18 @@ export const Landing: Story = {
         {navItems.map((n) => <NavLink key={n} href="#">{n}</NavLink>)}
       </NavBar>
 
-      {/* Hero */}
-      <section className="py-2xl tablet:py-section">
-        <div className="max-w-container mx-auto px-md tablet:px-40 grid grid-cols-1 gap-xl laptop:grid-cols-12 laptop:gap-20 items-center">
-          <div className="laptop:col-span-6 flex flex-col gap-lg">
-            <EyebrowLabel icon={<Leaf {...sz} />}>Build on Boltz</EyebrowLabel>
-            <h1 className="text-heading-lg text-text-primary">Frontier models for biomolecular design.</h1>
-            <p className="text-body-lg text-text-secondary max-w-hero">
-              State-of-the-art structure prediction, served as production-ready infrastructure. Built to integrate.
-            </p>
-            <div className="flex gap-md mt-md">
-              <Button variant="black">Try Boltz Lab</Button>
-              <TextButton arrow>Read the paper</TextButton>
-            </div>
-          </div>
-          <div className="laptop:col-span-6 flex justify-center laptop:justify-end"><ProteinPlaceholder /></div>
-        </div>
-      </section>
+      {/* Hero — now the Hero section component */}
+      <Hero
+        eyebrow="Build on Boltz"
+        eyebrowIcon={<Leaf {...sz} />}
+        heading="Frontier models for biomolecular design."
+        body="State-of-the-art structure prediction, served as production-ready infrastructure. Built to integrate."
+        actions={<>
+          <Button variant="black">Try Boltz Lab</Button>
+          <TextButton arrow>Read the paper</TextButton>
+        </>}
+        media={<ProteinPlaceholder />}
+      />
 
       {/* Capabilities — CardMedium grid */}
       <section className="py-2xl">
