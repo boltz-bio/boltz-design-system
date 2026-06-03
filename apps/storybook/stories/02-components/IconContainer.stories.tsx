@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/IconContainer',
   component: IconContainer,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A fixed-size rounded container that frames a single icon with consistent padding. Use it to give icons a uniform shape across light and dark surfaces.',
+      },
+    },
+  },
   argTypes: { variant: { control: 'select', options: ['light', 'dark'] } },
 } satisfies Meta<typeof IconContainer>;
 

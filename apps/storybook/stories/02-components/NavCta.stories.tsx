@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/Button/NavCta',
   component: NavCta,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'The pill-shaped call-to-action button used in the navigation bar, with a trailing circular icon. Use the dark variant on white surfaces and the light variant on coloured surfaces.',
+      },
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['dark', 'light'] },
   },

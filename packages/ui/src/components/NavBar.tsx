@@ -123,16 +123,20 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
         {logo ?? <BoltzLogo />}
       </a>
 
-      {/* Nav cluster — links + CTA, merged borders */}
+      {/* Nav cluster — links + CTA, merged borders.
+          Links hide below the `mobile` breakpoint (768px) so the bar doesn't
+          overflow on phones; the logo + CTA stay. (`mobile:` = min-width 768px.) */}
       <div className="flex items-center ml-auto">
         {/* Wrap children so we can apply -ml-px to merge link borders */}
-        {React.Children.map(children, (child, i) => (
-          <span key={i} className={i > 0 ? '-ml-px' : ''}>
-            {child}
-          </span>
-        ))}
+        <div className="hidden mobile:flex items-center">
+          {React.Children.map(children, (child, i) => (
+            <span key={i} className={i > 0 ? '-ml-px' : ''}>
+              {child}
+            </span>
+          ))}
+        </div>
         {cta !== null && (
-          <span className="-ml-px">
+          <span className="mobile:-ml-px">
             <NavCta variant="dark">{cta}</NavCta>
           </span>
         )}

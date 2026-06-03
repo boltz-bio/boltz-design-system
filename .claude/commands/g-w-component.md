@@ -2,6 +2,8 @@
 
 Generate (or extend) a Boltz design system component. Boltz is a **scalable, token-driven, light-first** design system — every value comes from a token, components are composed from existing ones, and nothing is invented per-component.
 
+> Read `ARCHITECTURE.md` first — it is the canonical contract (structure, tokens, variants, data, per-component requirements). This skill must produce code that matches it.
+
 ## Usage
 
 ```
@@ -84,7 +86,13 @@ Then:
 2. Scan `packages/ui/src/components` + `index.ts` — decide whether to compose existing components instead of creating new
 3. If a Figma URL is provided: verify the bridge (`figma_get_status` probe). Read exact values from the node — if the REST API token is expired, use `figma_execute` to read fills/sizes from the plugin sandbox (`figma.getNodeByIdAsync`). Resolve bound colour variables to their token names.
 4. Write/extend the component in `packages/ui/src/components/<Name>.tsx` — tokens only, responsive, composed
-5. Write the story to `apps/storybook/stories/02-components/<Name>.stories.tsx` with `argTypes` for controls
+5. Write the story to `apps/storybook/stories/02-components/<Name>.stories.tsx`. EVERY story file must include:
+   - `tags: ['autodocs']`
+   - `argTypes` for the variant/enum props (so Controls work)
+   - `parameters.docs.description.component` — 1–2 sentence, factual, no-hype explanation
+   - `parameters.design` — `{ type: 'figma', url: '<node url>' }` so the Figma preview panel shows the design
+   - render-only stories still need `args` (the meta type requires them) — pass minimal valid args
+   - source content-driven data from `apps/storybook/stories/_data/boltz.ts` (don't hand-code lists)
 6. Append the export lines to `packages/ui/src/index.ts`
-7. Run `pnpm typecheck`; verify visually in Storybook (dimensions match Figma, no arbitrary values left)
+7. Run `pnpm typecheck`; verify visually in Storybook (dimensions match Figma, no arbitrary values left, Design/Controls/A11y panels populated)
 8. Report what was created/changed

@@ -4,7 +4,15 @@ import * as AllIcons from 'iconoir-react';
 
 const meta = {
   title: '04-Sections/HeroBand',
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          'The full-width hero section at the top of a page, pairing an eyebrow label, headline, supporting text, and actions with a product visual. Use it as the opening band of a landing or marketing page.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;

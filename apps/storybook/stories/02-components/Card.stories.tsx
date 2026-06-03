@@ -9,7 +9,15 @@ const sz = { width: 32, height: 32, strokeWidth: 1.5 } as const;
 const meta = {
   title: '02-Components/Card',
   component: Card,
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'A family of content containers (small, medium, wide, and case study) for presenting models, capabilities, and case studies. Group them with CardGroup using connected spacing for a shared visual block or standalone spacing for independent items.',
+      },
+    },
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;

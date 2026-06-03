@@ -11,6 +11,12 @@ const meta = {
       type: 'figma',
       url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=57-4644',
     },
+    docs: {
+      description: {
+        component:
+          'The primary action control, available as a black variant for light surfaces and a white variant for dark surfaces. Supports an optional trailing arrow suffix for navigational actions.',
+      },
+    },
   },
   argTypes: {
     variant: { control: 'select', options: ['black', 'white'] },

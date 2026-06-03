@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/NavBar',
   component: NavBar,
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          'The top-level site navigation bar holding the logo, NavLink items, and a call-to-action. It applies a backdrop blur as page content scrolls behind it.',
+      },
+    },
+  },
 } satisfies Meta<typeof NavBar>;
 
 export default meta;

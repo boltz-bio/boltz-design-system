@@ -6,7 +6,15 @@ const meta = {
   title: '02-Components/TabBar',
   component: TabBar,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'A horizontal set of controlled tabs for switching between views. FilterTabBar pairs the tabs with a grid/list ViewToggle for filtering content such as the news index.',
+      },
+    },
+  },
 } satisfies Meta<typeof TabBar>;
 
 export default meta;
