@@ -88,10 +88,11 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
+          '00-overview',
           '01-foundations',
           '02-components',
-          ['Button', 'EyebrowLabel', 'NavCta', 'IconContainer', 'Card'],
           '04-sections',
+          '05-screens',
         ],
       },
     },

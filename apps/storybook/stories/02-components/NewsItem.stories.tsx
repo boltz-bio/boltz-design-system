@@ -36,6 +36,7 @@ export const Portrait: Story = {
 
 export const PortraitGrid: Story = {
   name: 'Portrait — 3-column grid',
+  args: { variant: 'portrait', title: 'Boltz', category: 'Product', date: 'Feb 2026' },
   render: () => (
     <div className="grid grid-cols-3 gap-lg max-w-container">
       <NewsItem variant="portrait" title="Announcing Boltz-prot-1: state-of-the-art protein structure prediction" category="Product" date="Feb 10, 2026" thumbnail={THUMB_SAGE} />
@@ -61,6 +62,7 @@ export const Landscape: Story = {
 
 export const LandscapeList: Story = {
   name: 'Landscape — stacked',
+  args: { variant: 'landscape', title: 'Boltz', category: 'Product', date: 'Feb 2026' },
   render: () => (
     <div className="flex flex-col gap-lg max-w-[660px]">
       <NewsItem variant="landscape" title="Announcing Boltz-prot-1: state-of-the-art protein structure prediction" category="Product" date="Feb 10, 2026" thumbnail={THUMB_SAGE} />
@@ -74,6 +76,7 @@ export const LandscapeList: Story = {
 
 export const List: Story = {
   name: 'List — hover to reveal thumbnail',
+  args: { variant: 'list', title: 'Boltz', category: 'Product', date: 'Feb 2026' },
   render: () => (
     <div className="max-w-container border-t border-border-light">
       <NewsItem
@@ -117,6 +120,7 @@ export const List: Story = {
 
 export const AllVariants: Story = {
   name: 'All variants',
+  args: { variant: 'portrait', title: 'Boltz', category: 'Product', date: 'Feb 2026' },
   render: () => (
     <div className="flex flex-col gap-2xl max-w-container mx-auto p-xl">
       <section>

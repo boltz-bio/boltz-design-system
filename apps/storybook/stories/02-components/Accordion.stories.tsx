@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Accordion, AccordionItem, AccordionActions, Badge, Button, TextButton } from '@boltz/ui';
+import { models } from '../_data/boltz';
 
 const meta = {
   title: '02-Components/Accordion',
@@ -11,36 +12,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Data-driven from the shared `models` fixture — the accordion maps over a typed
+// array instead of hand-coding each item.
 export const Default: Story = {
   args: { type: 'single' },
   render: () => (
-    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-[700px]">
-      <AccordionItem
-        value="item-1"
-        title="BoltzMol 1.1"
-        badge={<Badge variant="primary">Beta</Badge>}
-      >
-        <p className="font-sans font-regular text-body-md text-text-secondary">
-          A one-designed small molecule screening and hit discovery platform. Powered by
-          multi-modal foundation models trained on 200M+ compound-protein interaction pairs.
-        </p>
-        <AccordionActions>
-          <Button variant="black" suffix="arrow-icon">Get early access</Button>
-          <TextButton>Read technical report</TextButton>
-        </AccordionActions>
-      </AccordionItem>
-
-      <AccordionItem
-        value="item-2"
-        title="BoltzProt 1.1"
-        badge={<Badge variant="secondary">New</Badge>}
-      />
-
-      <AccordionItem
-        value="item-3"
-        title="BoltzRNA 1.0"
-        badge={<Badge variant="tertiary">Coming soon</Badge>}
-      />
+    <Accordion type="single" collapsible defaultValue={models[0].id} className="max-w-body">
+      {models.map((m, i) => (
+        <AccordionItem
+          key={m.id}
+          value={m.id}
+          title={m.name}
+          badge={m.badge ? <Badge variant={m.badge.tone}>{m.badge.label}</Badge> : undefined}
+        >
+          <p className="text-body-md text-text-secondary">{m.body}</p>
+          {i === 0 && (
+            <AccordionActions>
+              <Button variant="black" suffix="arrow-icon">Get early access</Button>
+              <TextButton>Read technical report</TextButton>
+            </AccordionActions>
+          )}
+        </AccordionItem>
+      ))}
     </Accordion>
   ),
 };
