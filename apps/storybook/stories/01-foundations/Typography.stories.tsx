@@ -110,13 +110,15 @@ export const Scale: Story = {
       ))}
 
       {/* Mobile note */}
-      <div className="mt-xl p-md bg-tierra-100 rounded-lg">
+      <div className="mt-xl p-md bg-sage-pale rounded-lg">
         <p className="text-body-sm text-text-secondary">
-          <strong className="text-text-primary">Mobile breakpoint</strong> — &lt; 768px.{' '}
-          <code className="font-mono text-body-sm">body-md</code> (18px) and{' '}
+          <strong className="text-text-primary">Live & automatic</strong> — the step-down is now
+          implemented via CSS variables in <code className="font-mono text-body-sm">tokens.css</code>.
+          Every <code className="font-mono text-body-sm">text-heading-*</code> utility shrinks on its
+          own below the <code className="font-mono text-body-sm">mobile</code> breakpoint (768px) — no
+          per-component classes needed. Switch the viewport tool to <em>Boltz — Mobile</em> to see the
+          headings above resize. <code className="font-mono text-body-sm">body-md</code> (18px) and{' '}
           <code className="font-mono text-body-sm">body-sm</code> (15px) hold across all sizes.
-          Heading tokens step down one level each. Never reduce{' '}
-          <code className="font-mono text-body-sm">body-md</code> below 18px.
         </p>
       </div>
     </div>

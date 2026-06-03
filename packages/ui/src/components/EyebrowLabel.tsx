@@ -56,7 +56,7 @@ export const EyebrowLabel = React.forwardRef<HTMLSpanElement, EyebrowLabelProps>
           <span
             aria-hidden="true"
             className={cn(
-              'w-[28px] h-[28px] rounded-full border flex-shrink-0',
+              'w-28 h-28 rounded-full border flex-shrink-0',
               'inline-flex items-center justify-center',
               iconColor[variant],
               borderColor[variant],
@@ -69,7 +69,7 @@ export const EyebrowLabel = React.forwardRef<HTMLSpanElement, EyebrowLabelProps>
         {/* Text pill — -ml-px merges the shared border seam */}
         <span
           className={cn(
-            'h-[28px] px-[12px] rounded-full border',
+            'h-28 px-12 rounded-full border',
             'inline-flex items-center',
             'font-sans font-regular text-body-sm whitespace-nowrap',
             showCircle && '-ml-px',

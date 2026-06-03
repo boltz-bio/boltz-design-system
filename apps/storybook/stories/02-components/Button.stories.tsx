@@ -27,9 +27,9 @@ export const Secondary: Story = {
   parameters: { backgrounds: { default: 'white' } },
 };
 
-// White — for dark/black backgrounds
-export const White: Story = {
-  args: { variant: 'White', children: 'Learn more' },
+// onDark — for dark/black backgrounds
+export const OnDark: Story = {
+  args: { intent: 'onDark', children: 'Learn more' },
   parameters: { backgrounds: { default: 'surface-card-dark' } },
 };
 

@@ -101,6 +101,30 @@
   --gutter: 20px;
   --text-body-max: 740px;
   --hero-text-col-max: 636px;
+
+  /* Typography — desktop scale (≥ 768px).
+     Consumed by the Tailwind fontSize tokens (see tailwind.cjs) so every
+     `text-*` utility is driven by these vars and responds to the mobile
+     override below without touching any component. */
+  --font-heading-lg: 62px; --lh-heading-lg: 1.0; --ls-heading-lg: -0.04em;
+  --font-heading-md: 32px; --lh-heading-md: 1.2; --ls-heading-md: -0.02em;
+  --font-heading-sm: 24px; --lh-heading-sm: 1.2; --ls-heading-sm: -0.01em;
+  --font-body-lg:    20px; --lh-body-lg:    1.4; --ls-body-lg:    -0.02em;
+  --font-body-md:    18px; --lh-body-md:    1.4; --ls-body-md:    -0.01em;
+  --font-body-sm:    15px; --lh-body-sm:    1.3; --ls-body-sm:    -0.01em;
+  --font-mono-md:    13px; --lh-mono-md:    1.6;
+}
+
+/* Mobile typescale — headings step down one level < 768px, per the documented
+   scale in Storybook → 01-Foundations/Typography. Body + mono hold their size
+   (never reduce body-md below 18px). Desktop rendering is unchanged. */
+@media (max-width: 767px) {
+  :root {
+    --font-heading-lg: 32px; --lh-heading-lg: 1.2; --ls-heading-lg: -0.02em;
+    --font-heading-md: 24px; --lh-heading-md: 1.2; --ls-heading-md: -0.01em;
+    --font-heading-sm: 20px; --lh-heading-sm: 1.4; --ls-heading-sm: -0.02em;
+    --font-body-lg:    18px; --lh-body-lg:    1.4; --ls-body-lg:    -0.01em;
+  }
 }
 
 html {

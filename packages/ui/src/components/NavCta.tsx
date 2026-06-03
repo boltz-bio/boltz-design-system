@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
+import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
 
 // Spec: DESIGN.md `nav-cta` + Figma nodes 58:243 / 58:244
 // Source of truth: components.html `.nav-cta` / `.nav-cta__icon`
@@ -37,14 +38,14 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
       ref={ref}
       disabled={disabled}
       className={cn(
-        'group inline-flex items-center gap-[8px]',
-        'h-[36px] pl-[20px] pr-[4px]',
+        'group inline-flex items-center gap-8',
+        'h-36 pl-20 pr-4',
         'rounded-full',
         'font-sans font-regular text-body-sm whitespace-nowrap',
-        'cursor-pointer select-none',
+        interactive,
         'active:scale-active',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
-        'disabled:opacity-60 disabled:pointer-events-none',
+        focusRing,
+        disabledState,
         outerStyles[variant],
         className,
       )}
@@ -56,13 +57,13 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
       <span
         aria-hidden="true"
         className={cn(
-          'w-[28px] h-[28px] rounded-full flex-shrink-0',
+          'w-28 h-28 rounded-full flex-shrink-0',
           'inline-flex items-center justify-center',
           'text-[13px] leading-none',
           circleStyles[variant],
         )}
       >
-        <span className="-rotate-45 inline-block transition-transform duration-spring ease-spring group-hover:rotate-0">→</span>
+        <span className={arrowSpin}>→</span>
       </span>
     </button>
   ),

@@ -13,6 +13,9 @@ export type { IconContainerProps } from './components/IconContainer';
 export { Card } from './components/Card';
 export type { CardProps } from './components/Card';
 
+export { Badge } from './components/Badge';
+export type { BadgeProps } from './components/Badge';
+
 export { Accordion, AccordionItem, AccordionBadge, AccordionActions } from './components/Accordion';
 export type { AccordionProps, AccordionItemProps, AccordionBadgeProps, AccordionActionsProps } from './components/Accordion';
 

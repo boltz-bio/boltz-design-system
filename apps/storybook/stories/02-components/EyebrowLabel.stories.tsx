@@ -49,6 +49,7 @@ export const Dark: Story = {
 };
 
 export const ContextExamples: Story = {
+  args: { children: 'Our models' },
   render: () => (
     <div className="flex flex-col gap-sm">
       <EyebrowLabel icon={<AllIcons.Leaf        {...sz} />}>Our models</EyebrowLabel>
@@ -178,6 +179,7 @@ function IconBrowser() {
 
 export const IconBrowserStory: Story = {
   name: '🔍 Icon browser — all icons',
+  args: { children: 'Our models' },
   parameters: { layout: 'padded' },
   render: () => <IconBrowser />,
 };

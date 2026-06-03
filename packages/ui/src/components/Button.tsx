@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
+import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
 
 // Spec: DESIGN.md `button-primary`, `button-secondary`, `button-white`
 // Source of truth: Figma node 58-134
@@ -10,7 +11,7 @@ import { cn } from '../utils';
 //   1. Default:  [label pill][○ ↗]
 //      Label has normal right padding. Circle sits beside it. Arrow is → rotated -45°.
 //   2. Hover:    label pill's right padding expands by 36px (circle width),
-//                its fill extends UNDER the circle. Circle pulls back via -ml-[36px]
+//                its fill extends UNDER the circle. Circle pulls back via -ml-36
 //                so it stays at the same position but now sits on top of the pill fill.
 //                Circle bg/border matches the pill fill → looks like one unified pill.
 //                Arrow rotates from -45° back to 0° (→).
@@ -64,9 +65,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         className={cn(
           'group inline-flex items-center gap-0',
-          'cursor-pointer select-none',
-          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
-          'disabled:opacity-60 disabled:pointer-events-none',
+          interactive,
+          focusRing,
+          disabledState,
           'active:scale-active',
           className,
         )}
@@ -75,13 +76,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {/* ── Label pill ─────────────────────────────────────────────────────── */}
         <span
           className={cn(
-            'h-[36px] rounded-full border relative z-0',
+            'h-36 rounded-full border relative z-0',
             'inline-flex items-center',
             'font-sans font-regular text-body-sm whitespace-nowrap',
-            'pl-[16px] pr-[16px]',
+            'pl-16 pr-16',
             // On hover: expand right padding by the circle's width (36px)
-            // so the fill stretches under the circle
-            showCircle && 'group-hover:pr-[52px]',
+            // so the fill stretches under the circle → 16 + 36 = 52
+            showCircle && 'group-hover:pr-52',
             'transition-[padding,background-color,border-color] duration-spring ease-spring',
             labelStyles[intent],
           )}
@@ -89,7 +90,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {children}
 
           {suffix === 'arrow-text' && (
-            <span aria-hidden="true" className="ml-[6px] leading-none">↗</span>
+            <span aria-hidden="true" className="ml-6 leading-none">↗</span>
           )}
         </span>
 
@@ -98,20 +99,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <span
             aria-hidden="true"
             className={cn(
-              'h-[36px] w-[36px] rounded-full border flex-shrink-0 relative z-10',
+              'h-36 w-36 rounded-full border flex-shrink-0 relative z-10',
               'inline-flex items-center justify-center',
               'font-sans font-regular text-body-sm leading-none',
               // On hover: pull circle left so it sits on top of the extended label fill
-              'ml-0 group-hover:-ml-[36px]',
+              'ml-0 group-hover:-ml-36',
               'transition-[margin,background-color,border-color,color] duration-spring ease-spring',
               iconStyles[intent],
               iconHoverStyles[intent],
             )}
           >
             {/* Arrow — always →, rotated -45° (looks like ↗) by default, rotates to 0° on hover */}
-            <span className="inline-block -rotate-45 group-hover:rotate-0 transition-transform duration-spring ease-spring">
-              →
-            </span>
+            <span className={arrowSpin}>→</span>
           </span>
         )}
       </button>

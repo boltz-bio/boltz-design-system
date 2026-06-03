@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Accordion, AccordionItem, AccordionBadge, AccordionActions, Button, TextButton } from '@boltz/ui';
+import { Accordion, AccordionItem, AccordionActions, Badge, Button, TextButton } from '@boltz/ui';
 
 const meta = {
   title: '02-Components/Accordion',
@@ -18,7 +18,7 @@ export const Default: Story = {
       <AccordionItem
         value="item-1"
         title="BoltzMol 1.1"
-        badge={<AccordionBadge>Beta</AccordionBadge>}
+        badge={<Badge variant="primary">Beta</Badge>}
       >
         <p className="font-sans font-regular text-body-md text-text-secondary">
           A one-designed small molecule screening and hit discovery platform. Powered by
@@ -33,13 +33,13 @@ export const Default: Story = {
       <AccordionItem
         value="item-2"
         title="BoltzProt 1.1"
-        badge={<AccordionBadge>Coming soon</AccordionBadge>}
+        badge={<Badge variant="secondary">New</Badge>}
       />
 
       <AccordionItem
         value="item-3"
         title="BoltzRNA 1.0"
-        badge={<AccordionBadge>Coming soon</AccordionBadge>}
+        badge={<Badge variant="tertiary">Coming soon</Badge>}
       />
     </Accordion>
   ),

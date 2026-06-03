@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
+import { focusRing, disabledState, interactive } from '../styles';
 
 // Spec: DESIGN.md text button variant + Figma node 58-134
 // Source of truth: components.html `.btn--text` / `.btn--text-dark`
@@ -30,13 +31,13 @@ export const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
       ref={ref}
       disabled={disabled}
       className={cn(
-        'group relative inline-flex items-center gap-[6px]',
-        'h-[36px]',
+        'group relative inline-flex items-center gap-6',
+        'h-36',
         'bg-transparent border-none',
         'font-sans font-regular text-body-sm whitespace-nowrap',
-        'cursor-pointer select-none',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
-        'disabled:opacity-60 disabled:pointer-events-none',
+        interactive,
+        focusRing,
+        disabledState,
         textColor[variant],
         className,
       )}
@@ -49,7 +50,7 @@ export const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
       {/* Underline — grows left → right on hover */}
       <span
         aria-hidden="true"
-        className="absolute bottom-[8px] left-0 h-px w-0 bg-current group-hover:w-full transition-[width] duration-spring ease-spring"
+        className="absolute bottom-8 left-0 h-px w-0 bg-current group-hover:w-full transition-[width] duration-spring ease-spring"
       />
     </button>
   ),

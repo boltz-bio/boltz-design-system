@@ -36,8 +36,8 @@ export const Default: Story = {
             Built to integrate.
           </p>
           <div className="flex gap-md mt-md">
-            <Button variant="Filled">Try Boltz Lab</Button>
-            <Button variant="Outlined">Read the paper</Button>
+            <Button intent="primary">Try Boltz Lab</Button>
+            <Button intent="secondary">Read the paper</Button>
           </div>
         </div>
         <div className="col-span-6 flex justify-end">
