@@ -7,64 +7,67 @@ const meta = {
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
   argTypes: {
-    intent: { control: 'select', options: ['primary', 'secondary', 'onDark'] },
-    size: { control: 'select', options: ['md', 'sm'] },
-    suffix: { control: 'select', options: ['arrow-text', 'arrow-icon', 'none'] },
+    variant: { control: 'select', options: ['Filled', 'Outlined', 'White', 'Text'] },
   },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: { intent: 'primary', children: 'Try Boltz Lab' },
+// Filled — for coloured/sage/tierra backgrounds
+export const Filled: Story = {
+  args: { variant: 'Filled', children: 'Get early access' },
+  parameters: { backgrounds: { default: 'sage-pale' } },
 };
 
-export const Secondary: Story = {
-  args: { intent: 'secondary', children: 'Read the paper' },
+// Outlined — for white/light backgrounds
+export const Outlined: Story = {
+  args: { variant: 'Outlined', children: 'Learn more' },
+  parameters: { backgrounds: { default: 'white' } },
 };
 
-export const OnDark: Story = {
-  args: { intent: 'onDark', children: 'Get early access' },
+// White — for dark/black backgrounds
+export const White: Story = {
+  args: { variant: 'White', children: 'Learn more' },
   parameters: { backgrounds: { default: 'surface-card-dark' } },
 };
 
-export const SuffixVariants: Story = {
-  args: { children: 'Build with the API' },
-  render: (args) => (
-    <div className="flex flex-col gap-md">
-      <Button {...args} suffix="arrow-text" />
-      <Button {...args} suffix="arrow-icon" />
-      <Button {...args} suffix="none" />
-    </div>
-  ),
+export const Text: Story = {
+  args: { variant: 'Text', children: 'Text button' },
 };
 
-export const Sizes: Story = {
-  args: { children: 'Action' },
-  render: (args) => (
-    <div className="flex items-center gap-md">
-      <Button {...args} size="sm" />
-      <Button {...args} size="md" />
-    </div>
-  ),
-};
-
-export const Disabled: Story = {
-  args: { children: 'Disabled', disabled: true },
-};
-
-export const AllIntents: Story = {
+export const AllVariants: Story = {
+  args: { children: '' },
   render: () => (
-    <div className="flex flex-col gap-lg p-xl bg-surface-primary rounded-lg">
-      <div className="flex gap-md">
-        <Button intent="primary">Try Boltz Lab</Button>
-        <Button intent="secondary">Read the paper</Button>
+    <div className="flex flex-col gap-md p-xl max-w-container w-full">
+      <div className="rounded-lg p-lg bg-sage-pale">
+        <div className="text-body-sm text-text-secondary mb-md">Filled — coloured/sage bg: black label + white filled icon</div>
+        <div className="flex gap-md flex-wrap items-center">
+          <Button variant="Filled">Get early access</Button>
+          <Button variant="Filled">Try Boltz Lab</Button>
+          <Button variant="Filled">Learn more</Button>
+        </div>
       </div>
-      <div className="flex gap-md p-md bg-surface-card-dark rounded-lg">
-        <Button intent="onDark">Get early access</Button>
+
+      <div className="rounded-lg p-lg bg-white border border-border-light">
+        <div className="text-body-sm text-text-secondary mb-md">Outlined — white/light bg: black label + outlined icon</div>
+        <div className="flex gap-md flex-wrap items-center">
+          <Button variant="Outlined">Learn more</Button>
+          <Button variant="Outlined">Get in touch</Button>
+          <Button variant="Outlined">View open roles</Button>
+          <Button variant="Text">Text button</Button>
+        </div>
+      </div>
+
+      <div className="rounded-lg p-lg bg-surface-card-dark">
+        <div className="text-body-sm text-white/50 mb-md">White — dark bg: white label + outlined icon</div>
+        <div className="flex gap-md flex-wrap items-center">
+          <Button variant="White">Learn more</Button>
+          <Button variant="White">See more details</Button>
+          <Button variant="Text" className="text-white">Text button</Button>
+        </div>
       </div>
     </div>
   ),
-  parameters: { layout: 'fullscreen', backgrounds: { default: 'white' } },
+  parameters: { layout: 'fullscreen' },
 };

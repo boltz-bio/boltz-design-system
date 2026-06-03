@@ -2,35 +2,54 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '../utils';
 
-// Spec: DESIGN.md `nav-cta` + Figma "Nav button" component
-// - Filled black pill, h 36, body-sm, ↗ suffix
-// - Used as the persistent nav CTA ("Get early access ↗")
+// Source: components.html `.nav-cta` + Figma node 58:243.
+// Structure: ONE continuous outer pill with INNER 28×28 circle on the right.
+// Outer pill: h 36, padding 4px 4px 4px 16px, radius full, body-sm.
+// Inner circle: 28×28, radius full, bg contrasts outer (white on dark / black on light).
+// Variants:
+//   - dark — black outer pill, white inner circle (for light surfaces). The "Get early access" default.
+//   - light — white outer pill, black inner circle (for dark surfaces).
 
-export interface NavCtaProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export type NavCtaVariant = 'dark' | 'light';
+
+export interface NavCtaProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
+  variant?: NavCtaVariant;
+  as?: 'button' | 'a';
   asChild?: boolean;
-  children?: React.ReactNode;
+  href?: string;
+  children: React.ReactNode;
 }
 
-export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
-  ({ className, asChild, children, ...rest }, ref) => {
-    const Comp = asChild ? Slot : 'button';
+export const NavCta = React.forwardRef<HTMLElement, NavCtaProps>(
+  ({ variant = 'dark', as, asChild, className, children, ...rest }, ref) => {
+    const isDark = variant === 'dark';
+    const outer = isDark ? 'bg-black text-white' : 'bg-white text-black border border-border-light';
+    const inner = isDark ? 'bg-white text-black' : 'bg-black text-white';
+    const Comp = asChild ? Slot : (as ?? (rest.href ? 'a' : 'button')) as 'a' | 'button';
+
     return (
       <Comp
+        // @ts-expect-error union ref
         ref={ref}
         className={cn(
-          'inline-flex items-center gap-sm',
-          'h-36 px-20',
-          'rounded-full bg-action-primary text-text-on-dark',
-          'font-sans font-regular text-body-sm',
+          'inline-flex items-center justify-between gap-sm',
+          'h-36 pl-16 pr-[4px] rounded-full',
+          'font-sans font-regular text-body-sm leading-none no-underline cursor-pointer',
           'transition-colors duration-base ease-standard',
-          'hover:bg-action-primary-active active:scale-active',
-          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+          outer,
           className,
         )}
         {...rest}
       >
         <span>{children}</span>
-        <span aria-hidden="true" className="leading-none">
+        <span
+          aria-hidden="true"
+          className={cn(
+            'inline-flex items-center justify-center w-28 h-28 rounded-full shrink-0 text-[13px]',
+            inner,
+          )}
+        >
           ↗
         </span>
       </Comp>

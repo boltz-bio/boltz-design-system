@@ -1,85 +1,98 @@
 import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../utils';
 
-// Spec: DESIGN.md `button-primary`, `button-secondary`, `button-white`
-// + Figma componentSet "Primary button" with variants Filled / outlined / white
-//
-// Rules:
-// - Full pill (rounded-full) — Boltz canonical shape
-// - body-md (18px) text — DESIGN.md: "Button text = body-md. No separate button token"
-// - ↗ suffix on CTA — typographic by default, opt into icon-button via suffix="arrow-icon"
-// - Active scale 0.97 — Boltz motion signature
+// Source: components.html (designer's HTML reference) + Figma 58:226 componentSet.
+// Structure: TWO elements — [label pill] [icon circle], gap 0.
+//   Label pill: h 36, padding 0 16, radius 44px, border 1px, body-sm
+//   Icon circle: 36×36, radius 44px, border 1px (except Filled where icon has no border)
+// Variants from Figma componentSet:
+//   - Filled    — on coloured/sage/tierra backgrounds (black label + white-filled icon)
+//   - Outlined  — on white/light backgrounds (black label + outlined transparent icon)
+//   - White     — on dark/black backgrounds (white label + outlined transparent icon, white/50 border)
+//   - Text      — no pill, just text + ↗ at 14px
 
-const buttonVariants = cva(
-  [
-    'inline-flex items-center justify-center gap-sm',
-    'font-sans font-regular text-body-md',
-    'rounded-full',
-    'transition-colors duration-base ease-standard',
-    'active:scale-active',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
-    'disabled:opacity-60 disabled:pointer-events-none',
-  ],
-  {
-    variants: {
-      intent: {
-        primary:
-          'bg-action-primary text-text-on-dark hover:bg-action-primary-active active:bg-action-primary-active',
-        secondary:
-          'bg-transparent text-text-primary border border-border-light hover:bg-surface-secondary active:bg-surface-secondary',
-        onDark:
-          'bg-white text-text-primary hover:bg-tierra-50 active:bg-tierra-50',
-      },
-      size: {
-        md: 'h-10 px-18 py-10', // matches DESIGN.md padding "10px 18px"
-        sm: 'h-9 px-14 py-8',
-      },
-    },
-    defaultVariants: {
-      intent: 'primary',
-      size: 'md',
-    },
-  }
-);
-
-type Suffix = 'arrow-text' | 'arrow-icon' | 'none';
+export type ButtonVariant = 'Filled' | 'Outlined' | 'White' | 'Text';
 
 export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
-    VariantProps<typeof buttonVariants> {
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
+  variant?: ButtonVariant;
+  /** Render as different element. Defaults to <button>; use 'a' for links or pass `asChild` to wrap a Link. */
+  as?: 'button' | 'a';
   asChild?: boolean;
-  /** Trailing ↗ marker. `arrow-text` is the typographic character; `arrow-icon` is the circular outlined icon-button. */
-  suffix?: Suffix;
-  children?: React.ReactNode;
+  href?: string;
+  disabled?: boolean;
+  children: React.ReactNode;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const styles: Record<ButtonVariant, { container: string; label: string; icon: string }> = {
+  Filled: {
+    container: 'inline-flex items-center gap-0',
+    label:
+      'h-36 px-16 rounded-full border border-black bg-black text-white ' +
+      'flex items-center font-sans font-regular text-body-sm leading-none whitespace-nowrap',
+    icon:
+      'flex items-center justify-center w-36 h-36 rounded-full ' +
+      'bg-white text-black text-[14px] shrink-0',
+  },
+  Outlined: {
+    container: 'inline-flex items-center gap-0',
+    label:
+      'h-36 px-16 rounded-full border border-black bg-black text-white ' +
+      'flex items-center font-sans font-regular text-body-sm leading-none whitespace-nowrap',
+    icon:
+      'flex items-center justify-center w-36 h-36 rounded-full ' +
+      'border border-black bg-transparent text-black text-[14px] shrink-0',
+  },
+  White: {
+    container: 'inline-flex items-center gap-0',
+    label:
+      'h-36 px-16 rounded-full border border-white bg-white text-black ' +
+      'flex items-center font-sans font-regular text-body-sm leading-none whitespace-nowrap',
+    icon:
+      'flex items-center justify-center w-36 h-36 rounded-full ' +
+      'border border-white/50 bg-transparent text-white text-[14px] shrink-0',
+  },
+  Text: {
+    // Inherits color from parent so caller can place on light or dark bg via className
+    container: 'inline-flex items-center gap-[6px] h-36 text-text-primary',
+    label: 'font-sans font-regular text-body-sm leading-none bg-transparent border-0',
+    icon: 'text-[14px] leading-none',
+  },
+};
+
+export const Button = React.forwardRef<HTMLElement, ButtonProps>(
   (
-    { className, intent, size, asChild, suffix = 'arrow-text', children, ...rest },
+    { variant = 'Outlined', as, asChild, className, disabled, children, ...rest },
     ref,
   ) => {
-    const Comp = asChild ? Slot : 'button';
+    const s = styles[variant];
+    const Comp = asChild ? Slot : (as ?? (rest.href ? 'a' : 'button')) as 'a' | 'button';
     return (
       <Comp
+        // @ts-expect-error — forwardRef union type is wide; runtime is correct
         ref={ref}
-        className={cn(buttonVariants({ intent, size }), className)}
+        className={cn(
+          s.container,
+          'transition-colors duration-base ease-standard',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+          'disabled:opacity-60 disabled:pointer-events-none',
+          'cursor-pointer no-underline',
+          className,
+        )}
+        {...(disabled ? { 'aria-disabled': true } : {})}
         {...rest}
       >
-        <span>{children}</span>
-        {suffix === 'arrow-text' && (
-          <span aria-hidden="true" className="leading-none">
-            ↗
-          </span>
-        )}
-        {suffix === 'arrow-icon' && (
-          <span
-            aria-hidden="true"
-            className="inline-flex items-center justify-center h-28 w-28 rounded-full border border-current"
-          >
-            ↗
-          </span>
+        {variant === 'Text' ? (
+          <>
+            <span className={s.label}>{children}</span>
+            <span aria-hidden="true" className={s.icon}>↗</span>
+          </>
+        ) : (
+          <>
+            <span className={s.label}>{children}</span>
+            <span aria-hidden="true" className={s.icon}>↗</span>
+          </>
         )}
       </Comp>
     );

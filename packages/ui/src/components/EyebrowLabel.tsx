@@ -1,64 +1,54 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { Leaf } from 'iconoir-react';
 import { cn } from '../utils';
 
-// Spec: DESIGN.md `eyebrow-label` + Figma "Tag" component
-//
-// Rules:
-// - Outlined pill (full radius), body-sm text, sentence case
-// - Leading icon: leaf (Iconoir) by default — matches live Figma
-// - Bullet variant available — matches DESIGN.md original
-// - Light + dark variants for placement on warm/cold vs dark surfaces
+// Source: components.html `.tag` + Figma 58:294 component.
+// Structure: TWO elements — [icon circle 28×28] [label pill 28h], gap 0, label margin-left -1px to overlap borders.
+// Variants:
+//   - light — on white/light surfaces: 1px black border, text-primary text
+//   - dark  — on dark/black surfaces: 1px white/40 border, text-white/70
 
-const eyebrowVariants = cva(
-  [
-    'inline-flex items-center gap-sm',
-    'font-sans font-regular text-body-sm',
-    'rounded-full',
-    'px-10 py-4',
-  ],
-  {
-    variants: {
-      variant: {
-        light: 'border border-border-light text-text-secondary bg-transparent',
-        dark: 'border border-white/15 text-white/60 bg-transparent',
-      },
-    },
-    defaultVariants: { variant: 'light' },
-  },
-);
+export type EyebrowVariant = 'light' | 'dark';
 
-type Icon = 'leaf' | 'bullet' | 'none';
-
-export interface EyebrowLabelProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>,
-    VariantProps<typeof eyebrowVariants> {
-  /** Leading marker. `leaf` matches Figma; `bullet` matches DESIGN.md original; `none` for plain text. */
-  icon?: Icon;
+export interface EyebrowLabelProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
+  variant?: EyebrowVariant;
+  /** Iconoir icon element. Defaults to <Leaf />. */
+  icon?: React.ReactNode;
   children: React.ReactNode;
 }
 
 export const EyebrowLabel = React.forwardRef<HTMLSpanElement, EyebrowLabelProps>(
-  ({ className, variant, icon = 'leaf', children, ...rest }, ref) => {
-    const iconColor = variant === 'dark' ? 'text-sage-medium' : 'text-sage-dark';
+  (
+    { variant = 'light', icon = <Leaf width={14} height={14} strokeWidth={1.5} />, className, children, ...rest },
+    ref,
+  ) => {
+    const isDark = variant === 'dark';
+    const borderColor = isDark ? 'border-white/40' : 'border-black';
+    const textColor = isDark ? 'text-white/70' : 'text-text-primary';
+
     return (
-      <span ref={ref} className={cn(eyebrowVariants({ variant }), className)} {...rest}>
-        {icon === 'leaf' && (
-          <Leaf
-            className={iconColor}
-            width={14}
-            height={14}
-            strokeWidth={1.5}
-            aria-hidden="true"
-          />
-        )}
-        {icon === 'bullet' && (
-          <span aria-hidden="true" className={iconColor}>
-            •
-          </span>
-        )}
-        <span>{children}</span>
+      <span ref={ref} className={cn('inline-flex items-center gap-0', className)} {...rest}>
+        <span
+          className={cn(
+            'flex items-center justify-center w-28 h-28 rounded-full border bg-transparent shrink-0',
+            'text-[14px]',
+            borderColor,
+            textColor,
+          )}
+          aria-hidden="true"
+        >
+          {icon}
+        </span>
+        <span
+          className={cn(
+            'flex items-center h-28 px-12 -ml-px rounded-full border whitespace-nowrap',
+            'font-sans font-regular text-body-sm',
+            borderColor,
+            textColor,
+          )}
+        >
+          {children}
+        </span>
       </span>
     );
   },
