@@ -5,7 +5,14 @@ const meta = {
   title: '02-Components/Badge',
   component: Badge,
   tags: ['autodocs'],
-  parameters: { layout: 'centered', backgrounds: { default: 'white' } },
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'white' },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=58-232',
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['primary', 'secondary', 'tertiary'] },
   },
