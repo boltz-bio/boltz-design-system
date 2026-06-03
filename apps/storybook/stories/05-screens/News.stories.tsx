@@ -43,7 +43,7 @@ export const News: Story = {
           {navItems.map((n) => <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>)}
         </NavBar>
 
-        <section className="max-w-container mx-auto px-40 py-2xl flex flex-col gap-xl">
+        <section className="max-w-container mx-auto px-md tablet:px-40 py-2xl flex flex-col gap-xl">
           <div className="flex flex-col gap-md">
             <EyebrowLabel icon={<BookStack {...sz} />}>News</EyebrowLabel>
             <h1 className="text-heading-lg text-text-primary">Research, product & community.</h1>
@@ -58,7 +58,7 @@ export const News: Story = {
           />
 
           {view === 'grid' ? (
-            <div className="grid grid-cols-3 gap-lg">
+            <div className="grid grid-cols-1 gap-lg tablet:grid-cols-2 laptop:grid-cols-3">
               {shown.map((a) => (
                 <NewsItem key={a.id} variant="portrait" title={a.title} category={a.category} date={a.date} />
               ))}

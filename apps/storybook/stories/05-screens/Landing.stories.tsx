@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 
 const ProteinPlaceholder = () => (
-  <div className="flex items-center justify-center h-[460px] w-[460px] rounded-full bg-sage-pale border border-sage-medium">
+  <div className="flex items-center justify-center h-[280px] w-[280px] tablet:h-[460px] tablet:w-[460px] rounded-full bg-sage-pale border border-sage-medium">
     <span className="text-body-sm text-text-muted">Protein render</span>
   </div>
 );
@@ -43,9 +43,9 @@ export const Landing: Story = {
       </NavBar>
 
       {/* Hero */}
-      <section className="py-section">
-        <div className="max-w-container mx-auto px-40 grid grid-cols-12 gap-20 items-center">
-          <div className="col-span-6 flex flex-col gap-lg">
+      <section className="py-2xl tablet:py-section">
+        <div className="max-w-container mx-auto px-md tablet:px-40 grid grid-cols-1 gap-xl laptop:grid-cols-12 laptop:gap-20 items-center">
+          <div className="laptop:col-span-6 flex flex-col gap-lg">
             <EyebrowLabel icon={<Leaf {...sz} />}>Build on Boltz</EyebrowLabel>
             <h1 className="text-heading-lg text-text-primary">Frontier models for biomolecular design.</h1>
             <p className="text-body-lg text-text-secondary max-w-hero">
@@ -56,15 +56,15 @@ export const Landing: Story = {
               <TextButton arrow>Read the paper</TextButton>
             </div>
           </div>
-          <div className="col-span-6 flex justify-end"><ProteinPlaceholder /></div>
+          <div className="laptop:col-span-6 flex justify-center laptop:justify-end"><ProteinPlaceholder /></div>
         </div>
       </section>
 
       {/* Capabilities — CardMedium grid */}
       <section className="py-2xl">
-        <div className="max-w-container mx-auto px-40 flex flex-col gap-xl">
+        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
           <EyebrowLabel icon={<Code {...sz} />}>Capabilities</EyebrowLabel>
-          <div className="grid grid-cols-3 gap-lg">
+          <div className="grid grid-cols-1 gap-lg tablet:grid-cols-3">
             <CardMedium color="sage-pale" heading="Structure prediction" body="Atomic-resolution structures for proteins, RNA, and complexes." cta="Explore models" />
             <CardMedium color="blue-pale" heading="Production API" body="REST + Python SDK with predictable latency and throughput." cta="Read the docs" />
             <CardMedium color="tierra-100" heading="Open ecosystem" body="Weights, benchmarks, and tooling shared with the community." cta="View on GitHub" />
@@ -74,7 +74,7 @@ export const Landing: Story = {
 
       {/* Models — accordion from fixtures */}
       <section className="py-2xl">
-        <div className="max-w-container mx-auto px-40 flex flex-col gap-xl">
+        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
           <EyebrowLabel icon={<Leaf {...sz} />}>Our models</EyebrowLabel>
           <Accordion type="single" collapsible defaultValue={models[0].id} className="max-w-body">
             {models.map((m, i) => (
@@ -99,7 +99,7 @@ export const Landing: Story = {
 
       {/* Community stats */}
       <section className="py-2xl">
-        <div className="max-w-container mx-auto px-40 flex flex-col gap-xl">
+        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
           <EyebrowLabel icon={<Community {...sz} />}>Community</EyebrowLabel>
           <div className="bg-surface-secondary rounded-lg p-xl">
             <StatMetricRow>
@@ -111,7 +111,7 @@ export const Landing: Story = {
 
       {/* Platform CTA — wide dark card */}
       <section className="py-2xl">
-        <div className="max-w-container mx-auto px-40">
+        <div className="max-w-container mx-auto px-md tablet:px-40">
           <CardWide
             eyebrowIcon={<Code {...sz} />}
             eyebrowLabel="Platform"
