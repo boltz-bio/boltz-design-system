@@ -4,25 +4,76 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Boltz Design System
 
-This Storybook documents components, tokens, and patterns for the Boltz Bio brand.
+Components, tokens, and patterns for the Boltz Bio brand. Built and maintained by **G-W Studios**.
 
-## Foundations
-- [Colors](./?path=/docs/01-foundations-colors--all) — full token swatch grid
-- [Typography](./?path=/docs/01-foundations-typography--scale) — Stabil Grotesk Regular only
+---
 
-## Components (v0.0.1)
-- Button, EyebrowLabel, NavCta, IconContainer, Card
+## Brand essence
 
-## Sections
-- HeroBand (proof of composition)
+> Boltz is a frontier AI research company for biomolecular design.
+> Three strategic messages in strict priority:
+> **1. Frontier Capabilities** — state-of-the-art models, research credibility.
+> **2. Flexibility / Modularity** — engineering quality, "the foundation".
+> **3. Popularity / Distribution** — community scale, ecosystem.
+
+Visual signature: warmth (Tierra-50 canvas, not white). Black is the only action color. Sage is atmospheric — never a button fill. **Pill geometry** (`rounded-full`) on everything interactive. **No drop shadows.** Stabil Grotesk Regular 400 — never another weight.
+
+## What's in here
+
+### 01 — Foundations
+- **Colors** — Tierra, Sage, Blue, Neutrals, Status (full token swatch)
+- **Typography** — Stabil Grotesk type scale, 6 tokens
+- **Tokens** — Spacing, Radius, Motion
+
+### 02 — Components (v0.0.1, growing weekly)
+- `Button` — Primary, Secondary, OnDark with ↗ suffix variants
+- `EyebrowLabel` — Outlined pill with Iconoir leaf icon, "• Section name" pattern
+- `NavCta` — Persistent nav CTA "Get early access ↗"
+- `IconContainer` — 40×40 wrapper for inline icons, light + dark
+- `Card` — Light, Dark, Blue variants
+
+### 04 — Sections
+- `HeroBand` — Composition proof: eyebrow + heading-lg + body-lg + buttons
+
+---
+
+## Source of truth
+
+Every visual rule lives in **`DESIGN.md`** at the repo root. Every product rule lives in **`KNOWLEDGE.md`**. Every voice rule lives in **`COPY.md`**.
+
+When adding code, AI agents must read these files first. The `g-w-component` Claude skill enforces this.
+
+## Hard rules — NEVER violate
+
+1. No hex/rgb/hsl in component code — only tokens
+2. Stabil Grotesk Regular 400 only — no other weights
+3. `rounded-full` (9999px) on all buttons, chips, single-line inputs
+4. One black CTA per viewport band
+5. Eyebrow label "• Section name" before major section headings
+6. No drop shadows (single exception: `ex-toast`)
+7. ↗ suffix on all CTA text (typographic or icon-button variant)
 
 ## Status
 
-This is the initial scaffold (G-W Studios, June 2026). More components arrive via `claude /g-w-component <Name>`.
+| Concern | Status |
+|---|---|
+| Tokens (color) | ✅ 17/17 sync with Figma file `LvTmQRNQ2FZ6GcrSpwuvgl` |
+| Tokens (type) | ✅ Figma values (heading-lg = 62px, em-based tracking) |
+| Components | 5/40 from DESIGN.md spec — more added weekly via `claude /g-w-component` |
+| Sections | 1/12 — proof of composition |
+| Audit log | See `AUDIT-2026-06-03.md` for Figma vs DESIGN.md diffs |
 
-## Source files in repo
-- `DESIGN.md` — visual spec (from Claude Design)
-- `KNOWLEDGE.md` — product domain
-- `COPY.md` — brand voice
-- `MAPPING.md` — DESIGN.md ↔ Figma ↔ code naming
-- `AUDIT-2026-06-03.md` — Figma vs DESIGN.md initial diff
+## Add a component
+
+In the repo:
+
+```bash
+claude /g-w-component <Name>
+```
+
+The skill reads DESIGN.md, builds the component, writes the story, and updates the export. AI is not allowed to invent components that don't appear in DESIGN.md.
+
+## Links
+
+- [Figma file (Boltz web 2.0)](https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl)
+- [GitHub repo](https://github.com/G-W-Studios/boltz-design-system)

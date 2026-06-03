@@ -108,10 +108,19 @@ html {
   font-weight: 400;
   color: var(--text-primary);
   background: var(--neutral-white);
+  /* Crisp rendering for Stabil Grotesk on macOS/Webkit */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   margin: 0;
+}
+
+/* Boltz never uses any weight except 400 — guard against accidental overrides */
+*, *::before, *::after {
+  font-weight: inherit;
 }
 
 code, pre, kbd {
