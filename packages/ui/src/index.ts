@@ -16,4 +16,7 @@ export type { CardProps } from './components/Card';
 export { Accordion, AccordionItem, AccordionBadge, AccordionActions } from './components/Accordion';
 export type { AccordionProps, AccordionItemProps, AccordionBadgeProps, AccordionActionsProps } from './components/Accordion';
 
+export { TextButton } from './components/TextButton';
+export type { TextButtonProps } from './components/TextButton';
+
 export { cn } from './utils';

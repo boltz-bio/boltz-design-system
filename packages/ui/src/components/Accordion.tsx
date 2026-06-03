@@ -52,13 +52,17 @@ export const AccordionItem = ({
 }: AccordionItemProps) => (
   <RadixAccordion.Item
     value={value}
-    className={cn('border-b border-border-light', className)}
+    className={cn(
+      'border-b border-border-light',
+      'transition-[border-color,padding] duration-spring ease-spring',
+      className,
+    )}
   >
     <RadixAccordion.Header asChild>
       <div>
         <RadixAccordion.Trigger
           className={cn(
-            'group w-full flex items-end gap-[10px] py-md',
+            'group w-full flex items-center gap-[10px] py-md',
             'bg-transparent border-none cursor-pointer text-left',
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
           )}
@@ -67,13 +71,15 @@ export const AccordionItem = ({
             {title}
           </span>
           {badge}
-          {/* +/− toggle — DESIGN.md uses typographic characters, Figma confirms */}
+          {/* Animated +/− toggle — vertical bar scales to 0 on open */}
           <span
             aria-hidden="true"
-            className="font-sans font-regular text-heading-md text-text-secondary leading-none select-none ml-auto shrink-0"
+            className="relative inline-flex items-center justify-center w-[20px] h-[20px] shrink-0 ml-auto text-text-secondary"
           >
-            <span className="group-data-[state=open]:hidden">+</span>
-            <span className="group-data-[state=closed]:hidden">−</span>
+            {/* Horizontal bar — always visible */}
+            <span className="absolute w-[16px] h-[1.5px] bg-current rounded-full" />
+            {/* Vertical bar — collapses on open */}
+            <span className="absolute w-[1.5px] h-[16px] bg-current rounded-full transition-transform duration-spring ease-spring origin-center group-data-[state=open]:scale-y-0" />
           </span>
         </RadixAccordion.Trigger>
       </div>
@@ -81,12 +87,24 @@ export const AccordionItem = ({
 
     <RadixAccordion.Content
       className={cn(
-        'overflow-hidden',
+        'group overflow-hidden',
         'data-[state=open]:animate-accordion-open',
         'data-[state=closed]:animate-accordion-close',
       )}
     >
-      <div className="pb-lg">{children}</div>
+      {/* Content fades + slides up after height starts opening */}
+      <div
+        className={cn(
+          'pb-lg',
+          'transition-[opacity,transform] ease-standard',
+          // Show: delayed 120ms so height panel opens first, then content fades up
+          'group-data-[state=open]:opacity-100 group-data-[state=open]:translate-y-0 group-data-[state=open]:duration-[300ms] group-data-[state=open]:delay-[120ms]',
+          // Hide: instant fade-down before panel collapses
+          'group-data-[state=closed]:opacity-0 group-data-[state=closed]:translate-y-[6px] group-data-[state=closed]:duration-[100ms]',
+        )}
+      >
+        {children}
+      </div>
     </RadixAccordion.Content>
   </RadixAccordion.Item>
 );

@@ -1,87 +1,120 @@
 import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../utils';
 
 // Spec: DESIGN.md `button-primary`, `button-secondary`, `button-white`
-// + Figma componentSet "Primary button" with variants Filled / outlined / white
+// Source of truth: Figma node 58-134
 //
-// Rules:
-// - Full pill (rounded-full) — Boltz canonical shape
-// - body-md (18px) text — DESIGN.md: "Button text = body-md. No separate button token"
-// - ↗ suffix on CTA — typographic by default, opt into icon-button via suffix="arrow-icon"
-// - Active scale 0.97 — Boltz motion signature
+// Structure: [label pill] [icon circle] — gap: 0, both fully rounded (radius: 44px).
+//
+// Hover animation (arrow-icon mode):
+//   1. Default:  [label pill][○ ↗]
+//      Label has normal right padding. Circle sits beside it. Arrow is → rotated -45°.
+//   2. Hover:    label pill's right padding expands by 36px (circle width),
+//                its fill extends UNDER the circle. Circle pulls back via -ml-[36px]
+//                so it stays at the same position but now sits on top of the pill fill.
+//                Circle bg/border matches the pill fill → looks like one unified pill.
+//                Arrow rotates from -45° back to 0° (→).
+//   3. Result:   [label pill fills through the circle (→)]  — single unified pill.
+//
+// Variants:
+//   primary   — black label + white filled circle  → coloured/sage backgrounds
+//   secondary — black label + outlined circle      → white/light backgrounds
+//   onDark    — white label + outlined circle      → dark backgrounds
+//
+// Suffix:
+//   "arrow-icon"  (default) — animated split-pill
+//   "arrow-text"  — static inline ↗ inside pill only
+//   "none"        — label pill only
 
-const buttonVariants = cva(
-  [
-    'inline-flex items-center justify-center gap-sm',
-    'font-sans font-regular text-body-md',
-    'rounded-full',
-    'transition-colors duration-base ease-standard',
-    'active:scale-active',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
-    'disabled:opacity-60 disabled:pointer-events-none',
-  ],
-  {
-    variants: {
-      intent: {
-        primary:
-          'bg-action-primary text-text-on-dark hover:bg-action-primary-active active:bg-action-primary-active',
-        secondary:
-          'bg-transparent text-text-primary border border-border-light hover:bg-surface-secondary active:bg-surface-secondary',
-        onDark:
-          'bg-white text-text-primary hover:bg-tierra-50 active:bg-tierra-50',
-      },
-      size: {
-        md: 'h-10 px-18 py-10', // matches DESIGN.md padding "10px 18px"
-        sm: 'h-9 px-14 py-8',
-      },
-    },
-    defaultVariants: {
-      intent: 'primary',
-      size: 'md',
-    },
-  }
-);
+type Intent = 'primary' | 'secondary' | 'onDark';
+type Suffix = 'arrow-icon' | 'arrow-text' | 'none';
 
-type Suffix = 'arrow-text' | 'arrow-icon' | 'none';
-
-export interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-  /** Trailing ↗ marker. `arrow-text` is the typographic character; `arrow-icon` is the circular outlined icon-button. */
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  intent?: Intent;
   suffix?: Suffix;
-  children?: React.ReactNode;
 }
 
+// Default circle styles
+const iconStyles: Record<Intent, string> = {
+  primary:   'bg-white text-text-primary border-transparent',
+  secondary: 'bg-transparent text-text-primary border-action-primary',
+  onDark:    'bg-transparent text-white border-white/50',
+};
+
+// On hover: circle bg/border fills to match label pill → they merge seamlessly
+const iconHoverStyles: Record<Intent, string> = {
+  primary:   'group-hover:bg-action-primary group-hover:text-text-on-dark group-hover:border-action-primary',
+  secondary: 'group-hover:bg-action-primary group-hover:text-text-on-dark group-hover:border-action-primary',
+  onDark:    'group-hover:bg-white group-hover:text-text-primary group-hover:border-white',
+};
+
+const labelStyles: Record<Intent, string> = {
+  primary:   'bg-action-primary text-text-on-dark border-action-primary',
+  secondary: 'bg-action-primary text-text-on-dark border-action-primary',
+  onDark:    'bg-white text-text-primary border-white',
+};
+
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, intent, size, asChild, suffix = 'arrow-text', children, ...rest },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : 'button';
+  ({ className, intent = 'primary', suffix = 'arrow-icon', children, disabled, ...rest }, ref) => {
+    const showCircle = suffix === 'arrow-icon';
+
     return (
-      <Comp
+      <button
         ref={ref}
-        className={cn(buttonVariants({ intent, size }), className)}
+        disabled={disabled}
+        className={cn(
+          'group inline-flex items-center gap-0',
+          'cursor-pointer select-none',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+          'disabled:opacity-60 disabled:pointer-events-none',
+          'active:scale-active',
+          className,
+        )}
         {...rest}
       >
-        <span>{children}</span>
-        {suffix === 'arrow-text' && (
-          <span aria-hidden="true" className="leading-none">
-            ↗
-          </span>
-        )}
-        {suffix === 'arrow-icon' && (
+        {/* ── Label pill ─────────────────────────────────────────────────────── */}
+        <span
+          className={cn(
+            'h-[36px] rounded-full border relative z-0',
+            'inline-flex items-center',
+            'font-sans font-regular text-body-sm whitespace-nowrap',
+            'pl-[16px] pr-[16px]',
+            // On hover: expand right padding by the circle's width (36px)
+            // so the fill stretches under the circle
+            showCircle && 'group-hover:pr-[52px]',
+            'transition-[padding,background-color,border-color] duration-spring ease-spring',
+            labelStyles[intent],
+          )}
+        >
+          {children}
+
+          {suffix === 'arrow-text' && (
+            <span aria-hidden="true" className="ml-[6px] leading-none">↗</span>
+          )}
+        </span>
+
+        {/* ── Icon circle ────────────────────────────────────────────────────── */}
+        {showCircle && (
           <span
             aria-hidden="true"
-            className="inline-flex items-center justify-center h-28 w-28 rounded-full border border-current"
+            className={cn(
+              'h-[36px] w-[36px] rounded-full border flex-shrink-0 relative z-10',
+              'inline-flex items-center justify-center',
+              'font-sans font-regular text-body-sm leading-none',
+              // On hover: pull circle left so it sits on top of the extended label fill
+              'ml-0 group-hover:-ml-[36px]',
+              'transition-[margin,background-color,border-color,color] duration-spring ease-spring',
+              iconStyles[intent],
+              iconHoverStyles[intent],
+            )}
           >
-            ↗
+            {/* Arrow — always →, rotated -45° (looks like ↗) by default, rotates to 0° on hover */}
+            <span className="inline-block -rotate-45 group-hover:rotate-0 transition-transform duration-spring ease-spring">
+              →
+            </span>
           </span>
         )}
-      </Comp>
+      </button>
     );
   },
 );

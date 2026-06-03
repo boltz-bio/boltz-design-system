@@ -123,26 +123,36 @@ module.exports = {
     extend: {
       keyframes: {
         'accordion-open': {
-          from: { height: '0', opacity: '0' },
-          to: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-close': {
-          from: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
-          to: { height: '0', opacity: '0' },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'content-show': {
+          from: { opacity: '0', transform: 'translateY(6px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        'content-hide': {
+          from: { opacity: '1', transform: 'translateY(0)' },
+          to:   { opacity: '0', transform: 'translateY(4px)' },
         },
       },
       animation: {
-        'accordion-open': 'accordion-open 350ms cubic-bezier(0.4, 0, 0.2, 1)',
-        'accordion-close': 'accordion-close 350ms cubic-bezier(0.4, 0, 0.2, 1)',
+        'accordion-open':  'accordion-open 600ms cubic-bezier(0.175, 1.4, 0.32, 1) both',
+        'accordion-close': 'accordion-close 400ms cubic-bezier(0.4, 0, 0.2, 1) both',
       },
       transitionTimingFunction: {
         standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
         'standard-out': 'cubic-bezier(0.0, 0, 0.2, 1)',
+        spring: 'cubic-bezier(0.175, 1.4, 0.32, 1)',
       },
       transitionDuration: {
         fast: '100ms',
         base: '200ms',
         slow: '350ms',
+        spring: '1200ms',
       },
       maxWidth: {
         container: '1328px',

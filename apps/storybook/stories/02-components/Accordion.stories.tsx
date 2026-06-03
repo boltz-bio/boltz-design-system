@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Accordion, AccordionItem, AccordionBadge, AccordionActions } from '@boltz/ui';
-import { Button } from '@boltz/ui';
+import { Accordion, AccordionItem, AccordionBadge, AccordionActions, Button, TextButton } from '@boltz/ui';
 
 const meta = {
   title: '02-Components/Accordion',
@@ -26,8 +25,8 @@ export const Default: Story = {
           multi-modal foundation models trained on 200M+ compound-protein interaction pairs.
         </p>
         <AccordionActions>
-          <Button size="sm" intent="primary">Get early access</Button>
-          <Button size="sm" intent="secondary" suffix="none">Read technical report</Button>
+          <Button intent="secondary" suffix="arrow-icon">Get early access</Button>
+          <TextButton>Read technical report</TextButton>
         </AccordionActions>
       </AccordionItem>
 
@@ -50,33 +49,25 @@ export const MultipleOpen: Story = {
   args: { type: 'multiple' },
   render: () => (
     <Accordion type="multiple" className="max-w-[700px]">
-      <AccordionItem
-        value="item-1"
-        title="What is Boltz?"
-      >
+      <AccordionItem value="item-1" title="What is Boltz?">
         <p className="font-sans font-regular text-body-md text-text-secondary">
           Boltz is a computational biology platform that uses AI to accelerate drug discovery
           and protein engineering.
         </p>
       </AccordionItem>
-      <AccordionItem
-        value="item-2"
-        title="Who is it for?"
-      >
+      <AccordionItem value="item-2" title="Who is it for?">
         <p className="font-sans font-regular text-body-md text-text-secondary">
           Research teams at pharma, biotech, and academic institutions who need fast,
           accurate structure prediction and hit discovery at scale.
         </p>
       </AccordionItem>
-      <AccordionItem
-        value="item-3"
-        title="How do I get access?"
-      >
+      <AccordionItem value="item-3" title="How do I get access?">
         <p className="font-sans font-regular text-body-md text-text-secondary">
           Request early access through the lab or API plan. Enterprise contracts available.
         </p>
         <AccordionActions>
-          <Button size="sm" intent="primary">Get early access</Button>
+          <Button intent="secondary" suffix="arrow-icon">Get early access</Button>
+          <TextButton>Read the docs</TextButton>
         </AccordionActions>
       </AccordionItem>
     </Accordion>
