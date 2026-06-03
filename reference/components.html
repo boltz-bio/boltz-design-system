@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boltz — Component Showcase</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconoir@7.10.0/css/iconoir.min.css">
+<style>
+/* Iconoir icon rendering fix */
+.tag__icon i, .btn__icon i, .nav-cta__icon i, .eyebrow__icon i, .icon-container i {
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-size: inherit;
+  color: inherit;
+}
+
+@font-face {
+  font-family: "Stabil Grotesk";
+  src: url("StabilGrotesk-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  /* Surface */
+  --surface-primary:    #FBFAF7;
+  --surface-secondary:  #F0EFEC;
+  --surface-tertiary:   #E8E7E3;
+  --surface-card-light: #FFFFFF;
+  --surface-card-blue:  #EEF6FA;
+  --surface-card-dark:  #232323;
+  /* Text */
+  --text-primary:   #232323;
+  --text-secondary: #505050;
+  --text-muted:     #7E7E7E;
+  --text-on-dark:   #FFFFFF;
+  /* Brand */
+  --sage-dark:   #003014;
+  --sage-medium: #C6E5C6;
+  --sage-light:  #D9EED9;
+  --sage-pale:   #EDF7ED;
+  --blue-dark:   #142D36;
+  --blue-medium: #C7E3EE;
+  --blue-light:  #E5F2F7;
+  --blue-light:  #E5F2F7;
+  --blue-pale:   #EEF6FA;
+  /* Neutrals */
+  --neutral-black:    #232323;
+  --neutral-grey-500: #505050;
+  --neutral-grey-200: #7E7E7E;
+  --neutral-grey-100: #D9D9D9;
+  --neutral-white:      #FFFFFF;
+  --neutral-tierra-500: #DACAB0;
+  --neutral-tierra-200: #EEE7DB;
+  --neutral-tierra-100: #F7F2E9;
+  --neutral-tierra-50:  #FBFAF7;
+  /* Borders */
+  --border-light: #D9D9D9;
+  --border-warm:  #EEE7DB;
+  --border-dark:  #333333;
+  /* Radius */
+  --rounded-sm:   6px;
+  --rounded-md:   10px;
+  --rounded-lg:   16px;
+  --rounded-xl:   24px;
+  --rounded-full: 9999px;
+  /* Spacing */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;   /* full-size card padding */
+  --space-2xl: 80px;
+  /* Type */
+  --font-heading-lg: 56px;
+  --font-heading-md: 32px;
+  --font-heading-sm: 24px;
+  --font-body-lg: 20px;
+  --font-body-md: 18px;
+  --font-body-sm: 15px;
+  --font-eyebrow: 15px;  /* body-sm — no uppercase */
+  --font-mono: 13px;
+  --lh-heading-lg: 1.00;
+  --lh-heading: 1.20;
+  --lh-body: 1.40;
+  --lh-body-sm: 1.30;
+  --ls-heading-lg: -0.0625rem;
+  --ls-heading-md: -0.03125rem;
+  --ls-heading-sm: -0.01875rem;
+  --ls-eyebrow: normal;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Stabil Grotesk", "Inter", system-ui, sans-serif; background: #FFFFFF; color: var(--text-primary); }
+
+/* ── Showcase layout ── */
+.showcase { max-width: 1100px; margin: 0 auto; padding: 60px 40px; }
+.showcase-header { margin-bottom: 80px; }
+.showcase-header h1 { font-size: 28px; font-weight: 400; color: #fff; letter-spacing: -0.3px; }
+.showcase-header p { font-size: 15px; color: #888; margin-top: 8px; }
+.section { margin-bottom: 80px; }
+.section-title { font-size: 11px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light); }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.label { font-size: 11px; color: var(--text-muted); font-family: "Stabil Grotesk", sans-serif; margin-bottom: 6px; }
+.swatch { width: 48px; height: 48px; border-radius: var(--rounded-md); border: 1px solid rgba(255,255,255,0.08); }
+.swatch-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.swatch-label { font-size: 10px; color: var(--text-muted); text-align: center; font-family: monospace; }
+
+/* ── Typography specimens ── */
+.type-row { padding: 24px 32px; background: var(--surface-primary); border-radius: var(--rounded-lg); margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+.type-meta { font-size: 12px; color: var(--text-muted); font-family: monospace; line-height: 1.6; }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────────
+   Exact Figma specs (node 58-134):
+   - Container: flex, gap: 0, no fill
+   - Label pill:  h:36, padding: 0 16px, border-radius: 44px, border: 1px solid black
+   - Icon circle: w:36, h:36, border-radius: 44px, border: 1px solid black
+   Both elements have a 1px border — creates thin separator line where they touch.
+   ─────────────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn__label {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 44px;
+  border: 1px solid var(--neutral-black);
+  display: flex;
+  align-items: center;
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm);
+  font-weight: 400;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 44px;
+  border: 1px solid var(--neutral-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Filled — black label + white filled icon (on coloured/sage/tierra backgrounds) */
+.btn--filled .btn__label { background: var(--neutral-black); color: #fff; border-color: var(--neutral-black); }
+.btn--filled .btn__icon  { background: #fff; color: var(--neutral-black); border: none; }
+
+/* Outlined — black label + outlined (transparent) icon (on white/light backgrounds) */
+.btn--outlined .btn__label { background: var(--neutral-black); color: #fff; border-color: var(--neutral-black); }
+.btn--outlined .btn__icon  { background: transparent; color: var(--neutral-black); border-color: var(--neutral-black); }
+
+/* White — white label + outlined icon (on dark/black backgrounds) */
+.btn--white .btn__label { background: #fff; color: var(--neutral-black); border-color: #fff; }
+.btn--white .btn__icon  { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+
+/* Text button — no pill, just text + arrow */
+.btn--text {
+  display: inline-flex; align-items: center; gap: 6px; height: 36px;
+  font-family: "Stabil Grotesk", sans-serif; font-size: var(--font-body-sm);
+  font-weight: 400; color: var(--text-primary); text-decoration: none;
+  background: transparent; border: none; cursor: pointer;
+}
+.btn--text-dark { color: #fff; }
+
+/* ── Eyebrow label — icon circle + text pill, connected (0 gap) ── */
+/* ── Tag (Eyebrow label) — same structure as button, 28px tall ───────────────
+   [icon circle 28×28] [text pill] — full pill radius on both, gap: 0
+   ────────────────────────────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+}
+.tag__icon {
+  width: 28px; height: 28px;
+  border-radius: 9999px;
+  border: 1px solid var(--neutral-black);
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; flex-shrink: 0;
+  font-size: 14px; color: var(--text-primary);
+}
+.tag__label {
+  height: 28px; padding: 0 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--neutral-black);
+  margin-left: -1px; /* overlap border seam */
+  display: flex; align-items: center;
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm); /* 15px */
+  font-weight: 400;
+  color: var(--text-primary); white-space: nowrap;
+}
+/* Dark variant — e.g. on dark cards or dark bands */
+.tag--dark .tag__icon  { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
+.tag--dark .tag__label { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.7); }
+
+/* ── Stat chip ── */
+.stat-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--border-light); border-radius: var(--rounded-full); font-family: "Stabil Grotesk", sans-serif; font-size: var(--font-body-sm); color: var(--text-primary); text-decoration: none; background: transparent; cursor: pointer; }
+.stat-chip .chip-value { color: var(--text-secondary); }
+
+/* ── Badge — 28px tall, filled pill, NO border ──────────────────────────────
+   Figma node 2060-5567: H 28, padding 12/10, border-radius 44, fill only.
+   Three colour variants from the Boltz palette.
+   ─────────────────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center;
+  height: 28px; padding: 0 12px;
+  border-radius: 44px;
+  border: none;
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm); font-weight: 400;
+  color: var(--text-primary); white-space: nowrap;
+}
+.badge--tierra { background: var(--neutral-tierra-100); }  /* #F7F2E9 — warm */
+.badge--sage   { background: var(--sage-medium); }         /* #C6E5C6 — green */
+.badge--blue   { background: var(--blue-light); }          /* #E5F2F7 — blue */
+
+/* ── Cards ── */
+.card { border-radius: var(--rounded-lg); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md); }
+.card--sm { padding: var(--space-lg); }
+
+/* ── Card Wide/Big — 1 per row, full width ────────────────────────────────── */
+.card-wide {
+  border-radius: var(--rounded-lg); /* 16px */
+  background: var(--neutral-black);
+  color: var(--text-on-dark);
+  padding: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  overflow: hidden;
+  position: relative;
+  min-height: 280px;
+}
+.card-wide__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 480px;
+  flex-shrink: 0;
+}
+.card-wide__heading {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-heading-md); /* 32px */
+  font-weight: 400;
+  letter-spacing: var(--ls-heading-md);
+  line-height: var(--lh-heading);
+  color: #fff;
+  margin: 0;
+}
+.card-wide__body {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-md);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+}
+.card-wide__image {
+  flex-shrink: 0;
+  align-self: flex-end;
+  max-height: 340px;
+  margin-bottom: -40px; /* overflow bottom edge of card */
+  border-radius: 8px 8px 0 0;
+}
+.card--sm { padding: var(--space-lg); }  /* small/compact cards: 24px */
+.card-light { background: var(--surface-card-light); border: 1px solid var(--border-light); }
+.card-dark { background: var(--surface-card-dark); color: var(--text-on-dark); }
+.card-blue { background: var(--surface-card-blue); }
+.card-sage { background: var(--sage-pale); }
+.card h3 { font-size: var(--font-heading-md); font-weight: 400; letter-spacing: var(--ls-heading-md); line-height: var(--lh-heading); }
+.card p { font-size: var(--font-body-md); color: var(--text-secondary); line-height: var(--lh-body); }
+.card-dark p { color: rgba(255,255,255,0.55); }
+.card-dark h3 { color: var(--text-on-dark); }
+
+/* ── Icon container ── */
+.icon-container { width: 40px; height: 40px; border-radius: var(--rounded-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); flex-shrink: 0; font-size: 20px; }
+.icon-container-dark { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+
+/* ── Nav ── */
+.nav-demo { background: #FFFFFF; padding: 0 40px; height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-light); }
+.nav-links { display: flex; align-items: center; gap: 0; }
+.nav-logo { color: var(--text-primary); text-decoration: none; display: flex; align-items: center; flex-shrink: 0; }
+.nav-items-group { display: flex; align-items: center; gap: 4px; }
+/* Nav link — outlined pill, 36px tall, 1px black border */
+.nav-link {
+  height: 36px; padding: 0 20px; border-radius: 44px;
+  border: 1px solid var(--neutral-black);
+  font-family: "Stabil Grotesk", sans-serif; font-size: var(--font-body-sm);
+  font-weight: 400; color: var(--text-primary); text-decoration: none;
+  display: inline-flex; align-items: center; background: transparent; cursor: pointer;
+  margin-left: -1px; /* merge borders */
+}
+.nav-links .nav-link:first-child { margin-left: 0; }
+/* Nav CTA — one continuous outer pill, inner circle on right */
+.nav-cta {
+  height: 36px;
+  padding: 4px 4px 4px 16px;
+  border-radius: 9999px;
+  background: var(--neutral-black);
+  color: #FFFFFF;
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm);
+  font-weight: 400;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+/* Inner circle sits inside the outer pill */
+.nav-cta__icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; color: var(--neutral-black);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+
+/* ── Filter tabs ── */
+.filter-bar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* ── Tab bar — same structure as nav cluster, Figma node 57-4617 ─────────────
+   36px tall, full pill, gap: 0, margin-left: -1px to merge borders.
+   Active: black fill. Inactive: outlined.
+   ─────────────────────────────────────────────────────────────────────────── */
+.tab-bar { display: inline-flex; align-items: center; }
+.tab {
+  height: 36px; padding: 0 20px;
+  border-radius: 44px;
+  border: 1px solid var(--neutral-black);
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm); font-weight: 400;
+  color: var(--text-primary); background: transparent;
+  cursor: pointer; white-space: nowrap;
+  display: inline-flex; align-items: center;
+  margin-left: -1px; /* merge border seam */
+}
+.tab:first-child { margin-left: 0; }
+.tab--active {
+  background: var(--neutral-black);
+  color: #fff;
+  border-color: var(--neutral-black);
+  position: relative; z-index: 1; /* active sits on top */
+}
+/* Keep .filter-tab as alias for backward compat */
+.filter-tab { height: 36px; padding: 0 20px; border-radius: 44px; border: 1px solid var(--neutral-black); font-family: "Stabil Grotesk", sans-serif; font-size: var(--font-body-sm); font-weight: 400; color: var(--text-primary); background: transparent; cursor: pointer; display: inline-flex; align-items: center; margin-left: -1px; }
+.filter-bar .filter-tab:first-child { margin-left: 0; }
+.filter-tab-active { background: var(--neutral-black); color: #fff; border-color: var(--neutral-black); position: relative; z-index: 1; }
+
+/* ── Article card ── */
+.article-card { border-radius: var(--rounded-lg); overflow: hidden; background: var(--surface-card-light); width: 260px; }
+.article-cover { height: 160px; display: flex; align-items: flex-end; padding: var(--space-md); position: relative; }
+.article-cover-sage { background: var(--sage-light); }
+.article-cover-tierra { background: #F7F2E9; }
+.article-cover-blue { background: var(--blue-pale); }
+.article-cover-title { font-size: 20px; font-weight: 400; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1.2; }
+.article-meta { padding: var(--space-md) var(--space-md) var(--space-lg); }
+.article-title { font-size: var(--font-body-md); font-weight: 400; color: var(--text-primary); margin-bottom: 6px; line-height: 1.3; }
+.article-info { font-size: var(--font-body-sm); color: var(--text-muted); }
+.article-info .cat { color: var(--text-secondary); }
+
+/* ── Featured article card ── */
+.featured-card { background: var(--sage-dark); border-radius: var(--rounded-lg); padding: var(--space-xl); color: var(--text-on-dark); }
+.featured-card h2 { font-size: var(--font-heading-md); font-weight: 400; letter-spacing: var(--ls-heading-md); line-height: var(--lh-heading); margin-bottom: var(--space-md); }
+.featured-card p { font-size: var(--font-body-md); color: rgba(255,255,255,0.65); margin-bottom: var(--space-lg); line-height: var(--lh-body); }
+
+/* ── Accordion ── */
+.accordion { width: 100%; }
+.accordion-item { border-bottom: 1px solid var(--border-light); }
+/* no top border on first item */
+.accordion-header {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg) 0;
+  background: none; border: none; cursor: pointer;
+}
+.accordion-header__left {
+  display: flex; align-items: center;
+}
+/* Title in front, badge tucked behind */
+.accordion-name {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-heading-md); /* 32px */
+  font-weight: 400;
+  letter-spacing: var(--ls-heading-md);
+  line-height: var(--lh-heading);
+  color: var(--text-primary);
+}
+.accordion-header__left .badge {
+  margin-left: 10px; /* 10px gap between title and badge */
+}
+.accordion-toggle {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-md);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+.accordion-body { padding-bottom: var(--space-lg); }
+.accordion-body p {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-md); /* 18px */
+  color: var(--text-secondary);
+  line-height: var(--lh-body);
+  margin: 0 0 18px;
+}
+.accordion-actions { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+
+/* ── Case study cards ── */
+.case-card { border-radius: var(--rounded-lg); padding: var(--space-xl); flex: 1; min-width: 240px; }
+.case-card-light { background: var(--sage-pale); }
+.case-card-dark { background: var(--sage-dark); color: var(--text-on-dark); }
+.case-card-logo { font-size: 13px; font-weight: 400; margin-bottom: var(--space-md); color: var(--text-secondary); }
+.case-card-dark .case-card-logo { color: rgba(255,255,255,0.5); }
+.case-card-body { font-size: var(--font-body-md); line-height: var(--lh-body); margin-bottom: var(--space-lg); }
+.case-card-dark .case-card-body { color: rgba(255,255,255,0.75); }
+
+/* ── Stats ── */
+/* ── Stat metric — Figma node 57-4850 ────────────────────────────────────────
+   Horizontal: [value heading-sm] [label body-sm grey-500], gap 10px
+   ─────────────────────────────────────────────────────────────────────────── */
+.stat-metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.stat-metric__value {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-heading-sm); /* 24px */
+  font-weight: 400;
+  letter-spacing: var(--ls-heading-sm);
+  line-height: var(--lh-heading);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.stat-metric__label {
+  font-family: "Stabil Grotesk", sans-serif;
+  font-size: var(--font-body-sm); /* 15px */
+  font-weight: 400;
+  line-height: var(--lh-body-sm); /* 1.30 */
+  color: var(--text-secondary); /* #505050 — Grey-500 */
+  white-space: nowrap;
+}
+/* Row of metrics — wrap with gap */
+.stats-row { display: flex; flex-wrap: wrap; gap: var(--space-lg) var(--space-2xl); }
+
+/* ── Breadcrumb ── */
+.breadcrumb { display: flex; align-items: center; gap: 8px; }
+.breadcrumb-back { font-size: var(--font-body-sm); color: var(--text-secondary); text-decoration: none; }
+.breadcrumb-pill { font-size: 12px; padding: 3px 10px; border-radius: var(--rounded-full); border: 1px solid var(--border-light); color: var(--text-secondary); }
+
+/* ── Code block ── */
+.code-block { background: var(--neutral-tierra-100); border-radius: var(--rounded-lg); padding: var(--space-lg); font-family: "IBM Plex Mono", monospace; font-size: var(--font-mono); line-height: 1.7; color: var(--text-primary); }
+.code-kw { color: var(--sage-dark); }
+.code-str { color: var(--blue-dark); }
+.code-cm { color: var(--text-muted); }
+
+/* ── Input ── */
+.input { width: 100%; padding: 10px 18px; border-radius: var(--rounded-full); border: 1px solid var(--border-light); font-family: "Stabil Grotesk", sans-serif; font-size: var(--font-body-md); color: var(--text-primary); background: var(--surface-card-light); outline: none; }
+.input:focus { border-color: var(--sage-dark); box-shadow: 0 0 0 2px rgba(0,48,20,0.1); }
+
+/* ── Band demos ── */
+.band-demo { border-radius: var(--rounded-lg); padding: var(--space-xl); margin-bottom: 12px; }
+.band-warm  { background: var(--surface-primary); }
+.band-cool  { background: var(--surface-secondary); }
+.band-dark  { background: var(--surface-card-dark); }
+.band-blue  { background: var(--blue-pale); }
+
+/* ── Footer CTA rows ── */
+.footer-cta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-xl); padding: var(--space-xl) 0; border-top: 1px solid var(--border-light); }
+.footer-cta-title { font-size: var(--font-heading-sm); font-weight: 400; letter-spacing: var(--ls-heading-sm); margin-bottom: 6px; }
+.footer-cta-body { font-size: var(--font-body-md); color: var(--text-secondary); max-width: 480px; line-height: var(--lh-body); }
+</style>
+</head>
+<body>
+<div class="showcase">
+
+  <!-- Header -->
+  <div class="showcase-header" style="border-bottom: 1px solid var(--border-light); padding-bottom: 40px;">
+    <h1 style="color:var(--text-primary)">Boltz — Component Showcase</h1>
+    <p style="color:var(--text-secondary)">All components rendered with real styles, Stabil Grotesk font, and Iconoir icons.</p>
+  </div>
+
+  <!-- LOGO -->
+  <div class="section">
+    <div class="section-title">Logo</div>
+    <div class="row" style="align-items:stretch">
+
+      <div style="flex:1;background:var(--surface-primary);border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:40px 48px;display:flex;flex-direction:column;gap:32px">
+        <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px">Primary — on light</div>
+        <svg width="79" height="22" viewBox="0 0 79 22" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_dark)"><path d="M4.16583 0.48584H0.845211C0.378414 0.48584 0 0.864254 0 1.33105V20.0176C0 20.4844 0.378414 20.8628 0.845211 20.8628H4.16583C4.63263 20.8628 5.01104 20.4844 5.01104 20.0176V1.33105C5.01104 0.864254 4.63263 0.48584 4.16583 0.48584Z" fill="#232323"/><path d="M14.4573 9.85925C14.3485 9.84446 14.2396 9.8339 14.1319 9.82544C14.0378 9.82228 13.9491 9.80114 13.8572 9.76205C13.4441 9.58984 13.2497 9.11547 13.4219 8.70237C13.479 8.56502 13.5656 8.45409 13.6765 8.37063C14.284 7.89308 14.7827 7.25917 15.1018 6.49531C16.1002 4.10654 14.9729 1.36066 12.5841 0.362253C11.5889 -0.0540136 10.5313 -0.0994437 9.56352 0.160459C8.59575 0.419304 7.703 0.987709 7.04901 1.8456C5.47903 3.90474 5.87628 6.84608 7.93437 8.41606C8.59258 8.9179 9.34165 9.21795 10.1066 9.32783C10.2439 9.34473 10.3749 9.39756 10.4932 9.48736C10.8493 9.75888 10.9169 10.2671 10.6464 10.6221C10.5862 10.7013 10.5197 10.7636 10.4404 10.8143C10.3506 10.8756 10.2619 10.939 10.1752 11.0066C7.66179 12.9485 7.19693 16.5597 9.1388 19.0742C10.6 20.9664 13.0067 21.6964 15.1789 21.1153C17.3511 20.5322 19.07 18.6959 19.3901 16.3272C19.8149 13.1799 17.6068 10.284 14.4594 9.85925H14.4573Z" fill="#232323"/><path d="M26.8927 1.85193C26.8927 1.73571 26.9877 1.64062 27.104 1.64062H34.5619C37.7515 1.64062 39.9786 3.58989 39.9786 6.27238C39.9786 8.07585 38.9411 9.51482 37.3437 10.1107C37.1525 10.1825 37.163 10.4583 37.3606 10.5111C39.3099 11.0351 40.5344 12.6041 40.5344 14.6505C40.5344 17.4598 38.3072 19.3584 35.0923 19.3584H27.1029C26.9867 19.3584 26.8916 19.2633 26.8916 19.1471V1.85193H26.8927ZM34.283 9.48629C36.2322 9.48629 37.573 8.24595 37.573 6.49953C37.573 4.75311 36.2312 3.53812 34.283 3.53812H29.5582C29.442 3.53812 29.3469 3.63321 29.3469 3.74943V9.27499C29.3469 9.39121 29.442 9.48629 29.5582 9.48629H34.283ZM34.8398 17.4344C36.7383 17.4344 38.079 16.1687 38.079 14.397C38.079 12.6252 36.7373 11.3341 34.8398 11.3341H29.5582C29.442 11.3341 29.3469 11.4292 29.3469 11.5454V17.2231C29.3469 17.3394 29.442 17.4344 29.5582 17.4344H34.8398Z" fill="#232323"/><path d="M41.3096 13.0301C41.3096 9.10727 43.9921 6.34766 47.7385 6.34766C51.4849 6.34766 54.142 9.10621 54.142 13.0301C54.142 16.954 51.4849 19.7369 47.7385 19.7369C43.9921 19.7369 41.3096 16.9529 41.3096 13.0301ZM47.7385 17.7126C50.0924 17.7126 51.712 15.7887 51.712 13.0301C51.712 10.2715 50.0924 8.37299 47.7385 8.37299C45.3845 8.37299 43.7396 10.2969 43.7396 13.0301C43.7396 15.7633 45.3592 17.7126 47.7385 17.7126Z" fill="#232323"/><path d="M55.1953 15.8402V1.85193C55.1953 1.73571 55.2904 1.64062 55.4066 1.64062H57.3633C57.4795 1.64062 57.5746 1.73571 57.5746 1.85193V15.3838C57.5746 17.1238 58.4726 17.6067 59.8461 17.2548C59.9782 17.221 60.1092 17.3161 60.1123 17.4535L60.1514 19.015C60.1535 19.1122 60.0901 19.1999 59.9961 19.2242C57.6623 19.8433 55.1953 19.3774 55.1953 15.8391V15.8402Z" fill="#232323"/><path d="M61.4036 15.4598V8.93902C61.4036 8.8228 61.3085 8.72771 61.1923 8.72771H59.1849C59.0687 8.72771 58.9736 8.63263 58.9736 8.51641V6.93904C58.9736 6.82282 59.0687 6.72773 59.1849 6.72773H61.1923C61.3085 6.72773 61.4036 6.63265 61.4036 6.51643V3.77478C61.4036 3.65856 61.4987 3.56348 61.6149 3.56348H63.5969C63.7132 3.56348 63.8082 3.65856 63.8082 3.77478V6.51643C63.8082 6.63265 63.9033 6.72773 64.0195 6.72773H66.8616C66.9778 6.72773 67.0729 6.82282 67.0729 6.93904V8.51641C67.0729 8.63263 66.9778 8.72771 66.8616 8.72771H64.0195C63.9033 8.72771 63.8082 8.8228 63.8082 8.93902V15.2834C63.8082 17.37 65.1183 17.7017 66.4284 17.3193C66.5626 17.2802 66.6978 17.3763 66.701 17.5158L66.7401 19.071C66.7422 19.1661 66.682 19.2527 66.59 19.2791C64.1696 19.988 61.4036 19.277 61.4036 15.4609V15.4598Z" fill="#232323"/><path d="M68.2543 17.5657L75.1164 9.09779C75.2284 8.95938 75.1301 8.75336 74.9526 8.75336H68.4699C68.3536 8.75336 68.2586 8.65828 68.2586 8.54206V6.93933C68.2586 6.82311 68.3536 6.72803 68.4699 6.72803H78.1211C78.2373 6.72803 78.3324 6.82311 78.3324 6.93933V8.4755C78.3324 8.5241 78.3155 8.57164 78.2849 8.60968L71.4027 17.0005C71.2897 17.1389 71.388 17.346 71.5665 17.346H78.1729C78.2891 17.346 78.3842 17.4411 78.3842 17.5573V19.1473C78.3842 19.2636 78.2891 19.3586 78.1729 19.3586H68.4213C68.305 19.3586 68.21 19.2636 68.21 19.1473V17.6999C68.21 17.6513 68.2269 17.6048 68.2575 17.5668L68.2543 17.5657Z" fill="#232323"/></g><defs><clipPath id="clip0_dark"><rect width="78.3817" height="21.3109" fill="white"/></clipPath></defs></svg>
+      </div>
+
+      <div style="flex:1;background:#232323;border-radius:var(--rounded-lg);padding:40px 48px;display:flex;flex-direction:column;gap:32px">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px">Reversed — on dark</div>
+        <svg width="79" height="22" viewBox="0 0 79 22" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_white)"><path d="M4.16583 0.48584H0.845211C0.378414 0.48584 0 0.864254 0 1.33105V20.0176C0 20.4844 0.378414 20.8628 0.845211 20.8628H4.16583C4.63263 20.8628 5.01104 20.4844 5.01104 20.0176V1.33105C5.01104 0.864254 4.63263 0.48584 4.16583 0.48584Z" fill="#FFFFFF"/><path d="M14.4573 9.85925C14.3485 9.84446 14.2396 9.8339 14.1319 9.82544C14.0378 9.82228 13.9491 9.80114 13.8572 9.76205C13.4441 9.58984 13.2497 9.11547 13.4219 8.70237C13.479 8.56502 13.5656 8.45409 13.6765 8.37063C14.284 7.89308 14.7827 7.25917 15.1018 6.49531C16.1002 4.10654 14.9729 1.36066 12.5841 0.362253C11.5889 -0.0540136 10.5313 -0.0994437 9.56352 0.160459C8.59575 0.419304 7.703 0.987709 7.04901 1.8456C5.47903 3.90474 5.87628 6.84608 7.93437 8.41606C8.59258 8.9179 9.34165 9.21795 10.1066 9.32783C10.2439 9.34473 10.3749 9.39756 10.4932 9.48736C10.8493 9.75888 10.9169 10.2671 10.6464 10.6221C10.5862 10.7013 10.5197 10.7636 10.4404 10.8143C10.3506 10.8756 10.2619 10.939 10.1752 11.0066C7.66179 12.9485 7.19693 16.5597 9.1388 19.0742C10.6 20.9664 13.0067 21.6964 15.1789 21.1153C17.3511 20.5322 19.07 18.6959 19.3901 16.3272C19.8149 13.1799 17.6068 10.284 14.4594 9.85925H14.4573Z" fill="#FFFFFF"/><path d="M26.8927 1.85193C26.8927 1.73571 26.9877 1.64062 27.104 1.64062H34.5619C37.7515 1.64062 39.9786 3.58989 39.9786 6.27238C39.9786 8.07585 38.9411 9.51482 37.3437 10.1107C37.1525 10.1825 37.163 10.4583 37.3606 10.5111C39.3099 11.0351 40.5344 12.6041 40.5344 14.6505C40.5344 17.4598 38.3072 19.3584 35.0923 19.3584H27.1029C26.9867 19.3584 26.8916 19.2633 26.8916 19.1471V1.85193H26.8927ZM34.283 9.48629C36.2322 9.48629 37.573 8.24595 37.573 6.49953C37.573 4.75311 36.2312 3.53812 34.283 3.53812H29.5582C29.442 3.53812 29.3469 3.63321 29.3469 3.74943V9.27499C29.3469 9.39121 29.442 9.48629 29.5582 9.48629H34.283ZM34.8398 17.4344C36.7383 17.4344 38.079 16.1687 38.079 14.397C38.079 12.6252 36.7373 11.3341 34.8398 11.3341H29.5582C29.442 11.3341 29.3469 11.4292 29.3469 11.5454V17.2231C29.3469 17.3394 29.442 17.4344 29.5582 17.4344H34.8398Z" fill="#FFFFFF"/><path d="M41.3096 13.0301C41.3096 9.10727 43.9921 6.34766 47.7385 6.34766C51.4849 6.34766 54.142 9.10621 54.142 13.0301C54.142 16.954 51.4849 19.7369 47.7385 19.7369C43.9921 19.7369 41.3096 16.9529 41.3096 13.0301ZM47.7385 17.7126C50.0924 17.7126 51.712 15.7887 51.712 13.0301C51.712 10.2715 50.0924 8.37299 47.7385 8.37299C45.3845 8.37299 43.7396 10.2969 43.7396 13.0301C43.7396 15.7633 45.3592 17.7126 47.7385 17.7126Z" fill="#FFFFFF"/><path d="M55.1953 15.8402V1.85193C55.1953 1.73571 55.2904 1.64062 55.4066 1.64062H57.3633C57.4795 1.64062 57.5746 1.73571 57.5746 1.85193V15.3838C57.5746 17.1238 58.4726 17.6067 59.8461 17.2548C59.9782 17.221 60.1092 17.3161 60.1123 17.4535L60.1514 19.015C60.1535 19.1122 60.0901 19.1999 59.9961 19.2242C57.6623 19.8433 55.1953 19.3774 55.1953 15.8391V15.8402Z" fill="#FFFFFF"/><path d="M61.4036 15.4598V8.93902C61.4036 8.8228 61.3085 8.72771 61.1923 8.72771H59.1849C59.0687 8.72771 58.9736 8.63263 58.9736 8.51641V6.93904C58.9736 6.82282 59.0687 6.72773 59.1849 6.72773H61.1923C61.3085 6.72773 61.4036 6.63265 61.4036 6.51643V3.77478C61.4036 3.65856 61.4987 3.56348 61.6149 3.56348H63.5969C63.7132 3.56348 63.8082 3.65856 63.8082 3.77478V6.51643C63.8082 6.63265 63.9033 6.72773 64.0195 6.72773H66.8616C66.9778 6.72773 67.0729 6.82282 67.0729 6.93904V8.51641C67.0729 8.63263 66.9778 8.72771 66.8616 8.72771H64.0195C63.9033 8.72771 63.8082 8.8228 63.8082 8.93902V15.2834C63.8082 17.37 65.1183 17.7017 66.4284 17.3193C66.5626 17.2802 66.6978 17.3763 66.701 17.5158L66.7401 19.071C66.7422 19.1661 66.682 19.2527 66.59 19.2791C64.1696 19.988 61.4036 19.277 61.4036 15.4609V15.4598Z" fill="#FFFFFF"/><path d="M68.2543 17.5657L75.1164 9.09779C75.2284 8.95938 75.1301 8.75336 74.9526 8.75336H68.4699C68.3536 8.75336 68.2586 8.65828 68.2586 8.54206V6.93933C68.2586 6.82311 68.3536 6.72803 68.4699 6.72803H78.1211C78.2373 6.72803 78.3324 6.82311 78.3324 6.93933V8.4755C78.3324 8.5241 78.3155 8.57164 78.2849 8.60968L71.4027 17.0005C71.2897 17.1389 71.388 17.346 71.5665 17.346H78.1729C78.2891 17.346 78.3842 17.4411 78.3842 17.5573V19.1473C78.3842 19.2636 78.2891 19.3586 78.1729 19.3586H68.4213C68.305 19.3586 68.21 19.2636 68.21 19.1473V17.6999C68.21 17.6513 68.2269 17.6048 68.2575 17.5668L68.2543 17.5657Z" fill="#FFFFFF"/></g><defs><clipPath id="clip0_white"><rect width="78.3817" height="21.3109" fill="white"/></clipPath></defs></svg>
+      </div>
+
+      <div style="flex:1;background:#003014;border-radius:var(--rounded-lg);padding:40px 48px;display:flex;flex-direction:column;gap:32px">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px">Reversed — on sage-dark</div>
+        <svg width="79" height="22" viewBox="0 0 79 22" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_white)"><path d="M4.16583 0.48584H0.845211C0.378414 0.48584 0 0.864254 0 1.33105V20.0176C0 20.4844 0.378414 20.8628 0.845211 20.8628H4.16583C4.63263 20.8628 5.01104 20.4844 5.01104 20.0176V1.33105C5.01104 0.864254 4.63263 0.48584 4.16583 0.48584Z" fill="#FFFFFF"/><path d="M14.4573 9.85925C14.3485 9.84446 14.2396 9.8339 14.1319 9.82544C14.0378 9.82228 13.9491 9.80114 13.8572 9.76205C13.4441 9.58984 13.2497 9.11547 13.4219 8.70237C13.479 8.56502 13.5656 8.45409 13.6765 8.37063C14.284 7.89308 14.7827 7.25917 15.1018 6.49531C16.1002 4.10654 14.9729 1.36066 12.5841 0.362253C11.5889 -0.0540136 10.5313 -0.0994437 9.56352 0.160459C8.59575 0.419304 7.703 0.987709 7.04901 1.8456C5.47903 3.90474 5.87628 6.84608 7.93437 8.41606C8.59258 8.9179 9.34165 9.21795 10.1066 9.32783C10.2439 9.34473 10.3749 9.39756 10.4932 9.48736C10.8493 9.75888 10.9169 10.2671 10.6464 10.6221C10.5862 10.7013 10.5197 10.7636 10.4404 10.8143C10.3506 10.8756 10.2619 10.939 10.1752 11.0066C7.66179 12.9485 7.19693 16.5597 9.1388 19.0742C10.6 20.9664 13.0067 21.6964 15.1789 21.1153C17.3511 20.5322 19.07 18.6959 19.3901 16.3272C19.8149 13.1799 17.6068 10.284 14.4594 9.85925H14.4573Z" fill="#FFFFFF"/><path d="M26.8927 1.85193C26.8927 1.73571 26.9877 1.64062 27.104 1.64062H34.5619C37.7515 1.64062 39.9786 3.58989 39.9786 6.27238C39.9786 8.07585 38.9411 9.51482 37.3437 10.1107C37.1525 10.1825 37.163 10.4583 37.3606 10.5111C39.3099 11.0351 40.5344 12.6041 40.5344 14.6505C40.5344 17.4598 38.3072 19.3584 35.0923 19.3584H27.1029C26.9867 19.3584 26.8916 19.2633 26.8916 19.1471V1.85193H26.8927ZM34.283 9.48629C36.2322 9.48629 37.573 8.24595 37.573 6.49953C37.573 4.75311 36.2312 3.53812 34.283 3.53812H29.5582C29.442 3.53812 29.3469 3.63321 29.3469 3.74943V9.27499C29.3469 9.39121 29.442 9.48629 29.5582 9.48629H34.283ZM34.8398 17.4344C36.7383 17.4344 38.079 16.1687 38.079 14.397C38.079 12.6252 36.7373 11.3341 34.8398 11.3341H29.5582C29.442 11.3341 29.3469 11.4292 29.3469 11.5454V17.2231C29.3469 17.3394 29.442 17.4344 29.5582 17.4344H34.8398Z" fill="#FFFFFF"/><path d="M41.3096 13.0301C41.3096 9.10727 43.9921 6.34766 47.7385 6.34766C51.4849 6.34766 54.142 9.10621 54.142 13.0301C54.142 16.954 51.4849 19.7369 47.7385 19.7369C43.9921 19.7369 41.3096 16.9529 41.3096 13.0301ZM47.7385 17.7126C50.0924 17.7126 51.712 15.7887 51.712 13.0301C51.712 10.2715 50.0924 8.37299 47.7385 8.37299C45.3845 8.37299 43.7396 10.2969 43.7396 13.0301C43.7396 15.7633 45.3592 17.7126 47.7385 17.7126Z" fill="#FFFFFF"/><path d="M55.1953 15.8402V1.85193C55.1953 1.73571 55.2904 1.64062 55.4066 1.64062H57.3633C57.4795 1.64062 57.5746 1.73571 57.5746 1.85193V15.3838C57.5746 17.1238 58.4726 17.6067 59.8461 17.2548C59.9782 17.221 60.1092 17.3161 60.1123 17.4535L60.1514 19.015C60.1535 19.1122 60.0901 19.1999 59.9961 19.2242C57.6623 19.8433 55.1953 19.3774 55.1953 15.8391V15.8402Z" fill="#FFFFFF"/><path d="M61.4036 15.4598V8.93902C61.4036 8.8228 61.3085 8.72771 61.1923 8.72771H59.1849C59.0687 8.72771 58.9736 8.63263 58.9736 8.51641V6.93904C58.9736 6.82282 59.0687 6.72773 59.1849 6.72773H61.1923C61.3085 6.72773 61.4036 6.63265 61.4036 6.51643V3.77478C61.4036 3.65856 61.4987 3.56348 61.6149 3.56348H63.5969C63.7132 3.56348 63.8082 3.65856 63.8082 3.77478V6.51643C63.8082 6.63265 63.9033 6.72773 64.0195 6.72773H66.8616C66.9778 6.72773 67.0729 6.82282 67.0729 6.93904V8.51641C67.0729 8.63263 66.9778 8.72771 66.8616 8.72771H64.0195C63.9033 8.72771 63.8082 8.8228 63.8082 8.93902V15.2834C63.8082 17.37 65.1183 17.7017 66.4284 17.3193C66.5626 17.2802 66.6978 17.3763 66.701 17.5158L66.7401 19.071C66.7422 19.1661 66.682 19.2527 66.59 19.2791C64.1696 19.988 61.4036 19.277 61.4036 15.4609V15.4598Z" fill="#FFFFFF"/><path d="M68.2543 17.5657L75.1164 9.09779C75.2284 8.95938 75.1301 8.75336 74.9526 8.75336H68.4699C68.3536 8.75336 68.2586 8.65828 68.2586 8.54206V6.93933C68.2586 6.82311 68.3536 6.72803 68.4699 6.72803H78.1211C78.2373 6.72803 78.3324 6.82311 78.3324 6.93933V8.4755C78.3324 8.5241 78.3155 8.57164 78.2849 8.60968L71.4027 17.0005C71.2897 17.1389 71.388 17.346 71.5665 17.346H78.1729C78.2891 17.346 78.3842 17.4411 78.3842 17.5573V19.1473C78.3842 19.2636 78.2891 19.3586 78.1729 19.3586H68.4213C68.305 19.3586 68.21 19.2636 68.21 19.1473V17.6999C68.21 17.6513 68.2269 17.6048 68.2575 17.5668L68.2543 17.5657Z" fill="#FFFFFF"/></g><defs><clipPath id="clip0_white"><rect width="78.3817" height="21.3109" fill="white"/></clipPath></defs></svg>
+      </div>
+
+    </div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-muted);margin-top:16px">Minimum width: 60px. Never stretch, recolour, or apply effects. Use dark fill on light surfaces, white fill on dark surfaces.</p>
+  </div>
+
+  <!-- COLOUR PALETTE -->
+  <div class="section">
+    <div class="section-title">Colour palette</div>
+    <div class="row">
+      <div style="display:flex;flex-direction:column;gap:24px;width:100%">
+
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Tierra</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="swatch-group"><div class="swatch" style="background:#DACAB0"></div><div class="swatch-label">Tierra-500<br>#DACAB0</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#EEE7DB"></div><div class="swatch-label">Tierra-200<br>#EEE7DB</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#F7F2E9"></div><div class="swatch-label">Tierra-100<br>#F7F2E9</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#FBFAF7;border:1px solid var(--border-light)"></div><div class="swatch-label">Tierra-50<br>#FBFAF7</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Primary — Sage</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="swatch-group"><div class="swatch" style="background:#003014"></div><div class="swatch-label">Sage-Dark<br>#003014</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#C6E5C6"></div><div class="swatch-label">Sage-Medium<br>#C6E5C6</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#D9EED9"></div><div class="swatch-label">Sage-Light<br>#D9EED9</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#EDF7ED"></div><div class="swatch-label">Sage-Pale<br>#EDF7ED</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Secondary — Blue</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="swatch-group"><div class="swatch" style="background:#142D36"></div><div class="swatch-label">Blue-Dark<br>#142D36</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#C7E3EE"></div><div class="swatch-label">Blue-Medium<br>#C7E3EE</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#E5F2F7"></div><div class="swatch-label">Blue-Light<br>#E5F2F7</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#EEF6FA;border:1px solid var(--border-light)"></div><div class="swatch-label">Blue-Pale<br>#EEF6FA</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Neutrals</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="swatch-group"><div class="swatch" style="background:#232323"></div><div class="swatch-label">Black<br>#232323</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#505050"></div><div class="swatch-label">Grey-500<br>#505050</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#7E7E7E"></div><div class="swatch-label">Grey-200<br>#7E7E7E</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#D9D9D9"></div><div class="swatch-label">Grey-100<br>#D9D9D9</div></div>
+            <div class="swatch-group"><div class="swatch" style="background:#FFFFFF;border:1px solid var(--border-light)"></div><div class="swatch-label">White<br>#FFFFFF</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Type scale — Stabil Grotesk Regular (400)</div>
+    <div class="type-row">
+      <div style="font-size:56px;font-weight:400;letter-spacing:-0.0625rem;line-height:1;color:var(--text-primary)">heading-lg</div>
+      <div class="type-meta">56px / lh 1.00 / ls −1.0px<br>Hero headline, Section hero headline</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:32px;font-weight:400;letter-spacing:-0.03125rem;line-height:1.2;color:var(--text-primary)">heading-md</div>
+      <div class="type-meta">32px / lh 1.20 / ls −0.5px<br>Large subheads, Section headings</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:24px;font-weight:400;letter-spacing:-0.01875rem;line-height:1.2;color:var(--text-primary)">heading-sm</div>
+      <div class="type-meta">24px / lh 1.20 / ls −0.3px<br>Card headings</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:20px;font-weight:400;line-height:1.4;color:var(--text-primary)">body-lg — Hero body / intro copy, stat text</div>
+      <div class="type-meta">20px / lh 1.40 / ls normal<br>Hero body / intro copy, stat text</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:18px;font-weight:400;line-height:1.4;color:var(--text-primary)">body-md — Standard body and all button text</div>
+      <div class="type-meta">18px / lh 1.40 / ls normal<br>Standard body, all button text</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:15px;font-weight:400;line-height:1.3;color:var(--text-primary)">body-sm — Small body / captions, metadata, timestamps</div>
+      <div class="type-meta">15px / lh 1.30 / ls normal<br>Small body / captions, metadata</div>
+    </div>
+    <div class="type-row">
+      <div style="font-size:var(--font-body-sm);font-weight:400;line-height:1.3;color:var(--text-secondary)">• Eyebrow label</div>
+      <div class="type-meta">15px / lh 1.30 / ls normal / sentence case<br>body-sm — no uppercase</div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.6;color:var(--text-primary)">model = boltz.load("boltz-2") <span style="color:#7E7E7E"># IBM Plex Mono</span></div>
+      <div class="type-meta">13px / lh 1.60 / IBM Plex Mono<br>Code blocks, API snippets</div>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="section">
+    <div class="section-title">Buttons — [label pill] [icon circle], gap: 0, both 36px tall, border-radius: 44px</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:24px">Three variants from Figma (node 58-226): Filled / Outlined / White. Label is always black-fill on Filled+Outlined; white on White.</p>
+
+    <div style="background:#EDF7ED;border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:8px">
+      <div class="label" style="margin-bottom:16px">Filled — coloured/sage bg: black label + white filled icon</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <a class="btn btn--filled" href="#"><span class="btn__label">Get early access</span><span class="btn__icon">↗</span></a>
+        <a class="btn btn--filled" href="#"><span class="btn__label">Try Boltz Lab</span><span class="btn__icon">↗</span></a>
+        <a class="btn btn--filled" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:8px">
+      <div class="label" style="margin-bottom:16px">Outlined — white/light bg: black label + outlined (transparent) icon</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <a class="btn btn--outlined" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+        <a class="btn btn--outlined" href="#"><span class="btn__label">Get in touch</span><span class="btn__icon">↗</span></a>
+        <a class="btn btn--outlined" href="#"><span class="btn__label">View open roles</span><span class="btn__icon">↗</span></a>
+        <span class="btn--text">Text button <i class="iconoir-arrow-up-right" style="font-size:14px"></i></span>
+      </div>
+    </div>
+
+    <div style="background:#232323;border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:8px">
+      <div class="label" style="color:rgba(255,255,255,0.5);margin-bottom:16px">White — dark bg: white label + outlined icon</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <a class="btn btn--white" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+        <a class="btn btn--white" href="#"><span class="btn__label">See more details</span><span class="btn__icon">↗</span></a>
+        <span class="btn--text btn--text-dark">Text button <i class="iconoir-arrow-up-right" style="font-size:14px"></i></span>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:var(--space-lg)">
+      <div class="label" style="margin-bottom:16px">Nav CTA — one continuous pill with inner circle</div>
+      <a class="nav-cta" href="#">Get early access<span class="nav-cta__icon">↗</span></a>
+    </div>
+  </div>
+
+  <!-- removed — tag section above replaces this -->
+
+
+  <!-- TAG / EYEBROW LABEL -->
+  <div class="section">
+    <div class="section-title">Tag (eyebrow label) — Figma node 58-294</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:24px">Icon circle (28×28) + text pill — same structure as button, 28px tall. Full pill radius on both, gap: 0, 1px black border. Icon from Iconoir, changes per section.</p>
+
+    <div style="background:#fff;border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:8px">
+      <div class="label" style="margin-bottom:16px">On white background</div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20L17 17"/></svg></span><span class="tag__label">Discover</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 8h.01M7 12h.01M7 16h.01M11 8h6M11 12h6M11 16h6"/></svg></span><span class="tag__label">Platform</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3M17 20h4v-2c0-1.66-1.34-3-3-3M8 11c-1.66 0-3-1.34-3-3s1.34-3 3-3M7 20H3v-2c0-1.66 1.34-3 3-3M12 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4M12 14v7"/></svg></span><span class="tag__label">Community</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V7L12 3Z"/></svg></span><span class="tag__label">Security</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M5 21h14L14 9V3M10 3v6L5 21M12 13v1M12 17v1"/></svg></span><span class="tag__label">Our models</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v1M12 16v1M9.5 9.5A2.5 2.5 0 0 1 12 8a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 0 0 5 2.5 2.5 0 0 0 2.5-1.5"/></svg></span><span class="tag__label">Pricing</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H5v18h14V7l-4-4M14 3v4h4M9 12h6M9 16h6M9 8h4"/></svg></span><span class="tag__label">Research</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg></span><span class="tag__label">API</span></div>
+      </div>
+    </div>
+
+    <div style="background:#EDF7ED;border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:8px">
+      <div class="label" style="margin-bottom:12px">On coloured background</div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3M17 20h4v-2c0-1.66-1.34-3-3-3M8 11c-1.66 0-3-1.34-3-3s1.34-3 3-3M7 20H3v-2c0-1.66 1.34-3 3-3M12 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4M12 14v7"/></svg></span><span class="tag__label">Community</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M5 21h14L14 9V3M10 3v6L5 21M12 13v1M12 17v1"/></svg></span><span class="tag__label">Our models</span></div>
+        <div class="tag"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V7L12 3Z"/></svg></span><span class="tag__label">Security</span></div>
+      </div>
+    </div>
+
+    <div style="background:#232323;border-radius:var(--rounded-lg);padding:var(--space-lg)">
+      <div class="label" style="color:rgba(255,255,255,0.5);margin-bottom:12px">On dark background</div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <div class="tag tag--dark"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 8h.01M7 12h.01M7 16h.01M11 8h6M11 12h6M11 16h6"/></svg></span><span class="tag__label">Platform</span></div>
+        <div class="tag tag--dark"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 7v5c0 4.4 3.4 8.5 8 9.5 4.6-1 8-5.1 8-9.5V7L12 3Z"/></svg></span><span class="tag__label">Security</span></div>
+        <div class="tag tag--dark"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h10"/></svg></span><span class="tag__label">Latest</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+    <nav class="nav-demo">
+      <a class="nav-logo" href="#"><svg width="79" height="22" viewBox="0 0 79 22" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_dark)"><path d="M4.16583 0.48584H0.845211C0.378414 0.48584 0 0.864254 0 1.33105V20.0176C0 20.4844 0.378414 20.8628 0.845211 20.8628H4.16583C4.63263 20.8628 5.01104 20.4844 5.01104 20.0176V1.33105C5.01104 0.864254 4.63263 0.48584 4.16583 0.48584Z" fill="#232323"/><path d="M14.4573 9.85925C14.3485 9.84446 14.2396 9.8339 14.1319 9.82544C14.0378 9.82228 13.9491 9.80114 13.8572 9.76205C13.4441 9.58984 13.2497 9.11547 13.4219 8.70237C13.479 8.56502 13.5656 8.45409 13.6765 8.37063C14.284 7.89308 14.7827 7.25917 15.1018 6.49531C16.1002 4.10654 14.9729 1.36066 12.5841 0.362253C11.5889 -0.0540136 10.5313 -0.0994437 9.56352 0.160459C8.59575 0.419304 7.703 0.987709 7.04901 1.8456C5.47903 3.90474 5.87628 6.84608 7.93437 8.41606C8.59258 8.9179 9.34165 9.21795 10.1066 9.32783C10.2439 9.34473 10.3749 9.39756 10.4932 9.48736C10.8493 9.75888 10.9169 10.2671 10.6464 10.6221C10.5862 10.7013 10.5197 10.7636 10.4404 10.8143C10.3506 10.8756 10.2619 10.939 10.1752 11.0066C7.66179 12.9485 7.19693 16.5597 9.1388 19.0742C10.6 20.9664 13.0067 21.6964 15.1789 21.1153C17.3511 20.5322 19.07 18.6959 19.3901 16.3272C19.8149 13.1799 17.6068 10.284 14.4594 9.85925H14.4573Z" fill="#232323"/><path d="M26.8927 1.85193C26.8927 1.73571 26.9877 1.64062 27.104 1.64062H34.5619C37.7515 1.64062 39.9786 3.58989 39.9786 6.27238C39.9786 8.07585 38.9411 9.51482 37.3437 10.1107C37.1525 10.1825 37.163 10.4583 37.3606 10.5111C39.3099 11.0351 40.5344 12.6041 40.5344 14.6505C40.5344 17.4598 38.3072 19.3584 35.0923 19.3584H27.1029C26.9867 19.3584 26.8916 19.2633 26.8916 19.1471V1.85193H26.8927ZM34.283 9.48629C36.2322 9.48629 37.573 8.24595 37.573 6.49953C37.573 4.75311 36.2312 3.53812 34.283 3.53812H29.5582C29.442 3.53812 29.3469 3.63321 29.3469 3.74943V9.27499C29.3469 9.39121 29.442 9.48629 29.5582 9.48629H34.283ZM34.8398 17.4344C36.7383 17.4344 38.079 16.1687 38.079 14.397C38.079 12.6252 36.7373 11.3341 34.8398 11.3341H29.5582C29.442 11.3341 29.3469 11.4292 29.3469 11.5454V17.2231C29.3469 17.3394 29.442 17.4344 29.5582 17.4344H34.8398Z" fill="#232323"/><path d="M41.3096 13.0301C41.3096 9.10727 43.9921 6.34766 47.7385 6.34766C51.4849 6.34766 54.142 9.10621 54.142 13.0301C54.142 16.954 51.4849 19.7369 47.7385 19.7369C43.9921 19.7369 41.3096 16.9529 41.3096 13.0301ZM47.7385 17.7126C50.0924 17.7126 51.712 15.7887 51.712 13.0301C51.712 10.2715 50.0924 8.37299 47.7385 8.37299C45.3845 8.37299 43.7396 10.2969 43.7396 13.0301C43.7396 15.7633 45.3592 17.7126 47.7385 17.7126Z" fill="#232323"/><path d="M55.1953 15.8402V1.85193C55.1953 1.73571 55.2904 1.64062 55.4066 1.64062H57.3633C57.4795 1.64062 57.5746 1.73571 57.5746 1.85193V15.3838C57.5746 17.1238 58.4726 17.6067 59.8461 17.2548C59.9782 17.221 60.1092 17.3161 60.1123 17.4535L60.1514 19.015C60.1535 19.1122 60.0901 19.1999 59.9961 19.2242C57.6623 19.8433 55.1953 19.3774 55.1953 15.8391V15.8402Z" fill="#232323"/><path d="M61.4036 15.4598V8.93902C61.4036 8.8228 61.3085 8.72771 61.1923 8.72771H59.1849C59.0687 8.72771 58.9736 8.63263 58.9736 8.51641V6.93904C58.9736 6.82282 59.0687 6.72773 59.1849 6.72773H61.1923C61.3085 6.72773 61.4036 6.63265 61.4036 6.51643V3.77478C61.4036 3.65856 61.4987 3.56348 61.6149 3.56348H63.5969C63.7132 3.56348 63.8082 3.65856 63.8082 3.77478V6.51643C63.8082 6.63265 63.9033 6.72773 64.0195 6.72773H66.8616C66.9778 6.72773 67.0729 6.82282 67.0729 6.93904V8.51641C67.0729 8.63263 66.9778 8.72771 66.8616 8.72771H64.0195C63.9033 8.72771 63.8082 8.8228 63.8082 8.93902V15.2834C63.8082 17.37 65.1183 17.7017 66.4284 17.3193C66.5626 17.2802 66.6978 17.3763 66.701 17.5158L66.7401 19.071C66.7422 19.1661 66.682 19.2527 66.59 19.2791C64.1696 19.988 61.4036 19.277 61.4036 15.4609V15.4598Z" fill="#232323"/><path d="M68.2543 17.5657L75.1164 9.09779C75.2284 8.95938 75.1301 8.75336 74.9526 8.75336H68.4699C68.3536 8.75336 68.2586 8.65828 68.2586 8.54206V6.93933C68.2586 6.82311 68.3536 6.72803 68.4699 6.72803H78.1211C78.2373 6.72803 78.3324 6.82311 78.3324 6.93933V8.4755C78.3324 8.5241 78.3155 8.57164 78.2849 8.60968L71.4027 17.0005C71.2897 17.1389 71.388 17.346 71.5665 17.346H78.1729C78.2891 17.346 78.3842 17.4411 78.3842 17.5573V19.1473C78.3842 19.2636 78.2891 19.3586 78.1729 19.3586H68.4213C68.305 19.3586 68.21 19.2636 68.21 19.1473V17.6999C68.21 17.6513 68.2269 17.6048 68.2575 17.5668L68.2543 17.5657Z" fill="#232323"/></g><defs><clipPath id="clip0_dark"><rect width="78.3817" height="21.3109" fill="white"/></clipPath></defs></svg></a>
+      <!-- All items in ONE cluster, right-aligned via margin-left: auto -->
+      <div class="nav-links" style="margin-left:auto">
+        <a class="nav-link" href="#">Platform</a>
+        <a class="nav-link" href="#">API</a>
+        <a class="nav-link" href="#">News</a>
+        <a class="nav-cta" href="#">Get early access<span class="nav-cta__icon">↗</span></a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- CARDS -->
+  <div class="section">
+    <div class="section-title">Cards — all colour variants</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:24px">Cards can use any colour from the palette. Dark variants use white text; all others use dark text.</p>
+
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Black &amp; White</div>
+    <div class="row" style="margin-bottom:32px">
+      <div class="card" style="width:220px;background:#232323;color:#fff">
+        <div class="icon-container" style="background:rgba(255,255,255,0.1);color:#fff"></div>
+        <h3 style="color:#fff">Black</h3>
+        <p style="color:rgba(255,255,255,0.55)">#232323</p>
+      </div>
+      <div class="card card-light" style="width:220px">
+        <div class="icon-container"></div>
+        <h3>White</h3>
+        <p>#FFFFFF</p>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Sage family</div>
+    <div class="row" style="margin-bottom:32px">
+      <div class="card" style="width:200px;background:#003014;color:#fff">
+        <div class="icon-container" style="background:rgba(255,255,255,0.1);color:#fff"></div>
+        <h3 style="color:#fff">Sage-Dark</h3>
+        <p style="color:rgba(255,255,255,0.55)">#003014</p>
+      </div>
+      <div class="card" style="width:200px;background:#C6E5C6">
+        <div class="icon-container" style="background:rgba(0,48,20,0.08)"></div>
+        <h3>Sage-Medium</h3>
+        <p style="color:var(--text-secondary)">#C6E5C6</p>
+      </div>
+      <div class="card" style="width:200px;background:#D9EED9">
+        <div class="icon-container" style="background:rgba(0,48,20,0.06)"></div>
+        <h3>Sage-Light</h3>
+        <p style="color:var(--text-secondary)">#D9EED9</p>
+      </div>
+      <div class="card" style="width:200px;background:#EDF7ED;border:1px solid var(--border-light)">
+        <div class="icon-container" style="background:rgba(0,48,20,0.05)"></div>
+        <h3>Sage-Pale</h3>
+        <p style="color:var(--text-secondary)">#EDF7ED</p>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Blue family</div>
+    <div class="row" style="margin-bottom:32px">
+      <div class="card" style="width:200px;background:#142D36;color:#fff">
+        <div class="icon-container" style="background:rgba(255,255,255,0.1);color:#fff"></div>
+        <h3 style="color:#fff">Blue-Dark</h3>
+        <p style="color:rgba(255,255,255,0.55)">#142D36</p>
+      </div>
+      <div class="card" style="width:200px;background:#C7E3EE">
+        <div class="icon-container" style="background:rgba(20,45,54,0.08)"></div>
+        <h3>Blue-Medium</h3>
+        <p style="color:var(--text-secondary)">#C7E3EE</p>
+      </div>
+      <div class="card" style="width:200px;background:#E5F2F7">
+        <div class="icon-container" style="background:rgba(20,45,54,0.06)"></div>
+        <h3>Blue-Light</h3>
+        <p style="color:var(--text-secondary)">#E5F2F7</p>
+      </div>
+      <div class="card" style="width:200px;background:#EEF6FA;border:1px solid var(--border-light)">
+        <div class="icon-container" style="background:rgba(20,45,54,0.05)"></div>
+        <h3>Blue-Pale</h3>
+        <p style="color:var(--text-secondary)">#EEF6FA</p>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Tierra family</div>
+    <div class="row">
+      <div class="card" style="width:200px;background:#DACAB0">
+        <div class="icon-container" style="background:rgba(0,0,0,0.06)"></div>
+        <h3>Tierra-500</h3>
+        <p style="color:var(--text-secondary)">#DACAB0</p>
+      </div>
+      <div class="card" style="width:200px;background:#EEE7DB">
+        <div class="icon-container" style="background:rgba(0,0,0,0.05)"></div>
+        <h3>Tierra-200</h3>
+        <p style="color:var(--text-secondary)">#EEE7DB</p>
+      </div>
+      <div class="card" style="width:200px;background:#F7F2E9">
+        <div class="icon-container" style="background:rgba(0,0,0,0.04)"></div>
+        <h3>Tierra-100</h3>
+        <p style="color:var(--text-secondary)">#F7F2E9</p>
+      </div>
+      <div class="card" style="width:200px;background:#FBFAF7;border:1px solid var(--border-light)">
+        <div class="icon-container"></div>
+        <h3>Tierra-50</h3>
+        <p style="color:var(--text-secondary)">#FBFAF7</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE CARDS -->
+  <div class="section">
+    <div class="section-title">Article cards</div>
+    <div class="row" style="align-items:stretch">
+      <div class="article-card">
+        <div class="article-cover article-cover-sage">
+          <span class="article-cover-title">Announcing<br>Boltz-prot-1</span>
+        </div>
+        <div class="article-meta">
+          <div class="article-title">Announcing Boltz</div>
+          <div class="article-info"><span class="cat">Product</span> · Feb 10, 2026</div>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="article-cover article-cover-tierra">
+          <span class="article-cover-title">The future we are building at Boltz</span>
+        </div>
+        <div class="article-meta">
+          <div class="article-title">Announcing Boltz</div>
+          <div class="article-info"><span class="cat">Product</span> · Feb 10, 2026</div>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="article-cover article-cover-blue" style="justify-content:center;align-items:center">
+          <span style="font-size:15px;color:var(--text-secondary)">Boltz × Pfizer</span>
+        </div>
+        <div class="article-meta">
+          <div class="article-title">Announcing Boltz</div>
+          <div class="article-info"><span class="cat">Partnership</span> · Feb 10, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card gaps -->
+    <div style="margin-top:40px">
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Connected cards — 8px gap (shared visual group)</div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:2;background:#003014;color:#fff;border-radius:var(--rounded-lg);padding:var(--space-xl)">
+          <h3 style="font-size:var(--font-heading-md);font-weight:400;letter-spacing:var(--ls-heading-md);color:#fff;margin-bottom:var(--space-md)">Data Security</h3>
+          <p style="font-size:var(--font-body-md);color:rgba(255,255,255,0.65);line-height:1.4;margin-bottom:var(--space-xl)">A set of enterprise-grade REST APIs with built-in security and data privacy for integrating Boltz models into your products.</p>
+          <a class="btn btn--white" href="#"><span class="btn__label">See more details</span><span class="btn__icon">↗</span></a>
+        </div>
+        <div style="flex:1;background:#C6E5C6;border-radius:var(--rounded-lg);padding:var(--space-xl);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:var(--font-heading-sm);font-weight:400;color:var(--text-primary)">Privacy</span>
+        </div>
+        <div style="flex:1;background:#D9EED9;border-radius:var(--rounded-lg);padding:var(--space-xl);display:flex;align-items:center;justify-content:center">
+          <span style="font-size:var(--font-heading-sm);font-weight:400;color:var(--text-primary)">IP &amp; Ownership</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Standalone cards — 24px gap (independent elements)</div>
+      <div style="display:flex;gap:24px">
+        <div style="flex:1;background:#EDF7ED;border-radius:var(--rounded-lg);padding:var(--space-xl)">
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:var(--space-xl)">🅿 Pfizer</div>
+          <p style="font-size:var(--font-body-md);color:var(--text-primary);line-height:1.4;margin-bottom:var(--space-xl)">How Pfizer scientists are using Boltz's platform across large and small molecule discovery</p>
+          <a class="btn btn--filled" href="#"><span class="btn__label">Read more</span><span class="btn__icon">↗</span></a>
+        </div>
+        <div style="flex:1;background:#003014;border-radius:var(--rounded-lg);padding:var(--space-xl)">
+          <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:var(--space-xl)">dsm-firmenich ···</div>
+          <p style="font-size:var(--font-body-md);color:rgba(255,255,255,0.8);line-height:1.4;margin-bottom:var(--space-xl)">How DSM Firmenish uses Boltz to discover new olfactory molecules for the world's most luxurious fragrances</p>
+          <a class="btn btn--white" href="#"><span class="btn__label">Read more</span><span class="btn__icon">↗</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured article -->
+    <div class="featured-card" style="margin-top:16px">
+      <div class="tag tag--dark" style="margin-bottom:var(--space-md)"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h10"/></svg></span><span class="tag__label">Latest</span></div>
+      <h2>Introducing the Boltz API: New Primitives for molecular biology</h2>
+      <p>A powerful end-to-end pipeline for de novo protein design powered by Boltz-2 and our state-of-the-art protein interaction and ADME models.</p>
+      <a class="btn btn--white" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+    </div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="section">
+    <div class="section-title">Tab bar — Figma node 57-4617 (same structure as nav)</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:16px">36px tall, connected pills, gap: 0, margin-left: −1px to merge borders. Active = black fill. Inactive = outlined.</p>
+
+    <!-- Clean tab bar -->
+    <div style="background:#fff;border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:var(--space-lg);margin-bottom:12px">
+      <div class="label" style="margin-bottom:16px">Tab bar</div>
+      <div class="tab-bar">
+        <button class="tab tab--active">Tab text</button>
+        <button class="tab">Tab text</button>
+        <button class="tab">Tab text</button>
+        <button class="tab">Tab text</button>
+        <button class="tab">Tab text</button>
+      </div>
+    </div>
+
+    <!-- Filter bar (news page — tab-bar for selection + view toggle) -->
+    <div style="background:#fff;border:1px solid var(--border-light);border-radius:var(--rounded-lg);padding:var(--space-lg)">
+      <div class="label" style="margin-bottom:16px">Filter tab bar (news page — tab bar + view toggle)</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="tab-bar">
+          <button class="tab tab--active">Latest</button>
+          <button class="tab">Research</button>
+          <button class="tab">Platform</button>
+          <button class="tab">Partnerships</button>
+          <button class="tab">Company</button>
+        </div>
+        <div style="display:flex;gap:4px">
+          <button style="width:36px;height:36px;border-radius:44px;background:var(--neutral-black);border:1px solid var(--neutral-black);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px">▦</button>
+          <button style="width:36px;height:36px;border-radius:44px;background:transparent;border:1px solid var(--neutral-black);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px">≡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORDION -->
+  <div class="section">
+    <div class="section-title">Model accordion</div>
+    <div style="background:#fff;border-radius:var(--rounded-lg);padding:0 var(--space-lg)">
+      <div class="accordion">
+
+        <!-- Expanded -->
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <div class="accordion-header__left">
+              <span class="accordion-name">BotzMol 1.1</span>
+              <span class="badge badge--sage">Beta</span>
+            </div>
+            <span class="accordion-toggle">−</span>
+          </button>
+          <div class="accordion-body">
+            <p>A one-designed small molecule screening and hit discovery platform — the fastest de novo process available for modern R&amp;D.</p>
+            <div class="accordion-actions">
+              <a class="btn btn--outlined" href="#"><span class="btn__label">Get early access</span><span class="btn__icon">↗</span></a>
+              <span class="btn--text">Read technical report</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collapsed -->
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <div class="accordion-header__left">
+              <span class="accordion-name">BotzProt 1.1</span>
+              <span class="badge badge--tierra">Beta</span>
+            </div>
+            <span class="accordion-toggle">+</span>
+          </button>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <div class="accordion-header__left">
+              <span class="accordion-name">Boltz-2</span>
+              <span class="badge badge--blue">MIT</span>
+            </div>
+            <span class="accordion-toggle">+</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CASE STUDY CARDS -->
+  <div class="section">
+    <div class="section-title">Case study cards</div>
+    <div class="row">
+      <div class="case-card case-card-light">
+        <div class="case-card-logo">🅿 Pfizer</div>
+        <p class="case-card-body">How Pfizer scientists are using Boltz's platform across large and small molecule discovery.</p>
+        <a class="btn btn--outlined" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+      </div>
+      <div class="case-card case-card-dark">
+        <div class="case-card-logo">dsm-firmenich ···</div>
+        <p class="case-card-body">How DSM Firmenich uses Boltz to discover new olfactory molecules for the world's most luxurious fragrances.</p>
+        <a class="btn btn--white" href="#"><span class="btn__label">Learn more</span><span class="btn__icon">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIDE CARDS -->
+  <div class="section">
+    <div class="section-title">Card — wide/big (1 per row only)</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:16px">Full-width, dark background, 40px padding, border-radius 16px. Two variants: with image (image overflows bottom) or without image (with button).</p>
+
+    <!-- Variant 1: with image -->
+    <div class="label" style="margin-bottom:12px">With image (no button)</div>
+    <div class="card-wide" style="margin-bottom:16px">
+      <div class="card-wide__content">
+        <div class="tag tag--dark"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 8h.01M7 12h.01M7 16h.01M11 8h6M11 12h6M11 16h6"/></svg></span><span class="tag__label">Platform</span></div>
+        <h2 class="card-wide__heading">A flexible platform for end-to-end molecular design</h2>
+        <p class="card-wide__body">Powered by frontier models, pipelines and compute — shaped for every organization.</p>
+      </div>
+      <img class="card-wide__image" src="data:image/svg+xml,%3Csvg width='520' height='340' viewBox='0 0 520 340' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='520' height='300' rx='12' fill='%23333'/%3E%3Crect x='20' y='20' width='480' height='260' rx='8' fill='%23444'/%3E%3Crect x='40' y='40' width='120' height='200' rx='4' fill='%23555'/%3E%3Crect x='180' y='40' width='300' height='200' rx='4' fill='%23555'/%3E%3Crect x='200' y='60' width='260' height='160' rx='4' fill='%23222'/%3E%3Crect x='0' y='290' width='520' height='50' rx='0' fill='%23555'/%3E%3Cellipse cx='260' cy='340' rx='60' ry='8' fill='%23666'/%3E%3C/svg%3E" alt="Platform UI screenshot">
+    </div>
+
+    <!-- Variant 2: no image, with button -->
+    <div class="label" style="margin-bottom:12px">Without image (with button)</div>
+    <div class="card-wide">
+      <div class="card-wide__content">
+        <div class="tag tag--dark"><span class="tag__icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 8h.01M7 12h.01M7 16h.01M11 8h6M11 12h6M11 16h6"/></svg></span><span class="tag__label">Platform</span></div>
+        <h2 class="card-wide__heading">A flexible platform for end-to-end molecular design</h2>
+        <p class="card-wide__body">Powered by frontier models, pipelines and compute — shaped for every organization.</p>
+        <a class="btn btn--white" href="#"><span class="btn__label">Get early access</span><span class="btn__icon">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="section">
+    <div class="section-title">Stats metrics row</div>
+    <div style="background:var(--surface-secondary);border-radius:var(--rounded-lg);padding:var(--space-xl)">
+      <div class="stats-row">
+        <div class="stat-metric"><span class="stat-metric__value">1M+</span><span class="stat-metric__label">scientists worldwide</span></div>
+        <div class="stat-metric"><span class="stat-metric__value">10,000+</span><span class="stat-metric__label">total learners</span></div>
+        <div class="stat-metric"><span class="stat-metric__value">Top 20</span><span class="stat-metric__label">pharma companies</span></div>
+        <div class="stat-metric"><span class="stat-metric__value">200+</span><span class="stat-metric__label">active integrations</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE BLOCK -->
+  <div class="section">
+    <div class="section-title">Code block — IBM Plex Mono</div>
+    <div class="code-block">
+<span class="code-kw">import</span> streamlit <span class="code-kw">as</span> st<br>
+<span class="code-kw">from</span> boltz <span class="code-kw">import</span> BoltzClient<br>
+<br>
+client = BoltzClient(api_key=<span class="code-str">"your-key"</span>)<br>
+result = client.predict(sequence=<span class="code-str">"MKTAYIAKQRQISFVKSHFSRQ"</span>)<br>
+<br>
+<span class="code-cm"># Returns folded structure + confidence scores</span><br>
+print(result.pdb_string)
+    </div>
+  </div>
+
+  <!-- FORM INPUT -->
+  <div class="section">
+    <div class="section-title">Form input</div>
+    <div style="background:var(--surface-primary);border-radius:var(--rounded-lg);padding:var(--space-lg);max-width:420px">
+      <input class="input" type="email" placeholder="your@email.com">
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="section">
+    <div class="section-title">Article breadcrumb</div>
+    <div style="background:var(--surface-primary);border-radius:var(--rounded-lg);padding:var(--space-lg)">
+      <div class="breadcrumb">
+        <a class="breadcrumb-back" href="#">← Back</a>
+        <span class="breadcrumb-pill">Product</span>
+        <span class="breadcrumb-pill" style="color:var(--text-muted)">October 28th, 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAND COLOURS -->
+  <div class="section">
+    <div class="section-title">Page band backgrounds</div>
+    <p style="font-size:var(--font-body-sm);color:var(--text-secondary);margin-bottom:24px">White is the default. Sections use Sage, Blue, or Tierra colours to create atmosphere. Black is reserved for platform-related contexts only.</p>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="band-demo" style="background:#FFFFFF;border:1px solid var(--border-light)">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">#FFFFFF — White</strong> · Default page canvas, base background</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px">Sage — main section colour</div>
+      <div class="band-demo" style="background:#EDF7ED">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Sage-Pale #EDF7ED</strong> · Primary section background — Community, Security, features</span>
+      </div>
+      <div class="band-demo" style="background:#D9EED9">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Sage-Light #D9EED9</strong> · More saturated sage sections</span>
+      </div>
+      <div class="band-demo" style="background:#C6E5C6">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Sage-Medium #C6E5C6</strong> · Strong sage accent sections</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px">Blue — usable throughout</div>
+      <div class="band-demo" style="background:#EEF6FA">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Blue-Pale #EEF6FA</strong> · Blue-tinted sections, pricing tables, API hero</span>
+      </div>
+      <div class="band-demo" style="background:#E5F2F7">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Blue-Light #E5F2F7</strong> · More saturated blue sections</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px">Tierra — warm sections</div>
+      <div class="band-demo" style="background:#FBFAF7;border:1px solid var(--border-light)">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Tierra-50 #FBFAF7</strong> · Subtle warm sections</span>
+      </div>
+      <div class="band-demo" style="background:#F7F2E9">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Tierra-100 #F7F2E9</strong> · Warm cream sections, pricing, community</span>
+      </div>
+      <div class="band-demo" style="background:#EEE7DB">
+        <span style="font-size:var(--font-body-sm);color:var(--text-secondary)"><strong style="color:var(--text-primary)">Tierra-200 #EEE7DB</strong> · Deeper warm sections</span>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 8px">Dark — platform only</div>
+      <div class="band-demo" style="background:#232323">
+        <span style="font-size:var(--font-body-sm);color:rgba(255,255,255,0.6)"><strong style="color:#fff">#232323 — Black</strong> · Platform hero and platform-related dark sections only</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER CTA ROWS -->
+  <div class="section">
+    <div class="section-title">Footer CTA rows</div>
+    <div style="background:var(--surface-primary);border-radius:var(--rounded-lg);padding:0 var(--space-lg)">
+      <div class="footer-cta">
+        <div>
+          <div class="footer-cta-title">Partner with us</div>
+          <p class="footer-cta-body">We partner with pioneering teams to tackle the most challenging problems in drug discovery.</p>
+        </div>
+        <a class="btn btn--outlined" href="#"><span class="btn__label">Get in touch</span><span class="btn__icon">↗</span></a>
+      </div>
+      <div class="footer-cta">
+        <div>
+          <div class="footer-cta-title">Join our team</div>
+          <p class="footer-cta-body">We're building a world-class team to push the boundaries of AI-driven drug discovery.</p>
+        </div>
+        <a class="btn btn--outlined" href="#"><span class="btn__label">View open roles</span><span class="btn__icon">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

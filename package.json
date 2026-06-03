@@ -1,0 +1,20 @@
+{
+  "name": "boltz-design-system",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Design system for Boltz Bio — components, tokens, Storybook. By G-W Studios.",
+  "scripts": {
+    "dev:storybook": "pnpm --filter @boltz/storybook dev",
+    "build:storybook": "pnpm --filter @boltz/storybook build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "~5.9.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

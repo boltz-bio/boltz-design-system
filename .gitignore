@@ -1,0 +1,12 @@
+node_modules
+.turbo
+dist
+storybook-static
+.DS_Store
+.env
+.env.local
+*.log
+.vscode/*
+!.vscode/settings.json
+.idea
+.cache

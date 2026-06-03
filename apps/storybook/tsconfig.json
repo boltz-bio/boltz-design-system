@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [".storybook/**/*", "stories/**/*", "src/**/*"],
+  "compilerOptions": {
+    "types": ["node"]
+  }
+}
