@@ -28,6 +28,12 @@ export type { ListItemProps, ListItemAppProps, ListItemTabProps } from './compon
 export { CodeBlock } from './components/CodeBlock';
 export type { CodeBlockProps, CodeBlockColor, CodeTab } from './components/CodeBlock';
 
+export { Footer } from './components/Footer';
+export type { FooterProps, FooterLink, FooterColumn } from './components/Footer';
+
+export { LinkSection, LinkSectionRow } from './components/LinkSection';
+export type { LinkSectionProps, LinkSectionRowProps, LinkSectionItem } from './components/LinkSection';
+
 export { NewsItem } from './components/NewsItem';
 export type { NewsItemProps } from './components/NewsItem';
 
