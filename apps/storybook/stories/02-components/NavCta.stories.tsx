@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { NavCta } from '@boltz/ui';
 
 const meta = {
-  title: '02-Components/NavCta',
+  title: '02-Components/Button/NavCta',
   component: NavCta,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

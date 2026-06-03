@@ -17,6 +17,7 @@ export const Single: Story = {
 
 export const OnLight: Story = {
   name: 'Row — on light background',
+  args: { value: '1M+', label: 'scientists worldwide' },
   render: () => (
     <div className="bg-surface-secondary rounded-lg p-xl">
       <StatMetricRow>
@@ -31,6 +32,7 @@ export const OnLight: Story = {
 
 export const OnDark: Story = {
   name: 'Row — on dark background',
+  args: { value: '1M+', label: 'scientists worldwide' },
   render: () => (
     <div className="bg-action-primary rounded-lg p-xl">
       <StatMetricRow>
@@ -44,6 +46,7 @@ export const OnDark: Story = {
 };
 
 export const BothVariants: Story = {
+  args: { value: '1M+', label: 'scientists worldwide' },
   render: () => (
     <div className="flex flex-col gap-md">
       <div className="bg-surface-secondary rounded-lg p-xl">

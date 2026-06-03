@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TextButton } from '@boltz/ui';
 
 const meta = {
-  title: '02-Components/TextButton',
+  title: '02-Components/Button/TextButton',
   component: TextButton,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

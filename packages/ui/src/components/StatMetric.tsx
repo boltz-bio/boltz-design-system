@@ -21,17 +21,17 @@ export const StatMetric = React.forwardRef<HTMLDivElement, StatMetricProps>(
   ({ className, value, label, variant = 'light', ...rest }, ref) => (
     <div
       ref={ref}
-      className={cn('inline-flex items-center gap-[8px]', className)}
+      className={cn('inline-flex items-center gap-8', className)}
       {...rest}
     >
       <span className={cn(
-        'font-sans font-regular text-heading-sm whitespace-nowrap',
+        'text-heading-sm whitespace-nowrap',
         variant === 'dark' ? 'text-text-on-dark' : 'text-text-primary',
       )}>
         {value}
       </span>
       <span className={cn(
-        'font-sans font-regular text-body-sm whitespace-nowrap',
+        'text-body-sm whitespace-nowrap',
         variant === 'dark' ? 'text-white/60' : 'text-text-secondary',
       )}>
         {label}

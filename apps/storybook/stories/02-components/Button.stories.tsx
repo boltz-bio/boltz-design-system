@@ -5,7 +5,13 @@ const meta = {
   title: '02-Components/Button',
   component: Button,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=57-4644',
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['black', 'white'] },
     suffix: { control: 'select', options: ['arrow-icon', 'arrow-text', 'none'] },

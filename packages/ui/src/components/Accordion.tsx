@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
+import { Badge, type BadgeProps } from './Badge';
 import { cn } from '../utils';
+import { focusRing } from '../styles';
 
 // Spec: DESIGN.md `model-accordion-item`
 // Figma: node 57:4644 — Accordion with expanded/collapsed items + optional badge
@@ -13,24 +15,14 @@ import { cn } from '../utils';
 // - No drop shadows
 
 // ── Badge ────────────────────────────────────────────────────────────────────
+// AccordionBadge is a thin alias over the shared <Badge>, defaulting to the
+// `tertiary` (tierra) tone used in the model accordion. Pass `variant` to switch
+// to primary (sage) / secondary (blue). For standalone use, import <Badge> directly.
 
-export interface AccordionBadgeProps {
-  children: React.ReactNode;
-  className?: string;
-}
+export type AccordionBadgeProps = BadgeProps;
 
-export const AccordionBadge = ({ children, className }: AccordionBadgeProps) => (
-  <span
-    className={cn(
-      'inline-flex items-center justify-center h-[28px] px-[12px]',
-      'bg-tierra-200 text-text-primary',
-      'font-sans font-regular text-body-sm',
-      'rounded-full shrink-0',
-      className,
-    )}
-  >
-    {children}
-  </span>
+export const AccordionBadge = ({ variant = 'tertiary', ...rest }: AccordionBadgeProps) => (
+  <Badge variant={variant} {...rest} />
 );
 
 // ── Item ─────────────────────────────────────────────────────────────────────
@@ -62,24 +54,28 @@ export const AccordionItem = ({
       <div>
         <RadixAccordion.Trigger
           className={cn(
-            'group w-full flex items-center gap-[10px] py-md',
+            'group w-full flex items-center gap-10 py-md',
             'bg-transparent border-none cursor-pointer text-left',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
+            focusRing,
           )}
         >
-          <span className="font-sans font-regular text-heading-md text-text-primary leading-[1.2] tracking-[-0.02em] flex-1">
+          {/* Title + badge cluster left (10px gap from the row); toggle is pushed
+              right by the ml-auto on the +/− control below.
+              Line-height + tracking come from the text-heading-md token (which is
+              responsive) — do not re-specify them here. */}
+          <span className="text-heading-md text-text-primary">
             {title}
           </span>
           {badge}
           {/* Animated +/− toggle — vertical bar scales to 0 on open */}
           <span
             aria-hidden="true"
-            className="relative inline-flex items-center justify-center w-[20px] h-[20px] shrink-0 ml-auto text-text-secondary"
+            className="relative inline-flex items-center justify-center w-20 h-20 shrink-0 ml-auto text-text-secondary"
           >
-            {/* Horizontal bar — always visible */}
-            <span className="absolute w-[16px] h-[1.5px] bg-current rounded-full" />
+            {/* Horizontal bar — always visible. 1.5px = hairline stroke (not a spacing-scale value). */}
+            <span className="absolute w-16 h-[1.5px] bg-current rounded-full" />
             {/* Vertical bar — collapses on open */}
-            <span className="absolute w-[1.5px] h-[16px] bg-current rounded-full transition-transform duration-spring ease-spring origin-center group-data-[state=open]:scale-y-0" />
+            <span className="absolute w-[1.5px] h-16 bg-current rounded-full transition-transform duration-spring ease-spring origin-center group-data-[state=open]:scale-y-0" />
           </span>
         </RadixAccordion.Trigger>
       </div>
@@ -100,7 +96,7 @@ export const AccordionItem = ({
           // Show: delayed 120ms so height panel opens first, then content fades up
           'group-data-[state=open]:opacity-100 group-data-[state=open]:translate-y-0 group-data-[state=open]:duration-[300ms] group-data-[state=open]:delay-[120ms]',
           // Hide: instant fade-down before panel collapses
-          'group-data-[state=closed]:opacity-0 group-data-[state=closed]:translate-y-[6px] group-data-[state=closed]:duration-[100ms]',
+          'group-data-[state=closed]:opacity-0 group-data-[state=closed]:translate-y-6 group-data-[state=closed]:duration-fast',
         )}
       >
         {children}

@@ -4,6 +4,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   theme: {
+    // Boltz breakpoints (from tokens.ts `breakpoint`). Enables responsive
+    // utilities, e.g. `tablet:flex`, `laptop:grid-cols-12`, `mobile:hidden`.
+    screens: {
+      mobile: '768px',
+      tablet: '1024px',
+      laptop: '1328px',
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -79,6 +86,7 @@ module.exports = {
       section: '160px',
       // pixel values referenced in DESIGN.md component specs:
       '4': '4px',
+      '6': '6px',
       '8': '8px',
       '9': '9px',
       '10': '10px',
@@ -94,6 +102,8 @@ module.exports = {
       '36': '36px',
       '40': '40px',
       '44': '44px',
+      '52': '52px',
+      '56': '56px',
       '60': '60px',
     },
     borderRadius: {
@@ -108,14 +118,17 @@ module.exports = {
       sans: ['"Stabil Grotesk"', '"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
       mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
     },
+    // Font sizes are driven by CSS variables (see tokens.css) so every text-*
+    // utility steps down automatically on the mobile breakpoint. Desktop values
+    // are identical to before.
     fontSize: {
-      'heading-lg': ['62px', { lineHeight: '1.0', letterSpacing: '-0.04em' }],
-      'heading-md': ['32px', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
-      'heading-sm': ['24px', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
-      'body-lg': ['20px', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
-      'body-md': ['18px', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
-      'body-sm': ['15px', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
-      'mono-md': ['13px', { lineHeight: '1.6' }],
+      'heading-lg': ['var(--font-heading-lg)', { lineHeight: 'var(--lh-heading-lg)', letterSpacing: 'var(--ls-heading-lg)' }],
+      'heading-md': ['var(--font-heading-md)', { lineHeight: 'var(--lh-heading-md)', letterSpacing: 'var(--ls-heading-md)' }],
+      'heading-sm': ['var(--font-heading-sm)', { lineHeight: 'var(--lh-heading-sm)', letterSpacing: 'var(--ls-heading-sm)' }],
+      'body-lg': ['var(--font-body-lg)', { lineHeight: 'var(--lh-body-lg)', letterSpacing: 'var(--ls-body-lg)' }],
+      'body-md': ['var(--font-body-md)', { lineHeight: 'var(--lh-body-md)', letterSpacing: 'var(--ls-body-md)' }],
+      'body-sm': ['var(--font-body-sm)', { lineHeight: 'var(--lh-body-sm)', letterSpacing: 'var(--ls-body-sm)' }],
+      'mono-md': ['var(--font-mono-md)', { lineHeight: 'var(--lh-mono-md)' }],
     },
     fontWeight: {
       regular: '400',

@@ -119,16 +119,16 @@ export const CardSmall = React.forwardRef<HTMLDivElement, CardSmallProps>(
         {...rest}
       >
         {icon && (
-          <div className={cn('w-[56px] h-[56px] flex items-center justify-center', dark ? 'text-text-on-dark' : 'text-text-primary')}>
+          <div className={cn('w-56 h-56 flex items-center justify-center', dark ? 'text-text-on-dark' : 'text-text-primary')}>
             {icon}
           </div>
         )}
         <div className="flex flex-col gap-sm">
-          <h3 className={cn('font-sans font-regular text-heading-sm', dark ? 'text-text-on-dark' : 'text-text-primary')}>
+          <h3 className={cn('text-heading-sm', dark ? 'text-text-on-dark' : 'text-text-primary')}>
             {heading}
           </h3>
           {body && (
-            <p className={cn('font-sans font-regular text-body-md', dark ? 'text-white/55' : 'text-text-secondary')}>
+            <p className={cn('text-body-md', dark ? 'text-white/55' : 'text-text-secondary')}>
               {body}
             </p>
           )}
@@ -160,11 +160,11 @@ export const CardMedium = React.forwardRef<HTMLDivElement, CardMediumProps>(
         {...rest}
       >
         <div className="flex flex-col gap-md">
-          <h2 className={cn('font-sans font-regular text-heading-md', dark ? 'text-text-on-dark' : 'text-text-primary')}>
+          <h2 className={cn('text-heading-md', dark ? 'text-text-on-dark' : 'text-text-primary')}>
             {heading}
           </h2>
           {body && (
-            <p className={cn('font-sans font-regular text-body-md', dark ? 'text-white/55' : 'text-text-secondary')}>
+            <p className={cn('text-body-md', dark ? 'text-white/55' : 'text-text-secondary')}>
               {body}
             </p>
           )}
@@ -212,9 +212,9 @@ export const CardWide = React.forwardRef<HTMLDivElement, CardWideProps>(
               {eyebrowLabel}
             </EyebrowLabel>
           )}
-          <h2 className="font-sans font-regular text-heading-md text-text-on-dark">{heading}</h2>
+          <h2 className="text-heading-md text-text-on-dark">{heading}</h2>
           {body && (
-            <p className="font-sans font-regular text-body-md text-white/55">{body}</p>
+            <p className="text-body-md text-white/55">{body}</p>
           )}
         </div>
         {cta && <Button variant="white" onClick={onCtaClick}>{cta}</Button>}
@@ -234,8 +234,8 @@ CardWide.displayName = 'CardWide';
 export interface CardCaseStudyProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Client/partner logotype — pass an <img> or inline SVG file.
-   * Rendered at h-[32px], white-tinted on the dark background.
-   * Example: <img src={pfizerLogo} alt="Pfizer" className="h-[32px] w-auto brightness-0 invert" />
+   * Rendered at h-32, white-tinted on the dark background.
+   * Example: <img src={pfizerLogo} alt="Pfizer" className="h-32 w-auto brightness-0 invert" />
    */
   logo?: React.ReactNode;
   heading: React.ReactNode;
@@ -249,8 +249,8 @@ export const CardCaseStudy = React.forwardRef<HTMLDivElement, CardCaseStudyProps
     <div ref={ref} className={cn('flex gap-sm items-stretch w-full', className)} {...rest}>
       <div className="flex-1 bg-sage-dark rounded-lg p-xl flex flex-col justify-between h-[350px] overflow-hidden">
         <div className="flex flex-col gap-lg">
-          {logo && <div className="h-[32px] flex items-center">{logo}</div>}
-          <h3 className="font-sans font-regular text-heading-sm text-text-on-dark">{heading}</h3>
+          {logo && <div className="h-32 flex items-center">{logo}</div>}
+          <h3 className="text-heading-sm text-text-on-dark">{heading}</h3>
         </div>
         {cta && <Button variant="white" onClick={onCtaClick}>{cta}</Button>}
       </div>

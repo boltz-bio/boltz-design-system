@@ -1,26 +1,18 @@
 import { clsx, type ClassValue } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 
-// tailwind-merge doesn't know about our custom text-* tokens.
-// Without this, it treats `text-heading-md` and `text-text-primary` as the
-// same group and drops the font-size when a color class follows.
-//
-// We register:
-//   - font-size group:  text-heading-{lg,md,sm}, text-body-{lg,md,sm}, text-mono-md
-//   - text-color group: text-text-*, text-white/*, text-sage-*, text-blue-*, etc.
-
+// Boltz uses custom token names for font sizes (`text-body-sm`, `text-heading-lg`…)
+// and a single custom weight (`font-regular`). Default tailwind-merge can't tell
+// `text-body-sm` (a size) from `text-text-primary` (a color), nor `font-regular`
+// (a weight) from `font-sans` (a family), so it would silently drop the size /
+// family when both appear in one className. Registering the tokens fixes that.
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       'font-size': [
-        'text-heading-lg',
-        'text-heading-md',
-        'text-heading-sm',
-        'text-body-lg',
-        'text-body-md',
-        'text-body-sm',
-        'text-mono-md',
+        { text: ['heading-lg', 'heading-md', 'heading-sm', 'body-lg', 'body-md', 'body-sm', 'mono-md'] },
       ],
+      'font-weight': ['font-regular'],
     },
   },
 });
