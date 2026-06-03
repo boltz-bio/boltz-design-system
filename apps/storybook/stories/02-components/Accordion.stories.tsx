@@ -6,7 +6,16 @@ const meta = {
   title: '02-Components/Accordion',
   component: Accordion,
   tags: ['autodocs'],
-  parameters: { layout: 'padded', backgrounds: { default: 'white' } },
+  parameters: {
+    layout: 'padded',
+    backgrounds: { default: 'white' },
+    docs: {
+      description: {
+        component:
+          'A collapsible disclosure list for grouping related content such as model overviews or FAQ entries. Use single mode to keep one panel open at a time, or multiple mode to allow several open at once.',
+      },
+    },
+  },
 } satisfies Meta<typeof Accordion>;
 
 export default meta;

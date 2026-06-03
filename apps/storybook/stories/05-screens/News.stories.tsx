@@ -11,7 +11,16 @@ import { articles, navItems } from '../_data/boltz';
 
 const meta = {
   title: '05-Screens/News',
-  parameters: { layout: 'fullscreen', backgrounds: { default: 'surface-primary' } },
+  parameters: {
+    layout: 'fullscreen',
+    backgrounds: { default: 'surface-primary' },
+    docs: {
+      description: {
+        component:
+          'A full news index page composing the navbar, filter tabs, view toggle, and article grid or list from existing components and fixture data. Use it as a reference for the news browsing layout and category filtering.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;

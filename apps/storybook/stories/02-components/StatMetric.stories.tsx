@@ -6,7 +6,15 @@ const meta = {
   title: '02-Components/StatMetric',
   component: StatMetric,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'A single statistic pairing a large value with a descriptive label, used to highlight adoption or reach figures. Group several with StatMetricRow, and use the dark variant on dark surfaces.',
+      },
+    },
+  },
 } satisfies Meta<typeof StatMetric>;
 
 export default meta;

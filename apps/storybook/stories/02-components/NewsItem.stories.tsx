@@ -10,7 +10,15 @@ const meta = {
   title: '02-Components/NewsItem',
   component: NewsItem,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'An article preview showing a thumbnail, category, date, and title for use on the news index. Choose the portrait variant for grids, landscape for stacked rows, or list for a compact feed that reveals the thumbnail on hover.',
+      },
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['portrait', 'landscape', 'list'] },
   },

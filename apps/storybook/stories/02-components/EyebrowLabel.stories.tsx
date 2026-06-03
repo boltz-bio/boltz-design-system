@@ -25,7 +25,15 @@ const meta = {
   title: '02-Components/EyebrowLabel',
   component: EyebrowLabel,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A small icon-and-text label that sits above a section heading to name the section, such as "Our models" or "API". Available in light and dark variants for use on either surface.',
+      },
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['light', 'dark'] },
     icon: { control: false },

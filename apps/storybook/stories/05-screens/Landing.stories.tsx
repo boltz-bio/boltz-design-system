@@ -12,7 +12,16 @@ import { models, stats, navItems } from '../_data/boltz';
 
 const meta = {
   title: '05-Screens/Landing',
-  parameters: { layout: 'fullscreen', backgrounds: { default: 'surface-primary' } },
+  parameters: {
+    layout: 'fullscreen',
+    backgrounds: { default: 'surface-primary' },
+    docs: {
+      description: {
+        component:
+          'A full landing page assembled entirely from existing components and fixture data, with no new components introduced. Use it as a reference for how the navbar, hero, cards, accordion, and stats compose into a complete screen.',
+      },
+    },
+  },
 } satisfies Meta;
 
 export default meta;

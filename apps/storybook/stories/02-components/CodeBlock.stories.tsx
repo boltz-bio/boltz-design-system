@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/CodeBlock',
   component: CodeBlock,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'A syntax-styled code sample with optional tabs for showing the same operation across languages such as Python, REST, and the SDK. Use standalone in docs or contained inside a coloured section band.',
+      },
+    },
+  },
   argTypes: {
     color:     { control: 'select', options: ['sage', 'blue', 'tierra'] },
     contained: { control: 'boolean' },

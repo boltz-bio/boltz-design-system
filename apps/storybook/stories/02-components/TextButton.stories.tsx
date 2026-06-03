@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/Button/TextButton',
   component: TextButton,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A low-emphasis text-only button for secondary actions such as "Read the paper", with an optional trailing arrow. Use it next to a primary Button or inline within content.',
+      },
+    },
+  },
   argTypes: {
     variant: { control: 'select', options: ['light', 'dark'] },
     arrow: { control: 'boolean' },

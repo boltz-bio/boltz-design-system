@@ -12,6 +12,12 @@ const meta = {
       type: 'figma',
       url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=58-232',
     },
+    docs: {
+      description: {
+        component:
+          'A small inline label for tagging items with short status or metadata, such as a model release stage or license. Use alongside a title rather than on its own.',
+      },
+    },
   },
   argTypes: {
     variant: { control: 'select', options: ['primary', 'secondary', 'tertiary'] },
