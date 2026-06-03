@@ -25,7 +25,7 @@ export const Default: Story = {
           multi-modal foundation models trained on 200M+ compound-protein interaction pairs.
         </p>
         <AccordionActions>
-          <Button intent="secondary" suffix="arrow-icon">Get early access</Button>
+          <Button variant="black" suffix="arrow-icon">Get early access</Button>
           <TextButton>Read technical report</TextButton>
         </AccordionActions>
       </AccordionItem>
@@ -66,7 +66,7 @@ export const MultipleOpen: Story = {
           Request early access through the lab or API plan. Enterprise contracts available.
         </p>
         <AccordionActions>
-          <Button intent="secondary" suffix="arrow-icon">Get early access</Button>
+          <Button variant="black" suffix="arrow-icon">Get early access</Button>
           <TextButton>Read the docs</TextButton>
         </AccordionActions>
       </AccordionItem>
