@@ -60,6 +60,7 @@ export const ContextExamples: Story = {
       <EyebrowLabel icon={null}>No icon</EyebrowLabel>
     </div>
   ),
+  parameters: { layout: 'fullscreen' },
 };
 
 // ── Icon browser ──────────────────────────────────────────────────────────────

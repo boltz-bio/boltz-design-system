@@ -42,6 +42,7 @@ export const BothVariants: Story = {
 };
 
 export const InNavBar: Story = {
+  args: { children: '' },
   render: () => (
     <div className="flex items-center justify-between h-[60px] px-[40px] bg-white border-b border-border-light w-full">
       <span className="font-sans font-regular text-body-sm text-text-primary">Boltz</span>
