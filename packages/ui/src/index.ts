@@ -47,4 +47,22 @@ export type { SplitSectionProps } from './components/SplitSection';
 export { Hero } from './components/Hero';
 export type { HeroProps } from './components/Hero';
 
+export { FeatureGrid } from './components/FeatureGrid';
+export type { FeatureGridProps, FeatureGridItem } from './components/FeatureGrid';
+
+export { CTABand } from './components/CTABand';
+export type { CTABandProps } from './components/CTABand';
+
+export { Footer } from './components/Footer';
+export type { FooterProps, FooterColumn, FooterLink } from './components/Footer';
+
+export { StatBand } from './components/StatBand';
+export type { StatBandProps } from './components/StatBand';
+
+export { PageHeader } from './components/PageHeader';
+export type { PageHeaderProps } from './components/PageHeader';
+
+export { NewsGrid } from './components/NewsGrid';
+export type { NewsGridProps, NewsGridArticle } from './components/NewsGrid';
+
 export { cn } from './utils';

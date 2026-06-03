@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, Button, Hero,
-  CardMedium, CardWide, StatMetric, StatMetricRow,
-  Accordion, AccordionItem, AccordionActions, Badge, TextButton,
+  NavBar, NavLink, EyebrowLabel, Button, TextButton,
+  Hero, FeatureGrid, StatBand, CTABand, Footer,
+  Accordion, AccordionItem, AccordionActions, Badge,
 } from '@boltz/ui';
 import { Leaf, Code, Community } from 'iconoir-react';
 import { models, stats, navItems } from '../_data/boltz';
 
-// Example page — composition only, no new components. Proves tokens flow and the
-// component set assembles into a real Boltz landing page. Data comes from fixtures.
+// Example page — assembled from section components (Hero, FeatureGrid, StatBand,
+// CTABand, Footer) + a Models accordion block. Data comes from fixtures.
 
 const meta = {
   title: '05-Screens/Landing',
@@ -18,7 +18,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A full landing page assembled entirely from existing components and fixture data, with no new components introduced. Use it as a reference for how the navbar, hero, cards, accordion, and stats compose into a complete screen.',
+          'A full landing page assembled from section components and fixture data. Use it as a reference for how Hero, FeatureGrid, the models accordion, StatBand, CTABand, and Footer compose into a complete screen.',
       },
     },
   },
@@ -35,6 +35,12 @@ const ProteinPlaceholder = () => (
   </div>
 );
 
+// Real footer links per Figma 58:379 — plain lists, no column titles.
+const footerColumns = [
+  { links: [{ label: 'Github', href: '#' }, { label: 'LinkedIn', href: '#' }, { label: 'Slack', href: '#' }] },
+  { links: [{ label: 'Career', href: '#' }, { label: 'News', href: '#' }, { label: 'Pricing', href: '#' }, { label: 'Legal', href: '#' }] },
+];
+
 export const Landing: Story = {
   render: () => (
     <div className="bg-surface-primary">
@@ -42,7 +48,6 @@ export const Landing: Story = {
         {navItems.map((n) => <NavLink key={n} href="#">{n}</NavLink>)}
       </NavBar>
 
-      {/* Hero — now the Hero section component */}
       <Hero
         eyebrow="Build on Boltz"
         eyebrowIcon={<Leaf {...sz} />}
@@ -55,19 +60,17 @@ export const Landing: Story = {
         media={<ProteinPlaceholder />}
       />
 
-      {/* Capabilities — CardMedium grid */}
-      <section className="py-2xl">
-        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-          <EyebrowLabel icon={<Code {...sz} />}>Capabilities</EyebrowLabel>
-          <div className="grid grid-cols-1 gap-lg tablet:grid-cols-3">
-            <CardMedium color="sage-pale" heading="Structure prediction" body="Atomic-resolution structures for proteins, RNA, and complexes." cta="Explore models" />
-            <CardMedium color="blue-pale" heading="Production API" body="REST + Python SDK with predictable latency and throughput." cta="Read the docs" />
-            <CardMedium color="tierra-100" heading="Open ecosystem" body="Weights, benchmarks, and tooling shared with the community." cta="View on GitHub" />
-          </div>
-        </div>
-      </section>
+      <FeatureGrid
+        eyebrow="Capabilities"
+        eyebrowIcon={<Code {...sz} />}
+        items={[
+          { color: 'sage-pale', heading: 'Structure prediction', body: 'Atomic-resolution structures for proteins, RNA, and complexes.', cta: 'Explore models' },
+          { color: 'blue-pale', heading: 'Production API', body: 'REST + Python SDK with predictable latency and throughput.', cta: 'Read the docs' },
+          { color: 'tierra-100', heading: 'Open ecosystem', body: 'Weights, benchmarks, and tooling shared with the community.', cta: 'View on GitHub' },
+        ]}
+      />
 
-      {/* Models — accordion from fixtures */}
+      {/* Models — accordion block (documented pattern, not a shipped section) */}
       <section className="py-2xl">
         <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
           <EyebrowLabel icon={<Leaf {...sz} />}>Our models</EyebrowLabel>
@@ -92,30 +95,17 @@ export const Landing: Story = {
         </div>
       </section>
 
-      {/* Community stats */}
-      <section className="py-2xl">
-        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-          <EyebrowLabel icon={<Community {...sz} />}>Community</EyebrowLabel>
-          <div className="bg-surface-secondary rounded-lg p-xl">
-            <StatMetricRow>
-              {stats.map((s) => <StatMetric key={s.label} value={s.value} label={s.label} />)}
-            </StatMetricRow>
-          </div>
-        </div>
-      </section>
+      <StatBand eyebrow="Community" eyebrowIcon={<Community {...sz} />} stats={stats} />
 
-      {/* Platform CTA — wide dark card */}
-      <section className="py-2xl">
-        <div className="max-w-container mx-auto px-md tablet:px-40">
-          <CardWide
-            eyebrowIcon={<Code {...sz} />}
-            eyebrowLabel="Platform"
-            heading="A foundation, not a paper."
-            body="High-performance infrastructure built for biomolecular design teams."
-            cta="Get early access"
-          />
-        </div>
-      </section>
+      <CTABand
+        eyebrowIcon={<Code {...sz} />}
+        eyebrowLabel="Platform"
+        heading="A foundation, not a paper."
+        body="High-performance infrastructure built for biomolecular design teams."
+        cta="Get early access"
+      />
+
+      <Footer columns={footerColumns} note="© 2026 Boltz" />
     </div>
   ),
 };
