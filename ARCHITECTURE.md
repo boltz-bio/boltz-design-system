@@ -22,10 +22,40 @@ apps/
       00-overview/         #   intro
       01-foundations/      #   colors, type, tokens, icons
       02-components/       #   one story file per component
-      04-sections/         #   composition proofs
+      03-blocks/           #   reusable mid-level compositions
+      04-sections/         #   full-width page bands
       05-screens/          #   full example pages (Landing, News)
       _data/boltz.ts       #   shared demo fixtures (models, stats, articles)
 ```
+
+## Layer taxonomy
+
+Boltz is built in layers. Each composes the one above it.
+
+| Layer | What it is | Storybook | Code | Figma |
+|---|---|---|---|---|
+| **Tokens** | Design values | `01-foundations` | `@boltz/tokens` | Variables |
+| **Components** | Single-purpose UI primitives with variants/props | `02-components` | `@boltz/ui` | Published components |
+| **Blocks** | Small reusable compositions of components (a card row, a stat band) — not always full-width, may repeat on a page | `03-blocks` | `@boltz/ui` (hybrid) or pattern story | Component sets / instances |
+| **Sections** | Full-width page bands with their own padding/background/responsive layout, usually once per page | `04-sections` | `@boltz/ui` (hybrid) or pattern story | Section frames |
+| **Screens/Templates** | Full pages assembling sections with fixture/real data | `05-screens` | story-only | Full page designs |
+
+**Block vs Section:** a *block* is a reusable chunk that can repeat (FeatureCard row, article grid); a *section* is a full-width page region with vertical rhythm (Hero, Footer), usually unique per page.
+
+### Sections/Blocks — hybrid model (decided)
+High-frequency sections/blocks ship as **React components in `@boltz/ui`** with props
+(content slots + a `variant`/`background` prop), so developers build pages fast and
+consistently. Lower-frequency ones are **documented composition patterns** (a story
+showing how to compose components) that developers copy. Figma is the source for
+what a section is and which variants exist — mirror it.
+
+**Section component conventions:**
+- Full-width `<section>`; inner `max-w-container mx-auto` + responsive padding (`px-md tablet:px-40`).
+- Mobile-first responsive layout (stack on mobile, expand at `tablet:`/`laptop:`).
+- Content via props/slots (`heading`, `body`, `eyebrow`, `media`, `actions`, `items`).
+- A `background`/`variant` prop mapping to token surfaces — no inline colours.
+- Composes existing components; never re-implements a primitive.
+- Ships with a story (autodocs + `docs.description` + `parameters.design`).
 
 ## Hard conventions
 
