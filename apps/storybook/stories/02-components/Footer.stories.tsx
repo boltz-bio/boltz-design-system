@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/Footer',
   component: Footer,
   tags: ['autodocs'],
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          'The page footer (Figma 58:400): the Boltz wordmark beside plain link columns over a subtle organic stroke pattern. Renders default Boltz links, or pass `columns` to compose your own. Use once at the bottom of a page.',
+      },
+    },
+  },
 } satisfies Meta<typeof Footer>;
 
 export default meta;

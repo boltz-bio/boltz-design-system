@@ -5,7 +5,15 @@ const meta = {
   title: '02-Components/LinkSection',
   component: LinkSection,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        component:
+          'A row of call-to-action link blocks (heading + body + CTA), used for secondary page actions such as partnering or careers. Compose multiple with LinkSectionRow.',
+      },
+    },
+  },
 } satisfies Meta<typeof LinkSection>;
 
 export default meta;

@@ -9,6 +9,7 @@ const sz = { width: 32, height: 32, strokeWidth: 1.5 } as const;
 const meta = {
   title: '02-Components/Card',
   component: Card,
+  tags: ['autodocs'],
   parameters: {
     layout: 'padded',
     docs: {
