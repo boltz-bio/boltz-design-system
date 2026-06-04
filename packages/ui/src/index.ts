@@ -52,6 +52,9 @@ export type { ProgressBarProps } from './components/ProgressBar';
 export { MetricComparison } from './components/MetricComparison';
 export type { MetricComparisonProps, MetricItem, MetricDatum } from './components/MetricComparison';
 
+export { Blob } from './components/Blob';
+export type { BlobProps, BlobShape } from './components/Blob';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
