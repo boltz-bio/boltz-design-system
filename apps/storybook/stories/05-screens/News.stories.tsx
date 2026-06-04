@@ -31,8 +31,10 @@ export const News: Story = {
       <NavBar>
         {navItems.map((n) => <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>)}
       </NavBar>
-      <PageHeader eyebrow="News" eyebrowIcon={<BookStack {...sz} />} heading="Research, product & community." />
-      <NewsGrid items={articles} />
+      <main>
+        <PageHeader eyebrow="News" eyebrowIcon={<BookStack {...sz} />} heading="Research, product & community." />
+        <NewsGrid items={articles} />
+      </main>
     </div>
   ),
 };

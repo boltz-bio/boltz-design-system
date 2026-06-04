@@ -7,7 +7,8 @@
     "dev:storybook": "pnpm --filter @boltz/storybook dev",
     "build:storybook": "pnpm --filter @boltz/storybook build",
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "check:tokens": "bash scripts/check-no-hardcoded-hex.sh"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

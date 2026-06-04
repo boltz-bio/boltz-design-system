@@ -48,6 +48,7 @@ export const Landing: Story = {
         {navItems.map((n) => <NavLink key={n} href="#">{n}</NavLink>)}
       </NavBar>
 
+      <main>
       <Hero
         eyebrow="Build on Boltz"
         eyebrowIcon={<Leaf {...sz} />}
@@ -104,6 +105,8 @@ export const Landing: Story = {
         body="High-performance infrastructure built for biomolecular design teams."
         cta="Get early access"
       />
+
+      </main>
 
       <Footer columns={footerColumns} />
     </div>

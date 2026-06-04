@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { Menu, Xmark } from 'iconoir-react';
 import { cn } from '../utils';
+import { focusRing, interactive } from '../styles';
 import { NavCta } from './NavCta';
 
 function useScrolled(threshold = 10) {
@@ -105,11 +107,13 @@ export interface NavBarProps extends React.HTMLAttributes<HTMLElement> {
 export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
   ({ className, logo, cta = 'Get early access', children, ...rest }, ref) => {
     const scrolled = useScrolled();
+    const [open, setOpen] = React.useState(false);
+    const panelId = React.useId();
     return (
     <nav
       ref={ref}
       className={cn(
-        'w-full h-60 px-40',
+        'relative w-full h-60 px-40',
         'flex items-center justify-between',
         'sticky top-0 z-50',
         'transition-[background-color,backdrop-filter] duration-300 ease-standard',
@@ -124,8 +128,8 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
       </a>
 
       {/* Nav cluster — links + CTA, merged borders.
-          Links hide below the `mobile` breakpoint (768px) so the bar doesn't
-          overflow on phones; the logo + CTA stay. (`mobile:` = min-width 768px.) */}
+          Inline links show at ≥768px (`mobile:`); below that they collapse into
+          the hamburger dropdown so the bar doesn't overflow on phones. */}
       <div className="flex items-center ml-auto">
         {/* Wrap children so we can apply -ml-px to merge link borders */}
         <div className="hidden mobile:flex items-center">
@@ -136,11 +140,62 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
           ))}
         </div>
         {cta !== null && (
-          <span className="mobile:-ml-px">
+          <span className="hidden mobile:inline-flex mobile:-ml-px">
             <NavCta variant="dark">{cta}</NavCta>
           </span>
         )}
+
+        {/* Hamburger — phones only (<768px). Toggles the dropdown panel. */}
+        <button
+          type="button"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen((v) => !v)}
+          className={cn(
+            'mobile:hidden',
+            'h-36 w-36 rounded-full',
+            'border border-action-primary',
+            'inline-flex items-center justify-center',
+            'text-text-primary',
+            'transition-colors duration-base ease-standard',
+            'hover:bg-surface-secondary',
+            interactive,
+            focusRing,
+          )}
+        >
+          {open ? (
+            <Xmark width={20} height={20} strokeWidth={1.5} />
+          ) : (
+            <Menu width={20} height={20} strokeWidth={1.5} />
+          )}
+        </button>
       </div>
+
+      {/* Mobile dropdown panel — phones only, same links stacked + CTA. */}
+      {open && (
+        <div
+          id={panelId}
+          className={cn(
+            'mobile:hidden',
+            'absolute left-0 right-0 top-full',
+            'flex flex-col gap-12',
+            'bg-white border-b border-border-light',
+            'px-40 py-20',
+          )}
+        >
+          {React.Children.map(children, (child, i) => (
+            <span key={i} className="flex w-full">
+              {child}
+            </span>
+          ))}
+          {cta !== null && (
+            <span className="flex w-full">
+              <NavCta variant="dark">{cta}</NavCta>
+            </span>
+          )}
+        </div>
+      )}
     </nav>
     );
   },
