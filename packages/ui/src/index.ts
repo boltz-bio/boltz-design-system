@@ -59,9 +59,6 @@ export type { FeatureGridProps, FeatureGridItem } from './components/FeatureGrid
 export { CTABand } from './components/CTABand';
 export type { CTABandProps } from './components/CTABand';
 
-export { Footer } from './components/Footer';
-export type { FooterProps, FooterColumn, FooterLink } from './components/Footer';
-
 export { StatBand } from './components/StatBand';
 export type { StatBandProps } from './components/StatBand';
 
