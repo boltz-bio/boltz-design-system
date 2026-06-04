@@ -46,6 +46,12 @@ export type { StatMetricProps, StatMetricRowProps } from './components/StatMetri
 export { TextButton } from './components/TextButton';
 export type { TextButtonProps } from './components/TextButton';
 
+export { ProgressBar } from './components/ProgressBar';
+export type { ProgressBarProps } from './components/ProgressBar';
+
+export { MetricComparison } from './components/MetricComparison';
+export type { MetricComparisonProps, MetricItem, MetricDatum } from './components/MetricComparison';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
@@ -67,5 +73,8 @@ export type { PageHeaderProps } from './components/PageHeader';
 
 export { NewsGrid } from './components/NewsGrid';
 export type { NewsGridProps, NewsGridArticle } from './components/NewsGrid';
+
+export { PricingSection } from './components/PricingSection';
+export type { PricingSectionProps, PricingFeature } from './components/PricingSection';
 
 export { cn } from './utils';
