@@ -6,9 +6,8 @@ import { cn } from '../utils';
 // how much of a value is reached. Used in comparison/pricing tables (see
 // MetricComparison) but reusable anywhere a proportional bar is needed.
 //
-// Figma node 108:404 / 89:451 (Pricing). NOTE: exact fill colour built from the
-// design screenshots + nearest token (blue-dark) while the Figma bridge was down —
-// verify the bound colour variable when the bridge is back.
+// Figma node 108:404 (Pricing) — verified via bridge: track = blue-medium
+// (#C7E3EE), fill = blue-deep (#165A75), height 20px, full radius.
 //
 // The fill width is a runtime value (data), so an inline `width: %` is correct —
 // it is not a hardcoded design dimension.
@@ -16,20 +15,20 @@ import { cn } from '../utils';
 const trackVariants = cva('w-full rounded-full overflow-hidden', {
   variants: {
     tone: {
-      blue: 'bg-blue-light',
+      blue: 'bg-blue-medium',
       sage: 'bg-sage-light',
       neutral: 'bg-surface-secondary',
     },
     size: {
       sm: 'h-8',
-      md: 'h-16',
+      md: 'h-20',
     },
   },
   defaultVariants: { tone: 'blue', size: 'md' },
 });
 
 const fillTone: Record<NonNullable<VariantProps<typeof trackVariants>['tone']>, string> = {
-  blue: 'bg-blue-dark',
+  blue: 'bg-blue-deep',
   sage: 'bg-sage-dark',
   neutral: 'bg-action-primary',
 };

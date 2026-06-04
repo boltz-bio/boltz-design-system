@@ -15,7 +15,7 @@ import { interactive, focusRing } from '../styles';
 const cardVariants = cva('rounded-xl p-xl flex flex-col gap-lg', {
   variants: {
     background: {
-      blue: 'bg-blue-pale',
+      blue: 'bg-blue-light',
       sage: 'bg-sage-pale',
       none: 'bg-surface-secondary',
     },

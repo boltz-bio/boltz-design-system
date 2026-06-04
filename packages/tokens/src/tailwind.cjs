@@ -42,6 +42,7 @@ module.exports = {
       },
       blue: {
         dark: '#142D36',
+        deep: '#165A75',   // saturated mid teal — progress/bar fill (Figma 108:404)
         medium: '#C7E3EE',
         light: '#E5F2F7',
         pale: '#EEF6FA',
