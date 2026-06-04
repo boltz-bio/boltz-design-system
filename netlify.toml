@@ -1,0 +1,4 @@
+[build]
+  base    = "apps/storybook"
+  command = "pnpm --filter @boltz/storybook... run build"
+  publish = "apps/storybook/storybook-static"
