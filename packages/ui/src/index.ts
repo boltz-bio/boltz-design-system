@@ -55,6 +55,9 @@ export type { MetricComparisonProps, MetricItem, MetricDatum } from './component
 export { Blob } from './components/Blob';
 export type { BlobProps, BlobShape } from './components/Blob';
 
+export { Thumbnail, placeholderImage } from './components/Thumbnail';
+export type { ThumbnailProps } from './components/Thumbnail';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
