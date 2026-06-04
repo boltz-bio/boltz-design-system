@@ -105,7 +105,7 @@ export const Landing: Story = {
         cta="Get early access"
       />
 
-      <Footer columns={footerColumns} note="© 2026 Boltz" />
+      <Footer columns={footerColumns} />
     </div>
   ),
 };
