@@ -75,6 +75,6 @@ export { NewsGrid } from './components/NewsGrid';
 export type { NewsGridProps, NewsGridArticle } from './components/NewsGrid';
 
 export { PricingSection } from './components/PricingSection';
-export type { PricingSectionProps, PricingFeature } from './components/PricingSection';
+export type { PricingSectionProps, PricingTab } from './components/PricingSection';
 
 export { cn } from './utils';

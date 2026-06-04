@@ -1,65 +1,66 @@
 import * as React from 'react';
 import { cn } from '../utils';
 import { EyebrowLabel } from './EyebrowLabel';
+import { ListItemTab } from './ListItem';
+import { MetricComparison, type MetricItem } from './MetricComparison';
 
 // Section — the pricing / comparison band (Figma node 89:451). Eyebrow + heading,
-// then a two-column split: a feature list on the left and a comparison card slot
-// on the right (drop in <MetricComparison>). Mobile-first: stacks on phones,
-// splits at laptop. Composes existing components only.
+// then a two-column split: selectable feature **tabs** (left) drive the comparison
+// **card** (right). Composes existing components only — ListItemTab + MetricComparison.
+// Mobile-first: stacks on phones, splits at laptop.
 
-export interface PricingFeature {
+export interface PricingTab {
   icon?: React.ReactNode;
   title: React.ReactNode;
   body?: React.ReactNode;
-  /** Highlights the row with a tinted surface (the selected feature). */
-  active?: boolean;
+  /** The comparison shown on the right when this tab is selected. */
+  header?: { label: React.ReactNode; value: React.ReactNode };
+  items: MetricItem[];
 }
 
 export interface PricingSectionProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
   eyebrow?: React.ReactNode;
   eyebrowIcon?: React.ReactNode;
   heading: React.ReactNode;
-  features: PricingFeature[];
-  /** Comparison card slot — typically a <MetricComparison>. */
-  card: React.ReactNode;
+  /** Feature tabs — selecting one swaps the comparison card. */
+  tabs: PricingTab[];
+  defaultIndex?: number;
 }
 
 export const PricingSection = React.forwardRef<HTMLElement, PricingSectionProps>(
-  ({ className, eyebrow, eyebrowIcon, heading, features, card, ...rest }, ref) => (
-    <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
-      <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-        {/* Header */}
-        <div className="flex flex-col gap-md">
-          {eyebrow && <EyebrowLabel icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>}
-          <h2 className="text-heading-md text-text-primary max-w-body">{heading}</h2>
-        </div>
+  ({ className, eyebrow, eyebrowIcon, heading, tabs, defaultIndex = 0, ...rest }, ref) => {
+    const [active, setActive] = React.useState(defaultIndex);
+    const current = tabs[active] ?? tabs[0];
 
-        {/* Split: feature list + comparison card */}
-        <div className="grid grid-cols-1 gap-xl laptop:grid-cols-2 laptop:gap-2xl items-start">
-          <ul className="flex flex-col gap-sm">
-            {features.map((f, i) => (
-              <li
-                key={i}
-                className={cn(
-                  'flex gap-md rounded-lg p-lg',
-                  f.active ? 'bg-blue-pale' : 'bg-transparent',
-                )}
-              >
-                {f.icon && (
-                  <span aria-hidden="true" className="flex-shrink-0 text-text-primary">{f.icon}</span>
-                )}
-                <div className="flex flex-col gap-sm">
-                  <h3 className="text-heading-sm text-text-primary">{f.title}</h3>
-                  {f.body && <p className="text-body-md text-text-secondary">{f.body}</p>}
-                </div>
-              </li>
-            ))}
-          </ul>
+    return (
+      <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
+        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
+          {/* Header */}
+          <div className="flex flex-col gap-md">
+            {eyebrow && <EyebrowLabel icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>}
+            <h2 className="text-heading-md text-text-primary max-w-body">{heading}</h2>
+          </div>
 
-          <div>{card}</div>
+          {/* Split: feature tabs (left) drive the comparison card (right) */}
+          <div className="grid grid-cols-1 gap-xl laptop:grid-cols-2 laptop:gap-2xl items-start">
+            <div role="tablist" aria-label="Pricing scenarios" className="flex flex-col gap-sm">
+              {tabs.map((tab, i) => (
+                <ListItemTab
+                  key={i}
+                  icon={tab.icon}
+                  heading={tab.title}
+                  description={tab.body}
+                  active={i === active}
+                  onClick={() => setActive(i)}
+                />
+              ))}
+            </div>
+
+            {current && <MetricComparison header={current.header} items={current.items} />}
+          </div>
         </div>
-      </div>
-    </section>
-  ),
+      </section>
+    );
+  },
 );
 PricingSection.displayName = 'PricingSection';

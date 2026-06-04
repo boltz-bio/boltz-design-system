@@ -77,7 +77,7 @@ export const MetricComparison = React.forwardRef<HTMLDivElement, MetricCompariso
                   <span className="text-body-md text-text-primary">{item.label}</span>
                   <span className="text-body-md text-text-primary whitespace-nowrap">{d.display}</span>
                 </div>
-                <ProgressBar value={(d.value / max) * 100} label={`${item.label}`} />
+                <ProgressBar value={(d.value / max) * 100} label={`${item.label}`} delayMs={i * 90} />
               </li>
             );
           })}
