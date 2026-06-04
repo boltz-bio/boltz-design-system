@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Blob, type BlobShape } from '@boltz/ui';
+import { Blob, BLOB_SHAPES } from '@boltz/ui';
 
 // Foundation — the Boltz organic "blob" graphics (Figma 155:363). Decorative
 // shapes whose colour follows the parent text colour (currentColor), so any
@@ -20,7 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj;
 
-const shapes: BlobShape[] = ['a', 'b', 'c', 'd'];
+const shapes = BLOB_SHAPES;
 const tones = [
   { label: 'border-warm (default)', cls: 'text-border-warm' },
   { label: 'sage-medium', cls: 'text-sage-medium' },
@@ -33,8 +33,10 @@ export const Shapes: Story = {
     <div className="flex flex-col gap-2xl" style={{ fontFamily: 'Stabil Grotesk, Inter, sans-serif' }}>
       <div>
         <p className="text-body-md text-text-secondary mb-lg max-w-body">
-          Four organic blob shapes. Colour follows <code className="font-mono text-mono-md">currentColor</code> —
-          set a <code className="font-mono text-mono-md">text-*</code> token. Size with width/height utilities.
+          The five canonical blob shapes (Figma 155:363 holds 25 hand-drawn instances across
+          these five silhouette families). Colour follows{' '}
+          <code className="font-mono text-mono-md">currentColor</code> — set a{' '}
+          <code className="font-mono text-mono-md">text-*</code> token. Size with width/height utilities.
         </p>
         <div className="flex flex-wrap gap-xl items-center">
           {shapes.map((s) => (
