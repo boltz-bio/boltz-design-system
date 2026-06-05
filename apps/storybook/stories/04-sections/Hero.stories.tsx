@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Hero, PrimaryHero, Button, TextButton, Embed, Thumbnail, Blob, BLOB_COUNT } from '@boltz/ui';
-import { Leaf } from 'iconoir-react';
 
 // The Boltz hero protein render (transparent, exported from Figma 246:385) — has
 // breathing room around the protein so it doesn't read as cropped.
@@ -24,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The page hero: eyebrow, headline, lead copy, action row, and an optional media slot. Built on SplitSection, so it stacks on mobile and splits on laptop. Use once near the top of a page.',
+          'The page hero: headline, lead copy, action row, and an optional media slot. Built on SplitSection, so it stacks on mobile and splits on laptop. Use once near the top of a page.',
       },
     },
   },
@@ -47,8 +46,6 @@ const ProteinPlaceholder = () => (
 
 export const Default: Story = {
   args: {
-    eyebrow: 'Build on Boltz',
-    eyebrowIcon: <Leaf {...sz} />,
     heading: 'Frontier models for biomolecular design.',
     body: 'State-of-the-art structure prediction, served as production-ready infrastructure. Built to integrate.',
     actions: (
@@ -63,8 +60,6 @@ export const Default: Story = {
 
 export const TextOnly: Story = {
   args: {
-    eyebrow: 'Build on Boltz',
-    eyebrowIcon: <Leaf {...sz} />,
     heading: 'Frontier models for biomolecular design.',
     body: 'State-of-the-art structure prediction, served as production-ready infrastructure.',
     actions: <Button variant="black">Try Boltz Lab</Button>,
@@ -72,8 +67,6 @@ export const TextOnly: Story = {
 };
 
 const baseArgs = {
-  eyebrow: 'Build on Boltz',
-  eyebrowIcon: <Leaf {...sz} />,
   heading: 'Frontier models for biomolecular design.',
   body: 'State-of-the-art structure prediction, served as production-ready infrastructure. Built to integrate.',
   actions: (

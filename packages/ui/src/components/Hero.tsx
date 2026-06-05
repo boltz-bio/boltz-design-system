@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { cn } from '../utils';
-import { EyebrowLabel } from './EyebrowLabel';
 import { SplitSection, type SplitSectionProps } from './SplitSection';
 
-// Section — the page hero. Eyebrow + headline (heading-lg) + lead copy + actions,
+// Section — the page hero. Headline (heading-lg) + lead copy + actions,
 // with an optional media slot (e.g. the protein render). Built on SplitSection,
 // so it stacks on mobile and splits on laptop. Use once per page, near the top.
 
 export interface HeroProps {
-  eyebrow?: React.ReactNode;
-  eyebrowIcon?: React.ReactNode;
   heading: React.ReactNode;
   body?: React.ReactNode;
   /** CTA row (Buttons / TextButtons). */
@@ -22,7 +19,7 @@ export interface HeroProps {
 }
 
 export const Hero = ({
-  eyebrow, eyebrowIcon, heading, body, actions, media,
+  heading, body, actions, media,
   mediaPosition = 'right', background, className,
 }: HeroProps) => {
   const dark = background === 'dark';
@@ -34,11 +31,6 @@ export const Hero = ({
       mediaPosition={mediaPosition}
       content={
         <>
-          {eyebrow && (
-            <EyebrowLabel variant={dark ? 'dark' : 'light'} icon={eyebrowIcon ?? null}>
-              {eyebrow}
-            </EyebrowLabel>
-          )}
           <h1 className={cn('text-heading-lg', dark ? 'text-text-on-dark' : 'text-text-primary')}>
             {heading}
           </h1>
