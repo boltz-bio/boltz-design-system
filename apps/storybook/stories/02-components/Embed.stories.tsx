@@ -7,6 +7,8 @@ import { Leaf } from 'iconoir-react';
 const STUDIO_EMBED =
   'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
 const STUDIO_FULL = 'https://dylan-6--studio.modal.run/';
+// Turntable .mp4 — a full 360° rotation, baked in Studio (Export → "Bake turntable").
+const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=50d3e03d3d93bd645cde036b5d7d96a3';
 
 const meta = {
   title: '02-Components/Embed',
@@ -24,7 +26,9 @@ const meta = {
   argTypes: {
     aspect: { control: 'select', options: ['video', 'wide', 'square', 'portrait'] },
     radius: { control: 'select', options: ['md', 'lg', 'xl'] },
+    kind: { control: 'inline-radio', options: ['iframe', 'video'] },
     reveal: { control: 'boolean' },
+    scrub: { control: 'boolean' },
   },
 } satisfies Meta<typeof Embed>;
 
@@ -49,6 +53,41 @@ export const WithPoster: Story = {
     poster: placeholderImage('boltz-protein', 800, 500),
   },
   render: (args) => <div className="max-w-[640px]"><Embed {...args} /></div>,
+};
+
+// Turntable .mp4 — autoplaying 360° rotation. Lighter than the live iframe and with no
+// Modal chrome. The render bakes in its background colour — match the section you place it on.
+export const Turntable: Story = {
+  args: {
+    src: STUDIO_TURNTABLE,
+    kind: 'video',
+    title: 'Boltz Studio — protein turntable',
+    aspect: 'square',
+    radius: 'lg',
+  },
+  render: (args) => <div className="max-w-[560px]"><Embed {...args} /></div>,
+};
+
+// Scroll-scrubbed turntable — the protein rotates with scroll position instead of
+// autoplaying. Scroll the docs frame to drive the rotation. Honours reduced-motion.
+export const TurntableOnScroll: Story = {
+  args: {
+    src: STUDIO_TURNTABLE,
+    kind: 'video',
+    title: 'Boltz Studio — protein turntable (scroll)',
+    aspect: 'square',
+    radius: 'lg',
+    scrub: true,
+  },
+  parameters: { layout: 'fullscreen' },
+  render: (args) => (
+    <div className="max-w-container mx-auto px-xl">
+      <div className="h-[40vh]" />
+      <div className="max-w-[460px] mx-auto"><Embed {...args} /></div>
+      <p className="text-body-sm text-text-muted text-center mt-lg">Scroll to rotate ↑↓</p>
+      <div className="h-[80vh]" />
+    </div>
+  ),
 };
 
 // Full interactive studio (heavier) — for a dedicated "Lab" page.

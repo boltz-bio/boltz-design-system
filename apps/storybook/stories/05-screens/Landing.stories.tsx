@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  Hero, FeatureGrid, StatBand, CTABand, Footer,
+  Hero, FeatureGrid, StatBand, CTABand, Footer, Embed,
   Accordion, AccordionItem, AccordionActions, Badge,
 } from '@boltz/ui';
 import { Leaf, Code, Community } from 'iconoir-react';
@@ -29,9 +29,26 @@ type Story = StoryObj<typeof meta>;
 
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 
-const ProteinPlaceholder = () => (
-  <div className="flex items-center justify-center h-[280px] w-[280px] tablet:h-[460px] tablet:w-[460px] rounded-full bg-sage-pale border border-sage-medium">
-    <span className="text-body-sm text-text-muted">Protein render</span>
+// Boltz Studio render (Modal-hosted) as the hero media. The Studio render bakes in its
+// background colour — matching it to the section (here surface-primary #FBFAF7) makes the
+// protein float seamlessly. `transparent` doesn't help: Modal's embed page paints its own
+// dark chrome behind the transparent canvas, so match the section colour instead.
+//
+// To make the protein rotate on scroll, swap this for the turntable .mp4 and add `scrub`:
+//   src="https://dylan-6--embed-video.modal.run?k=…" kind="video" scrub
+// (re-bake the turntable in #FBFAF7 in Studio first so it floats like the still render).
+const STUDIO_SURFACE =
+  'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__&t=eyJiZyI6IiNGQkZBRjciLCJyYyI6IiNjMWZiZDgiLCJiYyI6IiNhYmUzZjgiLCJwYyI6IiM1ZmVjYzIiLCJyciI6MSwicnQiOjAuNCwicmsiOjQsInJjbCI6MCwicnMiOjAsImJyIjowLjc2LCJiY2wiOjAuMDEsImEiOjAuOTMsImsiOjAuODUsInJtIjoxLjIsInAiOjM0LjUsInBkIjo2MCwiYmwiOjAuNCwiYmxUIjoxLjEsImUiOjJ9&c=eyJwIjpbMCwwLDY1LjA3NV0sInQiOlswLDAsMF19';
+
+const ProteinRender = () => (
+  <div className="w-[280px] tablet:w-[460px]">
+    <Embed
+      src={STUDIO_SURFACE}
+      title="Boltz Studio — protein render"
+      aspect="square"
+      reveal
+      className="bg-surface-primary rounded-none"
+    />
   </div>
 );
 
@@ -58,7 +75,7 @@ export const Landing: Story = {
           <Button variant="black">Try Boltz Lab</Button>
           <TextButton arrow>Read the paper</TextButton>
         </>}
-        media={<ProteinPlaceholder />}
+        media={<ProteinRender />}
       />
 
       <FeatureGrid
