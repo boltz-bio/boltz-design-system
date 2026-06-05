@@ -24,7 +24,7 @@ const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 
 const DESC = 'Call Boltz models from your favorite agents';
 
-export const Default: Story = {
+export const Default: StoryObj = {
   render: () => (
     <IntegrationsSection
       eyebrowIcon={<AllIcons.Puzzle {...sz} />}
@@ -33,12 +33,12 @@ export const Default: Story = {
       cta="Get access"
       secondaryCta="See all the Integrations"
       integrations={[
-        { iconBg: 'bg-[#d77655]',  name: 'Claude Code',       description: DESC },
-        { iconBg: 'bg-surface-secondary', name: 'OpenAI Codex',      description: DESC },
-        { iconBg: 'bg-[#000cb5]',  name: 'Benchling',         description: DESC },
-        { iconBg: 'bg-[#f2f1e7]',  name: 'Biomni IBE',        description: DESC },
-        { iconBg: 'bg-surface-secondary', name: 'Edison Scientific', description: DESC },
-        { iconBg: 'bg-[#f2f2f2]',  name: 'Mirror Physics',    description: DESC },
+        { iconBg: 'bg-[#d77655]',  name: 'Claude Code', description: DESC, iconSrc: '/favicon.svg' },
+        { iconBg: 'bg-surface-secondary', name: 'OpenAI Codex', description: DESC, iconSrc: '/favicon.svg' },
+        { iconBg: 'bg-[#000cb5]',  name: 'Benchling', description: DESC, iconSrc: '/favicon.svg' },
+        { iconBg: 'bg-[#f2f1e7]',  name: 'Biomni IBE', description: DESC, iconSrc: '/favicon.svg' },
+        { iconBg: 'bg-surface-secondary', name: 'Edison Scientific', description: DESC, iconSrc: '/favicon.svg' },
+        { iconBg: 'bg-[#f2f2f2]',  name: 'Mirror Physics', description: DESC, iconSrc: '/favicon.svg' },
       ]}
     />
   ),

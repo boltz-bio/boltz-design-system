@@ -28,7 +28,7 @@ const PfizerLogo = () => (
   </svg>
 );
 
-export const Default: Story = {
+export const Default: StoryObj = {
   render: () => (
     <CommunitySection
       eyebrowIcon={<AllIcons.Community {...sz} />}

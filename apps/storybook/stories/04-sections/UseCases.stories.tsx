@@ -9,6 +9,7 @@ import React from 'react';
 
 const meta = {
   title: '04-Sections/Use cases',
+  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
     design: {
@@ -70,19 +71,18 @@ function UseCasesSection() {
   const persona = personas.find((p) => p.value === active) ?? personas[0];
 
   return (
-    <Section bleed>
-      <div className="mx-auto flex max-w-container flex-col items-center gap-xl px-md text-center tablet:px-40">
-        <h2 className="text-heading-lg text-text-primary">How you can use Boltz</h2>
-        <TabBar
-          items={personas.map((p) => ({ value: p.value, label: p.label }))}
-          value={active}
-          onValueChange={setActive}
-        />
-        <p className="max-w-body text-body-lg text-text-secondary">{persona.desc}</p>
-      </div>
+    <Section innerClassName="flex flex-col items-center gap-xl">
+      <h2 className="text-heading-lg text-text-primary text-center">How you can use Boltz</h2>
+      <TabBar
+        items={personas.map((p) => ({ value: p.value, label: p.label }))}
+        value={active}
+        onValueChange={setActive}
+      />
+      <p className="max-w-body text-body-lg text-text-secondary text-center">{persona.desc}</p>
 
-      {/* The CodeBlock's own contained mode supplies the sage band + blob decoration. */}
-      <div className="mt-2xl">
+      {/* CodeBlock's contained mode supplies the tinted band + blob decoration;
+          kept inside the section container so it has horizontal inset. */}
+      <div className="w-full pt-md">
         <CodeBlock color={persona.color} contained tabs={persona.tabs} />
       </div>
     </Section>
