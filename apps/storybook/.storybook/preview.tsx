@@ -34,7 +34,7 @@ const boltzViewports = {
 const preview: Preview = {
   parameters: {
     backgrounds: {
-      default: 'surface-primary',
+      default: 'white',
       values: [
         { name: 'white', value: '#FFFFFF' },
         { name: 'surface-primary', value: '#FBFAF7' },

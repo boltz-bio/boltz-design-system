@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cn } from '../utils';
+import { cn } from '../utils'; // v2
 
 // Spec: Figma node 118:823
 //
@@ -141,12 +141,12 @@ export const ListItemTab = React.forwardRef<HTMLButtonElement, ListItemTabProps>
       aria-selected={active}
       className={cn(
         'relative z-10 flex flex-col items-start p-[20px] rounded-lg w-full text-left',
-        'bg-transparent border-none cursor-pointer',
+        'border-none cursor-pointer',
         'transition-[opacity,background-color] duration-base ease-standard',
-        // Inactive: 80% opacity, tierra-50 on hover
-        !active && 'opacity-80 hover:bg-sage-pale',
-        // Active: full opacity, no extra bg (group handles the bg)
-        active && 'opacity-100',
+        // Inactive: 80% opacity, blue-pale on hover
+        !active && 'bg-transparent opacity-80 hover:bg-blue-pale',
+        // Active: full opacity + blue-light bg (group overrides bg with its sliding pill)
+        active && 'bg-blue-light opacity-100',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
         className,
       )}
@@ -211,9 +211,9 @@ export const ListItemTabGroup = React.forwardRef<HTMLDivElement, ListItemTabGrou
         className={cn('relative flex flex-col', className)}
         {...rest}
       >
-        {/* Animated tierra-100 background pill */}
+        {/* Animated background pill */}
         <div
-          className="absolute left-0 right-0 bg-sage-pale rounded-lg pointer-events-none"
+          className="absolute left-0 right-0 bg-blue-light rounded-lg pointer-events-none"
           style={{
             top: bg.top,
             height: bg.height,

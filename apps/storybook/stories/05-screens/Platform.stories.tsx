@@ -15,7 +15,7 @@ const meta = {
   title: '05-Screens/Platform',
   parameters: {
     layout: 'fullscreen',
-    backgrounds: { default: 'surface-primary' },
+    backgrounds: { default: 'white' },
     docs: {
       description: {
         component:
@@ -265,8 +265,6 @@ export const Platform: Story = {
 
         {/* 6 — Community stats */}
         <StatBand
-          eyebrow="Community"
-          eyebrowIcon={<Community {...sz} />}
           stats={communityStats}
         />
 

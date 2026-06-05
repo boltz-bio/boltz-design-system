@@ -40,6 +40,16 @@ export type { FooterProps, FooterLink, FooterColumn } from './components/Footer'
 export { LinkSection, LinkSectionRow } from './components/LinkSection';
 export type { LinkSectionProps, LinkSectionRowProps, LinkSectionItem } from './components/LinkSection';
 
+export { AboutNews } from './components/AboutNews';
+export { IntegrationsSection } from './components/IntegrationsSection';
+export type { IntegrationsSectionProps, Integration } from './components/IntegrationsSection';
+export { CommunitySection } from './components/CommunitySection';
+export type { CommunitySectionProps, CommunityStat, CommunityCta, CommunityCaseStudy } from './components/CommunitySection';
+export { PlatformFeatureSection } from './components/PlatformFeatureSection';
+export type { PlatformFeatureSectionProps, PlatformFeature } from './components/PlatformFeatureSection';
+export { ModelAccordion } from './components/ModelAccordion';
+export type { ModelAccordionProps, ModelAccordionItem } from './components/ModelAccordion';
+export type { AboutNewsProps, AboutNewsItem } from './components/AboutNews';
 export { NewsItem } from './components/NewsItem';
 export type { NewsItemProps } from './components/NewsItem';
 

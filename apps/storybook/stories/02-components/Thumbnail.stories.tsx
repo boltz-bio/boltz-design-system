@@ -106,18 +106,21 @@ export const BlogCovers: Story = {
   render: () => (
     <div className="mx-auto flex max-w-container flex-col gap-2xl">
       <Section title="New research">
-        <BlogThumbnail tone="sage" category="new-research" title="Scaling laws for biomolecular structure" renderSrc={PROTEIN} blobShape={8} />
-        <BlogThumbnail tone="blue" category="new-research" align="center" titlePosition="center" title="Benchmarking de novo design" blobShape={4} />
+        <BlogThumbnail tone="sage"   category="new-research" title="Scaling laws for biomolecular structure" renderSrc={PROTEIN} blobShape={8} />
+        <BlogThumbnail tone="blue"   category="new-research" align="center" titlePosition="center" title="Benchmarking de novo design" blobShape={4} />
+        <BlogThumbnail tone="tierra" category="new-research" title="Scaling laws for biomolecular structure" blobShape={7} />
       </Section>
 
       <Section title="Product launch">
-        <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
-        <BlogThumbnail tone="blue" category="product-launch" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />
+        <BlogThumbnail tone="sage"   category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
+        <BlogThumbnail tone="blue"   category="product-launch" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />
+        <BlogThumbnail tone="tierra" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
       </Section>
 
       <Section title="Case study">
-        <BlogThumbnail tone="blue" partner="Pfizer" blobShape={3} />
-        <BlogThumbnail tone="sage" partner="dsm-firmenich" blobShape={6} />
+        <BlogThumbnail tone="blue"   partner="Pfizer" blobShape={3} />
+        <BlogThumbnail tone="sage"   partner="dsm-firmenich" blobShape={6} />
+        <BlogThumbnail tone="tierra" category="case-study" title="How Pfizer scientists use Boltz" blobShape={5} />
       </Section>
 
       <Section title="Other">

@@ -51,7 +51,7 @@ export const StatMetricRow = React.forwardRef<HTMLDivElement, StatMetricRowProps
   ({ className, children, ...rest }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-wrap gap-y-lg gap-x-2xl', className)}
+      className={cn('flex flex-wrap justify-center gap-y-lg gap-x-2xl', className)}
       {...rest}
     >
       {children}

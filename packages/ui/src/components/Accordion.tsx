@@ -83,7 +83,7 @@ export const AccordionItem = ({
 
     <RadixAccordion.Content
       className={cn(
-        'group overflow-hidden',
+        'group/content overflow-hidden',
         'data-[state=open]:animate-accordion-open',
         'data-[state=closed]:animate-accordion-close',
       )}
@@ -94,9 +94,9 @@ export const AccordionItem = ({
           'pb-lg',
           'transition-[opacity,transform] ease-standard',
           // Show: delayed 120ms so height panel opens first, then content fades up
-          'group-data-[state=open]:opacity-100 group-data-[state=open]:translate-y-0 group-data-[state=open]:duration-[300ms] group-data-[state=open]:delay-[120ms]',
+          'group-data-[state=open]/content:opacity-100 group-data-[state=open]/content:translate-y-0 group-data-[state=open]/content:duration-[300ms] group-data-[state=open]/content:delay-[120ms]',
           // Hide: instant fade-down before panel collapses
-          'group-data-[state=closed]:opacity-0 group-data-[state=closed]:translate-y-6 group-data-[state=closed]:duration-fast',
+          'group-data-[state=closed]/content:opacity-0 group-data-[state=closed]/content:translate-y-6 group-data-[state=closed]/content:duration-fast',
         )}
       >
         {children}

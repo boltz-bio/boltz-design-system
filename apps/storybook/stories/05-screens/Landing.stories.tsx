@@ -17,7 +17,7 @@ const meta = {
   title: '05-Screens/Landing',
   parameters: {
     layout: 'fullscreen',
-    backgrounds: { default: 'surface-primary' },
+    backgrounds: { default: 'white' },
     docs: {
       description: {
         component:

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { StatBand } from '@boltz/ui';
-import * as AllIcons from 'iconoir-react';
 
 const meta = {
   title: '04-Sections/StatBand',
@@ -11,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A full-width page band that surfaces a row of headline metrics inside a rounded surface panel, with an optional eyebrow label. Light and dark variants map to token surfaces.',
+          'A full-width page band that surfaces a row of headline metrics. Light and dark variants map to token text colours.',
       },
     },
   },
@@ -26,8 +25,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
-
 const stats = [
   { value: '1M+', label: 'scientists worldwide' },
   { value: '10,000+', label: 'total learners' },
@@ -36,27 +33,10 @@ const stats = [
 ];
 
 export const Light: Story = {
-  args: {
-    eyebrow: 'By the numbers',
-    eyebrowIcon: <AllIcons.Leaf {...sz} />,
-    stats,
-    variant: 'light',
-  },
+  args: { stats, variant: 'light' },
 };
 
 export const Dark: Story = {
-  args: {
-    eyebrow: 'By the numbers',
-    eyebrowIcon: <AllIcons.Leaf {...sz} />,
-    stats,
-    variant: 'dark',
-  },
-};
-
-export const NoEyebrow: Story = {
-  name: 'No eyebrow',
-  args: {
-    stats,
-    variant: 'light',
-  },
+  args: { stats, variant: 'dark' },
+  parameters: { backgrounds: { default: 'dark' } },
 };

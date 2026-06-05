@@ -112,9 +112,9 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
     const titleBlock = (title || resolvedEyebrow) && (
       <div className={cn('flex flex-col gap-[1.5cqw]', titleMax, isCenter ? 'items-center text-center' : 'items-start text-left')}>
         {resolvedEyebrow && (
-          <span className="text-[3.4cqw] uppercase tracking-wide text-text-muted leading-none">{resolvedEyebrow}</span>
+          <span className={cn('font-sans text-[6.4cqw] leading-[1.2] tracking-[-0.03em] opacity-50', ink)}>{resolvedEyebrow}</span>
         )}
-        {title && <span className={cn('text-[6.4cqw] leading-[1.08] [text-wrap:balance]', ink)}>{title}</span>}
+        {title && <span className={cn('font-sans text-[6.4cqw] leading-[1.2] tracking-[-0.03em] [text-wrap:balance]', ink)}>{title}</span>}
       </div>
     );
 
@@ -149,7 +149,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
         ) : (
           <div className={cn('absolute inset-0 z-10 flex flex-col p-[6cqw]', isCenter && 'items-center')}>
             {/* top row */}
-            <div className="flex w-full">
+            <div className={cn('flex w-full', isCenter && 'justify-center')}>
               {logoAtTop ? wordmark : titlePosition === 'top' ? titleBlock : null}
             </div>
             {/* middle */}
@@ -157,7 +157,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
               {titlePosition === 'center' && titleBlock}
             </div>
             {/* bottom row */}
-            <div className="flex w-full">
+            <div className={cn('flex w-full', isCenter && 'justify-center')}>
               {!logoAtTop ? wordmark : titlePosition === 'bottom' ? titleBlock : null}
             </div>
           </div>

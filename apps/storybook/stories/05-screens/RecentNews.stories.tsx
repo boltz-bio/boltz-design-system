@@ -21,7 +21,7 @@ const meta = {
   title: '05-Screens/Recent news',
   parameters: {
     layout: 'fullscreen',
-    backgrounds: { default: 'surface-primary' },
+    backgrounds: { default: 'white' },
     docs: {
       description: {
         component:
@@ -140,9 +140,8 @@ function FeaturedStory({ article }: { article: Article }) {
     <section className="w-full">
       <div className="max-w-container mx-auto px-md tablet:px-40">
         <a href="#" className="group flex flex-col gap-lg no-underline">
-          {article.cover && <BlogThumbnail {...article.cover} className="aspect-video" />}
+          {article.cover && <BlogThumbnail {...article.cover} category={undefined} className="aspect-video" />}
           <div className="flex flex-col gap-md">
-            <Badge variant="primary">{article.category}</Badge>
             <h2 className="text-heading-md text-text-primary max-w-body group-hover:underline">
               {article.title}
             </h2>
@@ -167,13 +166,10 @@ export const RecentNews: Story = {
       </NavBar>
       <main>
         <PageHeader
-          eyebrow="News"
-          eyebrowIcon={<BookStack {...sz} />}
           heading="Latest news"
           className="pb-lg"
         />
-        <FeaturedStory article={featured} />
-        <ArticleBand items={allArticles} exclude={featured.id} />
+        <ArticleBand items={allArticles} />
       </main>
       <Footer columns={footerColumns} />
     </div>
@@ -191,8 +187,6 @@ export const RecentNewsGrid: Story = {
       </NavBar>
       <main>
         <PageHeader
-          eyebrow="Research"
-          eyebrowIcon={<BookStack {...sz} />}
           heading="Latest news"
           className="pb-lg"
         />

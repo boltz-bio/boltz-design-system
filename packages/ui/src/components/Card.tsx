@@ -33,8 +33,7 @@ import { EyebrowLabel } from './EyebrowLabel';
 //   Max 3 medium/row; preferred different scale, same family
 //
 // ── Stacking gaps ─────────────────────────────────────────────────────────────
-//   Connected cards  — gap-sm  (8px)  — shared visual group
-//   Standalone cards — gap-lg  (24px) — independent elements
+//   Always gap-sm (8px) between cards
 
 export type CardColor =
   | 'black' | 'white'
@@ -72,21 +71,19 @@ const bgClass: Record<CardColor, string> = {
 //   standalone — 24px gap  (independent elements, cards feel separate)
 
 export interface CardGroupProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Visual relationship between cards */
-  spacing?: 'connected' | 'standalone';
   /** Grid columns — defaults to flex row */
   columns?: number;
 }
 
 export const CardGroup = React.forwardRef<HTMLDivElement, CardGroupProps>(
-  ({ className, spacing = 'standalone', columns, children, ...rest }, ref) => (
+  ({ className, columns, children, ...rest }, ref) => (
     <div
       ref={ref}
       className={cn(
         columns
           ? `grid grid-cols-${columns}`
           : 'flex flex-wrap',
-        spacing === 'connected' ? 'gap-sm' : 'gap-lg',
+        'gap-sm',
         className,
       )}
       {...rest}
@@ -247,14 +244,14 @@ export interface CardCaseStudyProps extends React.HTMLAttributes<HTMLDivElement>
 export const CardCaseStudy = React.forwardRef<HTMLDivElement, CardCaseStudyProps>(
   ({ className, logo, heading, cta = 'Read more', onCtaClick, image, ...rest }, ref) => (
     <div ref={ref} className={cn('flex gap-sm items-stretch w-full', className)} {...rest}>
-      <div className="flex-1 bg-sage-dark rounded-lg p-xl flex flex-col justify-between h-[350px] overflow-hidden">
+      <div className="w-1/2 bg-sage-dark rounded-lg p-xl flex flex-col justify-between h-[350px] overflow-hidden">
         <div className="flex flex-col gap-lg">
           {logo && <div className="h-32 flex items-center">{logo}</div>}
           <h3 className="text-heading-sm text-text-on-dark">{heading}</h3>
         </div>
         {cta && <Button variant="white" onClick={onCtaClick}>{cta}</Button>}
       </div>
-      <div className="flex-1 rounded-lg h-[350px] overflow-hidden bg-surface-secondary relative">
+      <div className="w-1/2 rounded-lg h-[350px] overflow-hidden bg-surface-secondary relative">
         {image}
       </div>
     </div>

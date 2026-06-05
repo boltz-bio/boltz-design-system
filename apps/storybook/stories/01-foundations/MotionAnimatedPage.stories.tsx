@@ -406,8 +406,6 @@ const LandingPage: React.FC = () => {
           <div className={SECTION_INSET}>
             <Reveal>
               <StatBand
-                eyebrow="Trusted by scientists"
-                eyebrowIcon={<GraphUp {...sz} />}
                 stats={stats.map((s) => ({ value: s.node, label: s.label }))}
               />
             </Reveal>

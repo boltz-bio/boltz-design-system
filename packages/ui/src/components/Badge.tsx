@@ -12,6 +12,7 @@ import { cn } from '../utils';
 //   primary   → Primary/Sage - Medium    (#C6E5C6)
 //   secondary → Secondary/Blue - Medium   (#C7E3EE)
 //   tertiary  → Base neutrals/Tierra – 200 (#EEE7DB)
+//   outlined  → No fill, border-text-primary — used for category/date labels in article headers
 
 const badgeVariants = cva(
   [
@@ -26,6 +27,7 @@ const badgeVariants = cva(
         primary: 'bg-sage-medium',
         secondary: 'bg-blue-medium',
         tertiary: 'bg-tierra-200',
+        outlined: 'bg-transparent border border-text-primary',
       },
     },
     defaultVariants: { variant: 'primary' },

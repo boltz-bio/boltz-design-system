@@ -18,7 +18,7 @@ const meta = {
   title: '05-Screens/API',
   parameters: {
     layout: 'fullscreen',
-    backgrounds: { default: 'surface-primary' },
+    backgrounds: { default: 'white' },
     docs: {
       description: {
         component:
@@ -236,8 +236,6 @@ export const API: Story = {
 
         {/* 7 — Stat band */}
         <StatBand
-          eyebrow="Community"
-          eyebrowIcon={<Community {...sz} />}
           stats={apiStats}
         />
 

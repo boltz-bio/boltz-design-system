@@ -10,7 +10,7 @@ const meta = {
   title: '05-Screens/News',
   parameters: {
     layout: 'fullscreen',
-    backgrounds: { default: 'surface-primary' },
+    backgrounds: { default: 'white' },
     docs: {
       description: {
         component:
@@ -55,7 +55,7 @@ export const News: Story = {
         {navItems.map((n) => <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>)}
       </NavBar>
       <main>
-        <PageHeader eyebrow="News" eyebrowIcon={<BookStack {...sz} />} heading="Research, product & community." className="pb-0" />
+        <PageHeader heading="Research, product & community." className="pb-0" />
         <NewsGrid items={newsArticles} className="pt-xl" />
       </main>
       <Footer columns={footerColumns} />

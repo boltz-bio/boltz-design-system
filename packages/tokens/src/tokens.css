@@ -116,9 +116,20 @@
   --font-mono-md:    13px; --lh-mono-md:    1.6;
 }
 
-/* Mobile typescale — headings step down one level < 768px, per the documented
+/* Tablet typescale — headings step down one level between 768px–1023px.
+   Body holds its size. Desktop (≥1024px) uses the :root values above. */
+@media (max-width: 1023px) {
+  :root {
+    --font-heading-lg: 48px; --lh-heading-lg: 1.05; --ls-heading-lg: -0.03em;
+    --font-heading-md: 28px; --lh-heading-md: 1.2;  --ls-heading-md: -0.02em;
+    --font-heading-sm: 22px; --lh-heading-sm: 1.2;  --ls-heading-sm: -0.01em;
+    --font-body-lg:    18px; --lh-body-lg:    1.4;  --ls-body-lg:    -0.01em;
+  }
+}
+
+/* Mobile typescale — headings step down further < 768px, per the documented
    scale in Storybook → 01-Foundations/Typography. Body + mono hold their size
-   (never reduce body-md below 18px). Desktop rendering is unchanged. */
+   (never reduce body-md below 18px). Overrides the tablet scale above. */
 @media (max-width: 767px) {
   :root {
     --font-heading-lg: 32px; --lh-heading-lg: 1.2; --ls-heading-lg: -0.02em;

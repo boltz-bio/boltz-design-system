@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cn } from '../utils';
 import { EyebrowLabel } from './EyebrowLabel';
-import { ListItemTab } from './ListItem';
+import { ListItemTabGroup } from './ListItem';
 import { MetricComparison, type MetricItem } from './MetricComparison';
 
 // Section — the pricing / comparison band (Figma node 89:451). Eyebrow + heading,
@@ -43,18 +43,15 @@ export const PricingSection = React.forwardRef<HTMLElement, PricingSectionProps>
 
           {/* Split: feature tabs (left) drive the comparison card (right) */}
           <div className="grid grid-cols-1 gap-xl laptop:grid-cols-2 laptop:gap-2xl items-start">
-            <div role="tablist" aria-label="Pricing scenarios" className="flex flex-col gap-sm">
-              {tabs.map((tab, i) => (
-                <ListItemTab
-                  key={i}
-                  icon={tab.icon}
-                  heading={tab.title}
-                  description={tab.body}
-                  active={i === active}
-                  onClick={() => setActive(i)}
-                />
-              ))}
-            </div>
+            <ListItemTabGroup
+              active={active}
+              onActiveChange={setActive}
+              items={tabs.map((tab) => ({
+                icon: tab.icon,
+                heading: tab.title,
+                description: tab.body,
+              }))}
+            />
 
             {current && <MetricComparison header={current.header} items={current.items} />}
           </div>
