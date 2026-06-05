@@ -8,7 +8,8 @@ const STUDIO_EMBED =
   'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
 const STUDIO_FULL = 'https://dylan-6--studio.modal.run/';
 // Turntable .mp4 — a full 360° rotation, baked in Studio (Export → "Bake turntable").
-const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=50d3e03d3d93bd645cde036b5d7d96a3';
+// This one is baked on a white background, so pair it with surface="white".
+const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
 
 const meta = {
   title: '02-Components/Embed',
@@ -26,9 +27,11 @@ const meta = {
   argTypes: {
     aspect: { control: 'select', options: ['video', 'wide', 'square', 'portrait'] },
     radius: { control: 'select', options: ['md', 'lg', 'xl'] },
+    surface: { control: 'select', options: ['none', 'surface', 'white', 'sage', 'blue', 'dark'] },
     kind: { control: 'inline-radio', options: ['iframe', 'video'] },
     reveal: { control: 'boolean' },
     scrub: { control: 'boolean' },
+    interactive: { control: 'boolean' },
   },
 } satisfies Meta<typeof Embed>;
 
@@ -64,6 +67,22 @@ export const Turntable: Story = {
     title: 'Boltz Studio — protein turntable',
     aspect: 'square',
     radius: 'lg',
+    surface: 'white',
+  },
+  render: (args) => <div className="max-w-[560px]"><Embed {...args} /></div>,
+};
+
+// Click the turntable to swap in the live, drag-to-rotate iframe.
+export const Interactive: Story = {
+  args: {
+    src: STUDIO_TURNTABLE,
+    kind: 'video',
+    title: 'Boltz Studio — protein',
+    aspect: 'square',
+    radius: 'lg',
+    surface: 'white',
+    interactive: true,
+    interactiveSrc: STUDIO_EMBED,
   },
   render: (args) => <div className="max-w-[560px]"><Embed {...args} /></div>,
 };
@@ -77,6 +96,7 @@ export const TurntableOnScroll: Story = {
     title: 'Boltz Studio — protein turntable (scroll)',
     aspect: 'square',
     radius: 'lg',
+    surface: 'white',
     scrub: true,
   },
   parameters: { layout: 'fullscreen' },

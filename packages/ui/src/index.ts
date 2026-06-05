@@ -63,6 +63,9 @@ export type { ThumbnailProps } from './components/Thumbnail';
 export { Embed } from './components/Embed';
 export type { EmbedProps } from './components/Embed';
 
+export { Carousel } from './components/Carousel';
+export type { CarouselProps } from './components/Carousel';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';

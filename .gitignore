@@ -10,3 +10,4 @@ storybook-static
 !.vscode/settings.json
 .idea
 .cache
+.playwright-mcp/

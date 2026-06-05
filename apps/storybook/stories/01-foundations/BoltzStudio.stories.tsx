@@ -12,7 +12,7 @@ import { Embed, placeholderImage } from '@boltz/ui';
 
 const STUDIO_EMBED =
   'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
-const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=50d3e03d3d93bd645cde036b5d7d96a3';
+const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
 
 const meta = {
   title: '01-Foundations/Boltz Studio',
@@ -52,7 +52,7 @@ export const Overview: Story = {
         {/* Turntable video */}
         <div>
           <Label>video — baked 360° turntable (.mp4)</Label>
-          <Embed src={STUDIO_TURNTABLE} kind="video" title="Boltz Studio — turntable" aspect="square" radius="lg" />
+          <Embed src={STUDIO_TURNTABLE} kind="video" title="Boltz Studio — turntable" aspect="square" radius="lg" surface="white" />
         </div>
 
         {/* Static PNG fallback */}

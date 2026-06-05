@@ -29,25 +29,28 @@ type Story = StoryObj<typeof meta>;
 
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 
-// Boltz Studio render (Modal-hosted) as the hero media. The Studio render bakes in its
-// background colour — matching it to the section (here surface-primary #FBFAF7) makes the
-// protein float seamlessly. `transparent` doesn't help: Modal's embed page paints its own
-// dark chrome behind the transparent canvas, so match the section colour instead.
-//
-// To make the protein rotate on scroll, swap this for the turntable .mp4 and add `scrub`:
-//   src="https://dylan-6--embed-video.modal.run?k=…" kind="video" scrub
-// (re-bake the turntable in #FBFAF7 in Studio first so it floats like the still render).
-const STUDIO_SURFACE =
-  'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__&t=eyJiZyI6IiNGQkZBRjciLCJyYyI6IiNjMWZiZDgiLCJiYyI6IiNhYmUzZjgiLCJwYyI6IiM1ZmVjYzIiLCJyciI6MSwicnQiOjAuNCwicmsiOjQsInJjbCI6MCwicnMiOjAsImJyIjowLjc2LCJiY2wiOjAuMDEsImEiOjAuOTMsImsiOjAuODUsInJtIjoxLjIsInAiOjM0LjUsInBkIjo2MCwiYmwiOjAuNCwiYmxUIjoxLjEsImUiOjJ9&c=eyJwIjpbMCwwLDY1LjA3NV0sInQiOlswLDAsMF19';
+// Boltz Studio turntable (Modal-hosted) as the hero media. The .mp4 is a full 360°
+// rotation baked on a white background — `surface="white"` matches the frame to it so it
+// floats. `scrub` eases the rotation to scroll position; `interactive` lets a click swap
+// in the live drag-to-rotate iframe (STUDIO_LIVE).
+const STUDIO_TURNTABLE =
+  'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
+const STUDIO_LIVE =
+  'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__&t=eyJiZyI6IiNmZmZmZmYiLCJyYyI6IiNjMWZiZDgiLCJiYyI6IiNhYmUzZjgiLCJwYyI6IiM1ZmVjYzIiLCJyciI6MSwicnQiOjAuNCwicmsiOjQsInJjbCI6MCwicnMiOjAsImJyIjowLjc2LCJiY2wiOjAuMDEsImEiOjAuOTMsImsiOjAuODUsInJtIjoxLjIsInAiOjM0LjUsInBkIjo2MCwiYmwiOjAuNCwiYmxUIjoxLjEsImUiOjJ9&c=eyJwIjpbMCwwLDY1LjA3NV0sInQiOlswLDAsMF19';
 
 const ProteinRender = () => (
   <div className="w-[280px] tablet:w-[460px]">
     <Embed
-      src={STUDIO_SURFACE}
-      title="Boltz Studio — protein render"
+      src={STUDIO_TURNTABLE}
+      kind="video"
+      title="Boltz Studio — protein turntable"
       aspect="square"
+      surface="white"
       reveal
-      className="bg-surface-primary rounded-none"
+      scrub
+      interactive
+      interactiveSrc={STUDIO_LIVE}
+      className="rounded-none"
     />
   </div>
 );

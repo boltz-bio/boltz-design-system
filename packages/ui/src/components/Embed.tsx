@@ -11,10 +11,12 @@ import { cn } from '../utils';
 // Boltz Studio: https://dylan-6--studio.modal.run. Export formats:
 //   • interactive iframe  → https://dylan-6--embed.modal.run?s=…       (kind="iframe")
 //   • turntable video      → https://dylan-6--embed-video.modal.run?k=…  (kind="video")
-// The Studio render bakes in its background colour — match the section you place it
-// in (e.g. #FBFAF7 on surface-primary, #fff on a white band) for a seamless float.
+// The Studio render bakes in its background colour. Rather than typing an exact hex,
+// pick a `surface` preset that matches one of Studio's background swatches — they are
+// the Boltz tokens: surface→#FBFAF7, white→#fff, sage→#EDF7ED, blue→#EEF6FA, dark→#142D36.
+// Bake the matching swatch in Studio and the render floats seamlessly on that surface.
 
-const frame = cva('relative w-full overflow-hidden bg-surface-secondary', {
+const frame = cva('relative w-full overflow-hidden', {
   variants: {
     aspect: {
       video: 'aspect-video',
@@ -27,8 +29,17 @@ const frame = cva('relative w-full overflow-hidden bg-surface-secondary', {
       lg: 'rounded-lg',
       xl: 'rounded-xl',
     },
+    // Frame background — match the colour baked into the Studio render so there's no box.
+    surface: {
+      none: 'bg-surface-secondary',
+      surface: 'bg-surface-primary',
+      white: 'bg-white',
+      sage: 'bg-sage-pale',
+      blue: 'bg-blue-pale',
+      dark: 'bg-blue-dark',
+    },
   },
-  defaultVariants: { aspect: 'video', radius: 'lg' },
+  defaultVariants: { aspect: 'video', radius: 'lg', surface: 'none' },
 });
 
 export interface EmbedProps
@@ -51,9 +62,17 @@ export interface EmbedProps
   reveal?: boolean;
   /**
    * Video only: scrub the turntable by scroll position so the protein rotates as the
-   * page scrolls (instead of autoplaying on a loop). Disabled under reduced-motion.
+   * page scrolls (instead of autoplaying on a loop). Eased for smoothness; disabled
+   * under reduced-motion.
    */
   scrub?: boolean;
+  /**
+   * Video only: let the viewer click the turntable to swap in the live, drag-to-rotate
+   * iframe (`interactiveSrc`). Shows a subtle "drag to rotate" hint until activated.
+   */
+  interactive?: boolean;
+  /** The live iframe URL used when `interactive` is activated (a Boltz Studio embed view). */
+  interactiveSrc?: string;
 }
 
 const isVideoSrc = (src: string, kind?: 'iframe' | 'video') =>
@@ -61,13 +80,22 @@ const isVideoSrc = (src: string, kind?: 'iframe' | 'video') =>
   (kind !== 'iframe' && (/\.(mp4|webm)(\?|#|$)/i.test(src) || /embed-video\.modal\.run/i.test(src)));
 
 export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
-  ({ className, src, title, poster, allow = 'fullscreen', kind, reveal = false, scrub = false, aspect, radius, ...rest }, ref) => {
+  (
+    {
+      className, src, title, poster, allow = 'fullscreen', kind,
+      reveal = false, scrub = false, interactive = false, interactiveSrc,
+      aspect, radius, surface, ...rest
+    },
+    ref,
+  ) => {
     const innerRef = React.useRef<HTMLDivElement | null>(null);
     const videoRef = React.useRef<HTMLVideoElement | null>(null);
     const [shown, setShown] = React.useState(!reveal);
     const [loaded, setLoaded] = React.useState(false);
+    const [active, setActive] = React.useState(false); // interactive iframe engaged
 
     const isVideo = isVideoSrc(src, kind);
+    const canInteract = isVideo && interactive && !!interactiveSrc;
 
     React.useEffect(() => {
       if (!reveal || shown) return;
@@ -81,39 +109,56 @@ export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
       return () => io.disconnect();
     }, [reveal, shown]);
 
-    // Scroll-scrub: drive the turntable's currentTime by how far the element has
-    // travelled through the viewport, so the protein rotates as the page scrolls.
+    // Scroll-scrub: map how far the element has travelled through the viewport to the
+    // turntable's currentTime, eased toward the target each frame so the rotation glides
+    // rather than snapping. Skipped under reduced-motion or once interaction takes over.
     React.useEffect(() => {
-      if (!isVideo || !scrub) return;
+      if (!isVideo || !scrub || active) return;
       const el = innerRef.current;
       const video = videoRef.current;
       if (!el || !video) return;
       if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
 
       video.pause();
+      let target = video.currentTime || 0;
+      let current = target;
       let raf = 0;
-      const update = () => {
-        raf = 0;
+      let running = false;
+
+      const tick = () => {
+        const d = video.duration;
+        current += (target - current) * 0.12; // ease factor — lower = smoother/slower
+        if (Math.abs(target - current) < 0.004) {
+          current = target;
+          running = false;
+          if (d && Number.isFinite(d)) video.currentTime = current;
+          return;
+        }
+        if (d && Number.isFinite(d)) video.currentTime = current;
+        raf = requestAnimationFrame(tick);
+      };
+      const ensureRunning = () => { if (!running) { running = true; raf = requestAnimationFrame(tick); } };
+      const computeTarget = () => {
         const r = el.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
-        // 0 when the element's top reaches the viewport bottom, 1 when its bottom reaches the top
         const progress = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
         const d = video.duration;
-        if (d && Number.isFinite(d)) video.currentTime = progress * d;
+        target = progress * (d && Number.isFinite(d) ? d : 0);
+        ensureRunning();
       };
-      const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-      const onMeta = () => update();
+      const onScroll = () => computeTarget();
+      const onMeta = () => computeTarget();
       video.addEventListener('loadedmetadata', onMeta);
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
-      if (video.readyState >= 1) update();
+      if (video.readyState >= 1) computeTarget();
       return () => {
         if (raf) cancelAnimationFrame(raf);
         video.removeEventListener('loadedmetadata', onMeta);
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('resize', onScroll);
       };
-    }, [isVideo, scrub]);
+    }, [isVideo, scrub, active]);
 
     const setRefs = (node: HTMLDivElement | null) => {
       innerRef.current = node;
@@ -125,7 +170,7 @@ export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
       <div
         ref={setRefs}
         className={cn(
-          frame({ aspect, radius }),
+          frame({ aspect, radius, surface }),
           reveal && [
             'transition-[opacity,transform] duration-slow ease-standard-out motion-reduce:transition-none',
             shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
@@ -147,6 +192,7 @@ export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
             )}
           />
         )}
+
         {isVideo ? (
           <video
             ref={videoRef}
@@ -159,7 +205,11 @@ export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
             playsInline
             preload="auto"
             onLoadedData={() => setLoaded(true)}
-            className="absolute inset-0 w-full h-full object-cover"
+            className={cn(
+              'absolute inset-0 w-full h-full object-cover',
+              'transition-opacity duration-base ease-standard',
+              active ? 'opacity-0' : 'opacity-100',
+            )}
           />
         ) : (
           <iframe
@@ -170,6 +220,40 @@ export const Embed = React.forwardRef<HTMLDivElement, EmbedProps>(
             onLoad={() => setLoaded(true)}
             className="absolute inset-0 w-full h-full border-0"
           />
+        )}
+
+        {/* Interactive swap — click the turntable to drag-rotate the live model */}
+        {canInteract && active && (
+          <iframe
+            src={interactiveSrc}
+            title={`${title} — interactive`}
+            loading="lazy"
+            allow={allow}
+            className="absolute inset-0 w-full h-full border-0"
+          />
+        )}
+        {canInteract && !active && (
+          <button
+            type="button"
+            onClick={() => setActive(true)}
+            aria-label={`Interact with ${title}`}
+            className={cn(
+              'group absolute inset-0 flex items-end justify-center pb-md',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action-primary focus-visible:ring-offset-2',
+            )}
+          >
+            <span
+              className={cn(
+                'rounded-full bg-surface-card-dark/70 px-md py-xs',
+                'text-body-sm text-text-on-dark',
+                'opacity-0 translate-y-1 transition-[opacity,transform] duration-base ease-standard',
+                'group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0',
+                'motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0',
+              )}
+            >
+              Drag to rotate
+            </span>
+          </button>
         )}
       </div>
     );

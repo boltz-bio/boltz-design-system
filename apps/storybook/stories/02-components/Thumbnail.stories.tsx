@@ -22,6 +22,8 @@ const meta = {
     aspect: { control: 'select', options: ['video', 'wide', 'square', 'portrait'] },
     radius: { control: 'select', options: ['md', 'lg'] },
     tone: { control: 'select', options: ['sage', 'blue', 'tierra', 'neutral'] },
+    graphic: { control: 'select', options: ['none', 'blob'] },
+    blobShape: { control: { type: 'number', min: 0 } },
   },
 } satisfies Meta<typeof Thumbnail>;
 
@@ -69,6 +71,42 @@ export const AspectRatios: Story = {
       </div>
       <div className="w-[200px]">
         <Thumbnail src={placeholderImage('boltz-portrait')} aspect="portrait" />
+      </div>
+    </div>
+  ),
+};
+
+// ── Blob placeholders — each tone with a decorative blob ──────────────────────
+
+export const BlobPlaceholders: Story = {
+  render: () => (
+    <div className="grid grid-cols-2 gap-lg w-[640px]">
+      <Thumbnail tone="sage" graphic="blob" blobShape={0} />
+      <Thumbnail tone="blue" graphic="blob" blobShape={3} />
+      <Thumbnail tone="tierra" graphic="blob" blobShape={7} />
+      <Thumbnail tone="neutral" graphic="blob" blobShape={12} />
+    </div>
+  ),
+};
+
+// ── Blog cover — composed Figma "Blog thumbnails" look ────────────────────────
+// A tinted Thumbnail card (tone + blob) used as the background, with an overlaid
+// content layer (Boltz wordmark, eyebrow label, large title) using type tokens.
+
+export const BlogCover: Story = {
+  render: () => (
+    <div className="relative w-[480px]">
+      <Thumbnail tone="sage" graphic="blob" blobShape={2} aspect="wide" radius="lg" />
+      <div className="absolute inset-0 flex flex-col justify-between p-lg pointer-events-none">
+        <span className="text-body-md text-text-primary font-medium">Boltz</span>
+        <div className="flex flex-col gap-sm">
+          <span className="text-body-sm uppercase tracking-wide text-text-muted">
+            Announcing · New product
+          </span>
+          <span className="text-heading-md text-text-primary">
+            The future we are building at Boltz
+          </span>
+        </div>
       </div>
     </div>
   ),

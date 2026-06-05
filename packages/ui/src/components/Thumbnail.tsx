@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
+import { Blob } from './Blob';
 
 // Spec: Figma "Blog thumbnails" 57:3218
 //
@@ -31,6 +32,16 @@ const tones: Record<NonNullable<ThumbnailProps['tone']>, string> = {
   neutral: 'bg-surface-secondary',
 };
 
+// Decorative blob FILL tokens — a slightly deeper but still soft member of the
+// same colour family as the bg tint above (set via `text-*`, the Blob fills with
+// `currentColor`). Neutral has no family equivalent → fall back to `text-border-warm`.
+const blobFills: Record<NonNullable<ThumbnailProps['tone']>, string> = {
+  sage: 'text-sage-medium',
+  blue: 'text-blue-medium',
+  tierra: 'text-tierra-500',
+  neutral: 'text-border-warm',
+};
+
 export interface ThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Image URL. If omitted, a tinted placeholder is rendered (no broken image). */
   src?: string;
@@ -41,10 +52,31 @@ export interface ThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
   radius?: 'md' | 'lg';
   /** Placeholder background tone (only visible when there is no `src`). Default 'neutral'. */
   tone?: 'sage' | 'blue' | 'tierra' | 'neutral';
+  /**
+   * Placeholder decoration (only used when there is no `src`). 'blob' renders a
+   * large organic Boltz blob bleeding off the top-right corner; 'none' keeps the
+   * minimal `—` dash. Default 'none'.
+   */
+  graphic?: 'none' | 'blob';
+  /** Which blob shape to use when `graphic='blob'`. Index into BLOB_SHAPES; wraps. Default 0. */
+  blobShape?: number;
 }
 
 export const Thumbnail = React.forwardRef<HTMLDivElement, ThumbnailProps>(
-  ({ className, src, alt = '', aspect = 'wide', radius = 'lg', tone = 'neutral', ...rest }, ref) => (
+  (
+    {
+      className,
+      src,
+      alt = '',
+      aspect = 'wide',
+      radius = 'lg',
+      tone = 'neutral',
+      graphic = 'none',
+      blobShape = 0,
+      ...rest
+    },
+    ref,
+  ) => (
     <div
       ref={ref}
       className={cn(
@@ -59,6 +91,17 @@ export const Thumbnail = React.forwardRef<HTMLDivElement, ThumbnailProps>(
     >
       {src ? (
         <img src={src} alt={alt} className="w-full h-full object-cover" />
+      ) : graphic === 'blob' ? (
+        // Decorative blob bleeding off the top-right corner, clipped by the
+        // card's `overflow-hidden`. Fill is a deeper member of the tone family.
+        <Blob
+          shape={blobShape}
+          aria-hidden
+          className={cn(
+            'pointer-events-none absolute -top-1/4 -right-1/4 w-2/3 h-auto',
+            blobFills[tone],
+          )}
+        />
       ) : (
         <span
           aria-hidden
