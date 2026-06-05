@@ -13,10 +13,6 @@ const meta = {
           'Image placeholder + thumbnail handling. Renders an image when given a `src`; otherwise falls back to a tinted block with a faint Boltz mark watermark (never a broken/empty image). The `graphic="blob"` option adds an organic Boltz blob to the empty state. The "Blog covers" story shows the composed Figma blog-thumbnail layouts built on top.',
       },
     },
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=57-3218',
-    },
   },
   argTypes: {
     aspect: { control: 'select', options: ['video', 'wide', 'square', 'portrait'] },

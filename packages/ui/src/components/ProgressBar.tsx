@@ -40,22 +40,14 @@ export interface ProgressBarProps
   value: number;
   /** Accessible label for the bar (e.g. "Boltz API cost"). */
   label?: string;
-  /** Animate the fill from 0 on mount / on value change. Default true. Honours prefers-reduced-motion. */
-  animate?: boolean;
-  /** Stagger delay (ms) for the fill animation — e.g. row index × 90. */
-  delayMs?: number;
 }
 
 export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
-  ({ className, value, tone, size, label, animate = true, delayMs = 0, ...rest }, ref) => {
+  ({ className, value, tone, size, label, ...rest }, ref) => {
     const pct = Math.max(0, Math.min(100, value));
-    // Start at 0 and flip to the target after mount so the width transition runs.
-    const [shown, setShown] = React.useState(animate ? 0 : pct);
-    React.useEffect(() => {
-      if (!animate) { setShown(pct); return; }
-      const id = requestAnimationFrame(() => setShown(pct));
-      return () => cancelAnimationFrame(id);
-    }, [pct, animate]);
+    // Width set directly — always visible, transitions on value change.
+    const [shown, setShown] = React.useState(pct);
+    React.useEffect(() => { setShown(pct); }, [pct]);
 
     return (
       <div
@@ -71,10 +63,10 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         <div
           className={cn(
             'h-full rounded-full',
+            'transition-[width] duration-slow ease-standard-out motion-reduce:transition-none',
             fillTone[tone ?? 'blue'],
-            animate && 'transition-[width] duration-slow ease-standard-out motion-reduce:transition-none',
           )}
-          style={{ width: `${shown}%`, transitionDelay: animate && delayMs ? `${delayMs}ms` : undefined }}
+          style={{ width: `${shown}%` }}
         />
       </div>
     );

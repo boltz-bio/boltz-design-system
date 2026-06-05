@@ -23,6 +23,13 @@ const cardVariants = cva('rounded-xl p-xl flex flex-col gap-lg', {
   defaultVariants: { background: 'blue' },
 });
 
+// Map card background → ProgressBar tone so bars always use the same family.
+const barTone = {
+  blue:    'blue',
+  sage:    'sage',
+  none:    'neutral',
+} as const;
+
 export interface MetricDatum {
   /** Displayed value, e.g. "$2,700". */
   display: React.ReactNode;
@@ -77,7 +84,7 @@ export const MetricComparison = React.forwardRef<HTMLDivElement, MetricCompariso
                   <span className="text-body-md text-text-primary">{item.label}</span>
                   <span className="text-body-md text-text-primary whitespace-nowrap">{d.display}</span>
                 </div>
-                <ProgressBar value={(d.value / max) * 100} label={`${item.label}`} delayMs={i * 90} />
+                <ProgressBar value={(d.value / max) * 100} label={`${item.label}`} tone={barTone[background ?? 'blue']} />
               </li>
             );
           })}

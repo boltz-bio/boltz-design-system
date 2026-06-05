@@ -55,7 +55,7 @@ export const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
       {/* Underline — grows left → right on hover */}
       <span
         aria-hidden="true"
-        className="absolute bottom-8 left-0 h-px w-0 bg-current group-hover:w-full transition-[width] duration-spring ease-spring"
+        className="absolute bottom-8 left-0 h-px w-0 bg-current group-hover:w-full transition-[width] duration-base ease-standard"
       />
     </button>
   ),

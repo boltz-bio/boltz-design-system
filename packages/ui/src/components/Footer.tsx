@@ -115,7 +115,7 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(
                     // Underline grows left → right on hover (same as TextButton)
                     'after:absolute after:bottom-[8px] after:left-0',
                     'after:h-px after:w-0 after:bg-current',
-                    'after:transition-[width] after:duration-spring after:ease-spring',
+                    'after:transition-[width] after:duration-base after:ease-standard',
                     'hover:after:w-full',
                   )}
                 >

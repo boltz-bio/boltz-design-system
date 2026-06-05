@@ -119,13 +119,12 @@ ListItemApp.displayName = 'ListItemApp';
 // Spec: Figma node 118:863
 //
 // Three visual states:
-//   enabled  — no background (default)
-//   hover    — bg-blue-pale  (#EEF6FA)  via CSS :hover
-//   active   — bg-blue-light (#E5F2F7)  when active={true}
+//   enabled  — no background, 80% opacity
+//   hover    — bg-tierra-50 via CSS :hover
+//   active   — full opacity (managed by ListItemTabGroup's sliding bg)
 //
-// p-[20px], rounded-[16px]. Icon 48×48 + heading-sm + body-md.
-// Use as a controlled tab: pass active + onClick.
-// Stack multiple inside a flex-col container (no extra gap needed).
+// Use standalone with active/onClick, or inside ListItemTabGroup for
+// the animated sliding-background variant.
 
 export interface ListItemTabProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
@@ -141,13 +140,13 @@ export const ListItemTab = React.forwardRef<HTMLButtonElement, ListItemTabProps>
       role="tab"
       aria-selected={active}
       className={cn(
-        'flex flex-col items-start p-[20px] rounded-lg w-full text-left',
+        'relative z-10 flex flex-col items-start p-[20px] rounded-lg w-full text-left',
         'bg-transparent border-none cursor-pointer',
-        'transition-colors duration-base ease-standard',
-        // Hover state
-        'hover:bg-blue-pale',
-        // Active state overrides hover
-        active && 'bg-blue-light hover:bg-blue-light',
+        'transition-[opacity,background-color] duration-base ease-standard',
+        // Inactive: 80% opacity, tierra-50 on hover
+        !active && 'opacity-80 hover:bg-sage-pale',
+        // Active: full opacity, no extra bg (group handles the bg)
+        active && 'opacity-100',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action-primary',
         className,
       )}
@@ -174,3 +173,66 @@ export const ListItemTab = React.forwardRef<HTMLButtonElement, ListItemTabProps>
   ),
 );
 ListItemTab.displayName = 'ListItemTab';
+
+// ── ListItemTabGroup — animated sliding background ─────────────────────────────
+// Wraps multiple ListItemTab children and renders an absolutely-positioned
+// tierra-100 pill that slides vertically to the active item on each press.
+//
+// Usage:
+//   <ListItemTabGroup active={idx} onActiveChange={setIdx} items={[...]} />
+
+export interface ListItemTabGroupItem {
+  icon: React.ReactNode;
+  heading: React.ReactNode;
+  description?: React.ReactNode;
+}
+
+export interface ListItemTabGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  items: ListItemTabGroupItem[];
+  active?: number;
+  onActiveChange?: (index: number) => void;
+}
+
+export const ListItemTabGroup = React.forwardRef<HTMLDivElement, ListItemTabGroupProps>(
+  ({ className, items, active = 0, onActiveChange, ...rest }, ref) => {
+    const itemRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+    const [bg, setBg] = React.useState({ top: 0, height: 0 });
+
+    // Measure the active item and move the sliding background to it.
+    React.useEffect(() => {
+      const el = itemRefs.current[active];
+      if (el) setBg({ top: el.offsetTop, height: el.offsetHeight });
+    }, [active]);
+
+    return (
+      <div
+        ref={ref}
+        role="tablist"
+        className={cn('relative flex flex-col', className)}
+        {...rest}
+      >
+        {/* Animated tierra-100 background pill */}
+        <div
+          className="absolute left-0 right-0 bg-sage-pale rounded-lg pointer-events-none"
+          style={{
+            top: bg.top,
+            height: bg.height,
+            transition: 'top 420ms cubic-bezier(0.76, 0, 0.24, 1), height 420ms cubic-bezier(0.76, 0, 0.24, 1)',
+          }}
+        />
+        {items.map((item, i) => (
+          <ListItemTab
+            key={i}
+            ref={(el) => { itemRefs.current[i] = el; }}
+            icon={item.icon}
+            heading={item.heading}
+            description={item.description}
+            active={i === active}
+            onClick={() => onActiveChange?.(i)}
+          />
+        ))}
+      </div>
+    );
+  },
+);
+ListItemTabGroup.displayName = 'ListItemTabGroup';

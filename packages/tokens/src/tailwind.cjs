@@ -17,12 +17,30 @@ module.exports = {
       white: '#FFFFFF',
       black: '#232323',
       surface: {
-        primary: '#FBFAF7',
-        secondary: '#F0EFEC',
-        tertiary: '#E8E7E3',
+        // ── Neutral canvas ─────────────────────────────────────
+        primary:    '#FBFAF7',   // warm cream — default page canvas
+        secondary:  '#F0EFEC',   // slightly cool grey
+        tertiary:   '#E8E7E3',
         'card-light': '#FFFFFF',
-        'card-blue': '#EEF6FA',
-        'card-dark': '#232323',
+        'card-blue':  '#EEF6FA',
+        'card-dark':  '#232323',
+        white:      '#FFFFFF',
+        black:      '#232323',
+        // ── Sage family ────────────────────────────────────────
+        'sage-dark':   '#003014',
+        'sage-medium': '#C6E5C6',
+        'sage-light':  '#D9EED9',
+        'sage-pale':   '#EDF7ED',
+        // ── Blue family ────────────────────────────────────────
+        'blue-dark':   '#142D36',
+        'blue-medium': '#C7E3EE',
+        'blue-light':  '#E5F2F7',
+        'blue-pale':   '#EEF6FA',
+        // ── Tierra family ──────────────────────────────────────
+        'tierra-500':  '#DACAB0',
+        'tierra-200':  '#EEE7DB',
+        'tierra-100':  '#F7F2E9',
+        'tierra-50':   '#FBFAF7',
       },
       text: {
         primary: '#232323',

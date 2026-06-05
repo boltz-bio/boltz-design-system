@@ -3,12 +3,30 @@
 
 export const colors = {
   surface: {
-    primary: '#FBFAF7',
-    secondary: '#F0EFEC',
-    tertiary: '#E8E7E3',
-    cardLight: '#FFFFFF',
-    cardBlue: '#EEF6FA',
-    cardDark: '#232323',
+    // Neutral canvas
+    primary:    '#FBFAF7',
+    secondary:  '#F0EFEC',
+    tertiary:   '#E8E7E3',
+    cardLight:  '#FFFFFF',
+    cardBlue:   '#EEF6FA',
+    cardDark:   '#232323',
+    white:      '#FFFFFF',
+    black:      '#232323',
+    // Sage family
+    sageDark:   '#003014',
+    sageMedium: '#C6E5C6',
+    sageLight:  '#D9EED9',
+    sagePale:   '#EDF7ED',
+    // Blue family
+    blueDark:   '#142D36',
+    blueMedium: '#C7E3EE',
+    blueLight:  '#E5F2F7',
+    bluePale:   '#EEF6FA',
+    // Tierra family
+    tierra500:  '#DACAB0',
+    tierra200:  '#EEE7DB',
+    tierra100:  '#F7F2E9',
+    tierra50:   '#FBFAF7',
   },
   text: {
     primary: '#232323',

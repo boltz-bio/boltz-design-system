@@ -8,10 +8,6 @@ const meta = {
   parameters: {
     layout: 'padded',
     backgrounds: { default: 'blue-pale' },
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=108-404',
-    },
     docs: {
       description: {
         component:

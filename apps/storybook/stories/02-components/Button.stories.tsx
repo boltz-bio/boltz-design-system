@@ -7,10 +7,6 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=57-4644',
-    },
     docs: {
       description: {
         component:

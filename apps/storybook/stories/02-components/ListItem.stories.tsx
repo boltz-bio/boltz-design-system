@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ListItem, ListItemApp, ListItemTab } from '@boltz/ui';
+import { ListItem, ListItemApp, ListItemTab, ListItemTabGroup } from '@boltz/ui';
 import * as AllIcons from 'iconoir-react';
 import React, { useState } from 'react';
 
@@ -174,25 +174,23 @@ export const WithTab: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'A clickable tab row with three states: **enabled** (no fill) → **hover** (`blue-pale`) → **active** (`blue-light`). Controlled via `active` + `onClick`. Items are flush with no gap between them. Use `role="tablist"` on the wrapper.',
+        story: 'Animated sliding background via `ListItemTabGroup`. The tierra-100 pill slides to the active item on press. Inactive items are at 80% opacity; hover shows tierra-50.',
       },
     },
   },
   render: () => {
     const [active, setActive] = useState(0);
     return (
-      <div className="flex flex-col max-w-[480px]" role="tablist">
-        {TAB_ITEMS.map(({ icon: Icon, heading, description }, i) => (
-          <ListItemTab
-            key={i}
-            icon={<Icon {...sz} />}
-            heading={heading}
-            description={description}
-            active={active === i}
-            onClick={() => setActive(i)}
-          />
-        ))}
-      </div>
+      <ListItemTabGroup
+        className="max-w-[480px]"
+        active={active}
+        onActiveChange={setActive}
+        items={TAB_ITEMS.map(({ icon: Icon, heading, description }) => ({
+          icon: <Icon {...sz} />,
+          heading,
+          description,
+        }))}
+      />
     );
   },
 };

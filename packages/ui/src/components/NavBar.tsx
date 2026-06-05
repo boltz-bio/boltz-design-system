@@ -53,7 +53,7 @@ export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
         'text-text-primary no-underline',
         'transition-colors duration-base ease-standard',
         active
-          ? 'bg-action-primary text-text-on-dark'
+          ? 'bg-transparent text-text-primary'
           : 'bg-transparent hover:bg-surface-secondary',
         className,
       )}

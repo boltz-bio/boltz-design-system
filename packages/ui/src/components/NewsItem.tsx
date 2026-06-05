@@ -85,7 +85,7 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
           )}
           {/* Text */}
           <div className="flex flex-col gap-[12px] w-full">
-            <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline">
+            <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline decoration-current underline-offset-2 transition-all duration-base ease-standard" style={{ textDecorationThickness: '1px' }}>
               {title}
             </p>
             <Meta category={category} date={date} />
@@ -105,7 +105,7 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
         >
           {/* Text */}
           <div className="flex flex-col gap-[12px] flex-1 min-w-0">
-            <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline">
+            <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline decoration-current underline-offset-2 transition-all duration-base ease-standard" style={{ textDecorationThickness: '1px' }}>
               {title}
             </p>
             <Meta category={category} date={date} />
@@ -140,7 +140,7 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
 
         {/* Title + summary */}
         <div className="flex flex-col gap-[8px] flex-1 min-w-0 mr-[40px]">
-          <h3 className="font-sans font-regular text-heading-sm text-text-primary group-hover:underline">
+          <h3 className="font-sans font-regular text-heading-sm text-text-primary group-hover:underline decoration-current underline-offset-2" style={{ textDecorationThickness: '1px' }}>
             {title}
           </h3>
           {summary && (

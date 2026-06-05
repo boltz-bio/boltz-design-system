@@ -12,10 +12,6 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=57-2513',
-    },
     docs: {
       description: {
         component:

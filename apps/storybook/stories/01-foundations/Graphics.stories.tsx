@@ -10,10 +10,6 @@ const meta = {
   title: '01-Foundations/Graphics',
   parameters: {
     layout: 'padded',
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/LvTmQRNQ2FZ6GcrSpwuvgl/Boltz-web-2.0?node-id=155-363',
-    },
   },
 } satisfies Meta;
 

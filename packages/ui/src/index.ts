@@ -25,8 +25,8 @@ export type { AccordionProps, AccordionItemProps, AccordionBadgeProps, Accordion
 export { NavBar, NavLink } from './components/NavBar';
 export type { NavBarProps, NavLinkProps } from './components/NavBar';
 
-export { ListItem, ListItemApp, ListItemTab } from './components/ListItem';
-export type { ListItemProps, ListItemAppProps, ListItemTabProps } from './components/ListItem';
+export { ListItem, ListItemApp, ListItemTab, ListItemTabGroup } from './components/ListItem';
+export type { ListItemProps, ListItemAppProps, ListItemTabProps, ListItemTabGroupProps, ListItemTabGroupItem } from './components/ListItem';
 
 export { CodeBlock } from './components/CodeBlock';
 export type { CodeBlockProps, CodeBlockColor, CodeTab } from './components/CodeBlock';

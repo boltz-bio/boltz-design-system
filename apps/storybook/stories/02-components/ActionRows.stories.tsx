@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { LinkSection, LinkSectionRow } from '@boltz/ui';
 
 const meta = {
-  title: '02-Components/LinkSection',
+  title: '02-Components/ActionRows',
   component: LinkSection,
   tags: ['autodocs'],
   parameters: {
@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A row of call-to-action link blocks (heading + body + CTA), used for secondary page actions such as partnering or careers. Compose multiple with LinkSectionRow.',
+          'Stacked action rows — each row has a heading, optional body text, and a CTA button. Used for secondary page actions such as partnering, careers, or enterprise enquiries. Compose rows with LinkSectionRow, or pass an `items` array.',
       },
     },
   },

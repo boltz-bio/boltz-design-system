@@ -65,6 +65,44 @@ const headerBorder: Record<CodeBlockColor, string> = {
   tierra: 'border-b border-tierra-100',
 };
 
+// ── Per-line animated code ────────────────────────────────────────────────────
+// Fades each line in with a staggered delay whenever `active` flips true.
+// Two nested rAFs ensure the opacity-0 initial state is painted before
+// the transition starts, so every tab-switch re-triggers the animation.
+
+function CodeLines({ code, active }: { code: string; active: boolean }) {
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!active) { setVisible(false); return; }
+    let r1: number, r2: number;
+    r1 = requestAnimationFrame(() => {
+      r2 = requestAnimationFrame(() => setVisible(true));
+    });
+    return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
+  }, [active]);
+
+  return (
+    <>
+      {code.split('\n').map((line, i) => (
+        <span
+          key={i}
+          className="block transition-opacity"
+          style={{
+            opacity: visible ? 1 : 0,
+            transitionDuration: '280ms',
+            transitionTimingFunction: 'ease',
+            transitionDelay: visible ? `${i * 35}ms` : '0ms',
+          }}
+        >
+          {/* Preserve empty lines */}
+          {line || ' '}
+        </span>
+      ))}
+    </>
+  );
+}
+
 // ── Inner sandbox card ─────────────────────────────────────────────────────────
 
 interface SandboxProps {
@@ -78,7 +116,13 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
   const [activeTab, setActiveTab] = React.useState(0);
   const [copied, setCopied] = React.useState(false);
 
-  const activeCode = tabs ? tabs[activeTab]?.code : code;
+  // Sliding indicator — measure active tab's offsetLeft + offsetWidth.
+  const tabRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicator, setIndicator] = React.useState({ left: 0, width: 0 });
+  React.useEffect(() => {
+    const el = tabRefs.current[activeTab];
+    if (el) setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+  }, [activeTab]);
 
   const handleCopy = async () => {
     const textToCopy = tabs ? tabs[activeTab]?.code : code;
@@ -103,24 +147,28 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
           headerBorder[color],
         )}
       >
-        {/* Tab strip */}
+        {/* Tab strip — relative so the sliding indicator can be absolute */}
         {tabs && tabs.length > 0 ? (
-          <div className="flex items-center gap-[24px]">
+          <div className="relative flex items-center gap-[24px]">
             {tabs.map((tab, i) => (
               <button
                 key={i}
+                ref={el => { tabRefs.current[i] = el; }}
                 onClick={() => setActiveTab(i)}
                 className={cn(
                   'relative pb-[2px] font-sans font-regular text-body-sm cursor-pointer bg-transparent border-none',
-                  'focus-visible:outline-none',
-                  i === activeTab
-                    ? 'text-text-primary after:absolute after:bottom-[-18px] after:left-0 after:w-full after:h-[2px] after:bg-action-primary'
-                    : 'text-text-muted hover:text-text-secondary',
+                  'focus-visible:outline-none transition-colors duration-base ease-standard',
+                  i === activeTab ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary',
                 )}
               >
                 {tab.label}
               </button>
             ))}
+            {/* Sliding underline indicator */}
+            <div
+              className="absolute bottom-[-18px] h-[2px] bg-action-primary transition-[left,width] duration-[200ms] ease-standard"
+              style={{ left: indicator.left, width: indicator.width }}
+            />
           </div>
         ) : (
           <div /> // spacer so copy button stays right
@@ -145,7 +193,7 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
         </button>
       </div>
 
-      {/* Code area — all tabs rendered in same grid cell so height = tallest tab */}
+      {/* Code area — all tabs in same grid cell; lines animate in on tab-switch */}
       <div className="grid p-[32px]">
         {tabs && tabs.length > 0 ? tabs.map((tab, i) => (
           <pre
@@ -154,11 +202,13 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
             className={cn(
               'font-mono text-mono-md text-text-primary',
               'leading-[1.6] overflow-x-auto whitespace-pre m-0',
-              '[grid-area:1/1]', // all tabs occupy the same cell
-              i !== activeTab && 'invisible pointer-events-none select-none',
+              '[grid-area:1/1]',
+              i !== activeTab && 'pointer-events-none select-none',
             )}
           >
-            <code>{tab.code}</code>
+            <code>
+              <CodeLines code={tab.code} active={i === activeTab} />
+            </code>
           </pre>
         )) : (
           <pre className="font-mono text-mono-md text-text-primary leading-[1.6] overflow-x-auto whitespace-pre m-0 [grid-area:1/1]">

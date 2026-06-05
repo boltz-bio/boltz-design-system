@@ -8,12 +8,12 @@ import { cn } from '../utils';
 // - Icon color: text-secondary on light, white on dark
 
 const iconContainerVariants = cva(
-  ['inline-flex items-center justify-center', 'h-40 w-40', 'rounded-md'],
+  ['inline-flex items-center justify-center', 'h-40 w-40'],
   {
     variants: {
       variant: {
-        light: 'bg-surface-secondary text-text-secondary',
-        dark: 'bg-white/10 text-white',
+        light: 'text-text-secondary',
+        dark: 'text-white',
       },
     },
     defaultVariants: { variant: 'light' },
