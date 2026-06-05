@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { cn } from '../utils';
 import { Blob } from './Blob';
+import { LogoMark } from './Logo';
 
 // Spec: Figma "Blog thumbnails" 57:3218
 //
@@ -103,12 +104,12 @@ export const Thumbnail = React.forwardRef<HTMLDivElement, ThumbnailProps>(
           )}
         />
       ) : (
-        <span
+        // Empty state: a faint Boltz mark watermark (not a broken-image icon) so
+        // a thumbnail without a real cover still reads as intentional & on-brand.
+        <LogoMark
           aria-hidden
-          className="absolute inset-0 flex items-center justify-center text-body-sm text-text-muted select-none"
-        >
-          —
-        </span>
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[28%] w-auto text-border-light select-none"
+        />
       )}
     </div>
   ),
