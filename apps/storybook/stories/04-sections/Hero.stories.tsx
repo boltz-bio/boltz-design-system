@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Hero, Button, TextButton, Embed, Thumbnail } from '@boltz/ui';
-import { Leaf, Code, ViewGrid } from 'iconoir-react';
+import { Hero, Button, TextButton, Embed, Thumbnail, Blob } from '@boltz/ui';
+import { Leaf } from 'iconoir-react';
 
-// Transparent Boltz Studio render used as hero media on the light heroes.
-const PROTEIN = '/render-a.png';
+// The Boltz hero protein render (transparent, exported from Figma 246:385) — has
+// breathing room around the protein so it doesn't read as cropped.
+const PROTEIN = '/hero-protein.png';
 
 // Boltz Studio (Modal) embeds — a baked turntable video + the live drag-to-rotate iframe.
 const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
@@ -148,13 +149,21 @@ export const OnDarkBackground: Story = {
   },
 };
 
-// ── Primary heroes — the three subpage heroes (Figma 58:464 / 58:488 / 58:510) ─
-// These are the canonical page-top heroes used on Landing, API and Platform.
-// Same Hero component, different background tone + copy + media.
+// ── Primary heroes — the three subpage heroes (Figma 246:370 / 246:329 / 246:345)
+// The canonical page-top heroes used on Landing, API and Platform. No eyebrow;
+// same Hero component, different background tone + copy + media. The render/screen
+// bleeds toward the right edge.
 
-const heroMedia = (
-  <div className="w-full max-w-[460px]">
-    <img src={PROTEIN} alt="Boltz protein render" className="w-full h-auto" />
+// Hero media = a faint Blob line bleeding behind a render/screenshot (matches the
+// Figma hero background decoration).
+const ProteinMedia = ({ blob }: { blob: string }) => (
+  <div className="relative w-full max-w-[540px] mx-auto laptop:mx-0 laptop:-mr-12">
+    <Blob
+      shape={8}
+      aria-hidden
+      className={`pointer-events-none absolute -top-[12%] -left-[8%] w-[125%] h-auto opacity-40 ${blob}`}
+    />
+    <img src={PROTEIN} alt="Boltz protein render" className="relative w-full h-auto" />
   </div>
 );
 
@@ -162,13 +171,11 @@ export const PrimaryHeroLanding: Story = {
   name: 'Primary hero — Landing',
   parameters: { layout: 'fullscreen' },
   args: {
-    eyebrow: 'Build on Boltz',
-    eyebrowIcon: <Leaf {...sz} />,
     background: 'sage-pale',
-    heading: 'Foundational AI for biology and chemistry.',
+    heading: 'Foundational AI for Biology and Chemistry',
     body: 'Frontier models and high-performance compute for designing all of life’s molecules.',
     actions: <Button variant="black">Start building with Boltz</Button>,
-    media: heroMedia,
+    media: <ProteinMedia blob="text-sage-medium" />,
   },
 };
 
@@ -176,18 +183,11 @@ export const PrimaryHeroApi: Story = {
   name: 'Primary hero — API',
   parameters: { layout: 'fullscreen' },
   args: {
-    eyebrow: 'API',
-    eyebrowIcon: <Code {...sz} />,
     background: 'blue-pale',
-    heading: 'New primitives for agentic science.',
+    heading: 'New Primitives for Agentic Science',
     body: 'Integrate state-of-the-art biomolecular models into your agentic product or pipeline.',
-    actions: (
-      <>
-        <Button variant="black">Get early access</Button>
-        <TextButton arrow>Read the docs</TextButton>
-      </>
-    ),
-    media: heroMedia,
+    actions: <Button variant="black">Read the Docs</Button>,
+    media: <ProteinMedia blob="text-blue-medium" />,
   },
 };
 
@@ -195,15 +195,13 @@ export const PrimaryHeroPlatform: Story = {
   name: 'Primary hero — Platform',
   parameters: { layout: 'fullscreen' },
   args: {
-    eyebrow: 'Platform',
-    eyebrowIcon: <ViewGrid {...sz} />,
     background: 'dark',
-    heading: 'A new foundation for end-to-end discovery.',
-    body: 'A streamlined molecular design platform that brings together frontier AI models and intelligent agents to accelerate drug discovery — for all organizations.',
-    actions: <Button variant="white">Get early access</Button>,
+    heading: 'A New Foundation for End-to-End Discovery',
+    body: 'Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization.',
     media: (
-      <div className="w-full max-w-[520px]">
-        <Thumbnail tone="blue" aspect="wide" radius="lg" className="w-full" />
+      <div className="relative w-full max-w-[680px] laptop:-mr-2xl">
+        <Blob shape={11} aria-hidden className="pointer-events-none absolute -top-[14%] -left-[6%] w-[120%] h-auto opacity-20 text-white" />
+        <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
       </div>
     ),
   },
