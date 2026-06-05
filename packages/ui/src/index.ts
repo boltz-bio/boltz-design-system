@@ -1,3 +1,6 @@
+export { Logo, LogoMark } from './components/Logo';
+export type { LogoProps } from './components/Logo';
+
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
 
