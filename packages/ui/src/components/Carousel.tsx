@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArrowLeft, ArrowRight } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, interactive, disabledState } from '../styles';
+import { IconButton } from './IconButton';
 
 // Spec: Figma nodes 57:2514 "Frame 3466219" + 57:2560 "Our models" section.
 //
@@ -86,46 +86,28 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       });
     };
 
-    // NOTE: this project overrides Tailwind's spacing scale with raw px values
-    // (w-36 = 36px, NOT 9rem). Figma "Our models" arrow group (57:2560) is two
-    // 36×36 circles with itemSpacing 0 — i.e. flush (gap-0).
-    const arrowClass = cn(
-      'w-36 h-36 rounded-full border border-border-light',
-      'inline-flex items-center justify-center shrink-0',
-      'text-text-primary bg-transparent',
-      'transition-colors duration-base ease-standard hover:bg-surface-secondary',
-      'active:scale-active',
-      interactive,
-      focusRing,
-      disabledState,
-    );
-
-    // Header row — optional caption on the left, arrow group on the right.
+    // Header row — optional caption on the left, arrow group on the right. The
+    // arrows reuse the shared IconButton primitive (Figma 57:2560: two flush
+    // 36×36 circles, dark border, inactive = 50% opacity via `disabled`).
     const controlsRow = (
       <div className="flex items-end justify-between gap-lg">
         {caption ? <div className="flex flex-col gap-sm">{caption}</div> : <div />}
 
         <div className="flex gap-0 shrink-0">
-          <button
-            type="button"
+          <IconButton
             aria-label="Previous"
-            aria-disabled={atStart}
             disabled={atStart}
             onClick={() => scrollByPage(-1)}
-            className={arrowClass}
           >
             <ArrowLeft width={16} height={16} strokeWidth={1.5} />
-          </button>
-          <button
-            type="button"
+          </IconButton>
+          <IconButton
             aria-label="Next"
-            aria-disabled={atEnd}
             disabled={atEnd}
             onClick={() => scrollByPage(1)}
-            className={arrowClass}
           >
             <ArrowRight width={16} height={16} strokeWidth={1.5} />
-          </button>
+          </IconButton>
         </div>
       </div>
     );
@@ -148,9 +130,13 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
             'snap-x snap-mandatory',
             // Hide scrollbar (Firefox + WebKit). Not colours — layout only.
             '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
-            // Full-bleed: break the track out to the right viewport edge so cards
+            // Full-bleed: break the track out to BOTH viewport edges so cards
             // stretch the whole browser while the header stays container-width.
-            bleed && 'mr-[calc(50%-50vw)]',
+            // The left padding re-aligns the first slide to the container edge,
+            // and scroll-padding makes snapping respect that inset; cards then
+            // bleed off both the left and right screen edges as you scroll.
+            bleed &&
+              'mx-[calc(50%-50vw)] pl-[calc(50vw-50%)] pr-lg scroll-pl-[calc(50vw-50%)]',
           )}
         >
           {React.Children.map(children, (child) => (

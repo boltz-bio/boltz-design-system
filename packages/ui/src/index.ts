@@ -66,6 +66,12 @@ export type { EmbedProps } from './components/Embed';
 export { Carousel } from './components/Carousel';
 export type { CarouselProps } from './components/Carousel';
 
+export { IconButton } from './components/IconButton';
+export type { IconButtonProps } from './components/IconButton';
+
+export { ModelCard } from './components/ModelCard';
+export type { ModelCardProps, ModelCardTone } from './components/ModelCard';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
