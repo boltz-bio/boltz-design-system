@@ -60,6 +60,9 @@ export type { BlobShapeDef } from './components/blobShapes';
 export { Thumbnail, placeholderImage } from './components/Thumbnail';
 export type { ThumbnailProps } from './components/Thumbnail';
 
+export { Embed } from './components/Embed';
+export type { EmbedProps } from './components/Embed';
+
 // ── Sections ──────────────────────────────────────────────────────────────────
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
