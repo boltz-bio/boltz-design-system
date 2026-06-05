@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  Hero, SplitSection, CodeBlock, IconContainer, StatBand,
-  Carousel, ModelCard, PricingSection, Footer,
+  PrimaryHero, SplitSection, CodeBlock, IconContainer, StatBand,
+  Carousel, ModelCard, PricingSection, Footer, Blob, BLOB_COUNT,
 } from '@boltz/ui';
 import {
   Code, Terminal, GitFork, Community, Cpu, Puzzle,
@@ -36,13 +36,14 @@ const igSz = { width: 20, height: 20, strokeWidth: 1.5 } as const;
 
 const PROTEIN = '/boltz-protein.png';
 
-// ── Hero media — the protein render PNG ─────────────────────────────────────────
-const ProteinRender = () => (
-  <img
-    src={PROTEIN}
-    alt="Boltz protein structure render"
-    className="w-[280px] tablet:w-[460px] h-auto select-none"
-  />
+// ── Hero media — protein render bleeding off the right + a solid library blob ───
+const HeroProteinBleed = () => (
+  <>
+    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 text-blue-medium" />
+    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+      <img src="/hero-protein.png" alt="Boltz protein structure render" className="w-full h-auto select-none" />
+    </div>
+  </>
 );
 
 // ── Logo strip — muted industry labels (no logo assets in the package) ──────────
@@ -161,16 +162,12 @@ export const API: Story = {
 
       <main>
         {/* 1 + 2 — Hero */}
-        <Hero
-          eyebrow="API"
-          eyebrowIcon={<Code {...sz} />}
+        <PrimaryHero
+          tone="blue"
           heading="New Primitives for Agentic Science"
-          body="Integrate state-of-the-art biomolecular models into your agents and pipelines."
-          actions={<>
-            <Button variant="black">Get early access</Button>
-            <TextButton arrow>Read the docs</TextButton>
-          </>}
-          media={<ProteinRender />}
+          body="Integrate state-of-the-art biomolecular models into your agentic product or pipeline."
+          actions={<Button variant="black">Read the Docs</Button>}
+          media={<HeroProteinBleed />}
         />
 
         {/* 3 — Logo strip */}

@@ -88,6 +88,9 @@ export type { SplitSectionProps } from './components/SplitSection';
 export { Hero } from './components/Hero';
 export type { HeroProps } from './components/Hero';
 
+export { PrimaryHero } from './components/PrimaryHero';
+export type { PrimaryHeroProps } from './components/PrimaryHero';
+
 export { FeatureGrid } from './components/FeatureGrid';
 export type { FeatureGridProps, FeatureGridItem } from './components/FeatureGrid';
 

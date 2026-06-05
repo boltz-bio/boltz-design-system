@@ -1,10 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Hero, Button, TextButton, Embed, Thumbnail, Blob } from '@boltz/ui';
+import { Hero, PrimaryHero, Button, TextButton, Embed, Thumbnail, Blob, BLOB_COUNT } from '@boltz/ui';
 import { Leaf } from 'iconoir-react';
 
 // The Boltz hero protein render (transparent, exported from Figma 246:385) — has
 // breathing room around the protein so it doesn't read as cropped.
 const PROTEIN = '/hero-protein.png';
+
+// The hero backdrop blob — the large solid blob from the shape library (the last
+// BLOB_SHAPES entry, added from Figma 245:487). Filled (not stroked), faint and
+// recoloured via the `text-*` token.
+const HERO_BLOB = BLOB_COUNT - 1;
 
 // Boltz Studio (Modal) embeds — a baked turntable video + the live drag-to-rotate iframe.
 const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
@@ -150,59 +155,72 @@ export const OnDarkBackground: Story = {
 };
 
 // ── Primary heroes — the three subpage heroes (Figma 246:370 / 246:329 / 246:345)
-// The canonical page-top heroes used on Landing, API and Platform. No eyebrow;
-// same Hero component, different background tone + copy + media. The render/screen
-// bleeds toward the right edge.
+// The canonical page-top heroes (tall band, oversized media bleeding off the
+// edges) used on Landing, API and Platform — via the PrimaryHero component.
 
-// Hero media = a faint Blob line bleeding behind a render/screenshot (matches the
-// Figma hero background decoration).
-const ProteinMedia = ({ blob }: { blob: string }) => (
-  <div className="relative w-full max-w-[540px] mx-auto laptop:mx-0 laptop:-mr-12">
+// A large solid blob that spans the hero and bleeds off the edges, with the
+// protein render sitting on top toward the right.
+const ProteinBleed = ({ blob }: { blob: string }) => (
+  <>
     <Blob
-      shape={8}
+      shape={HERO_BLOB}
       aria-hidden
-      className={`pointer-events-none absolute -top-[12%] -left-[8%] w-[125%] h-auto opacity-40 ${blob}`}
+      className={`absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 ${blob}`}
     />
-    <img src={PROTEIN} alt="Boltz protein render" className="relative w-full h-auto" />
-  </div>
+    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+      <img src={PROTEIN} alt="Boltz protein render" className="relative w-full h-auto" />
+    </div>
+  </>
 );
 
 export const PrimaryHeroLanding: Story = {
   name: 'Primary hero — Landing',
   parameters: { layout: 'fullscreen' },
-  args: {
-    background: 'sage-pale',
-    heading: 'Foundational AI for Biology and Chemistry',
-    body: 'Frontier models and high-performance compute for designing all of life’s molecules.',
-    actions: <Button variant="black">Start building with Boltz</Button>,
-    media: <ProteinMedia blob="text-sage-medium" />,
-  },
+  args: { heading: '' },
+  render: () => (
+    <PrimaryHero
+      tone="sage"
+      heading="Foundational AI for Biology and Chemistry"
+      body="Frontier models and high-performance compute for designing all of life’s molecules."
+      actions={<Button variant="black">Start building with Boltz</Button>}
+      media={<ProteinBleed blob="text-sage-medium" />}
+    />
+  ),
 };
 
 export const PrimaryHeroApi: Story = {
   name: 'Primary hero — API',
   parameters: { layout: 'fullscreen' },
-  args: {
-    background: 'blue-pale',
-    heading: 'New Primitives for Agentic Science',
-    body: 'Integrate state-of-the-art biomolecular models into your agentic product or pipeline.',
-    actions: <Button variant="black">Read the Docs</Button>,
-    media: <ProteinMedia blob="text-blue-medium" />,
-  },
+  args: { heading: '' },
+  render: () => (
+    <PrimaryHero
+      tone="blue"
+      heading="New Primitives for Agentic Science"
+      body="Integrate state-of-the-art biomolecular models into your agentic product or pipeline."
+      actions={<Button variant="black">Read the Docs</Button>}
+      media={<ProteinBleed blob="text-blue-medium" />}
+    />
+  ),
 };
 
 export const PrimaryHeroPlatform: Story = {
   name: 'Primary hero — Platform',
   parameters: { layout: 'fullscreen' },
-  args: {
-    background: 'dark',
-    heading: 'A New Foundation for End-to-End Discovery',
-    body: 'Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization.',
-    media: (
-      <div className="relative w-full max-w-[680px] laptop:-mr-2xl">
-        <Blob shape={11} aria-hidden className="pointer-events-none absolute -top-[14%] -left-[6%] w-[120%] h-auto opacity-20 text-white" />
-        <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
-      </div>
-    ),
-  },
+  args: { heading: '' },
+  render: () => (
+    <PrimaryHero
+      tone="dark"
+      heading="A New Foundation for End-to-End Discovery"
+      body="Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
+      // Monitor stuck to the bottom edge, bleeding off the right.
+      media={
+        <>
+          <Blob shape={HERO_BLOB} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
+          <div className="absolute bottom-0 right-0 w-[1200px] max-w-[72vw] translate-x-[8%]">
+            <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
+          </div>
+        </>
+      }
+    />
+  ),
 };

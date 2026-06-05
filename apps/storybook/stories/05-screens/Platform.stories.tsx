@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  Hero, FeatureGrid, StatBand, CodeBlock, Carousel, ModelCard,
-  CardSmall, PricingSection, CTABand, Footer,
+  PrimaryHero, FeatureGrid, StatBand, CodeBlock, Carousel, ModelCard,
+  CardSmall, PricingSection, CTABand, Footer, Blob, BLOB_COUNT,
 } from '@boltz/ui';
 import { Leaf, Code, Community, ShieldCheck, Lock, ServerConnection, ViewGrid } from 'iconoir-react';
 import { navItems } from '../_data/boltz';
@@ -31,15 +31,14 @@ type Story = StoryObj<typeof meta>;
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 const cardIcon = { width: 24, height: 24, strokeWidth: 1.5 } as const;
 
-// ── Hero media — the Boltz Studio protein render ────────────────────────────────
-const ProteinRender = () => (
-  <div className="w-[280px] tablet:w-[460px]">
-    <img
-      src="/boltz-protein.png"
-      alt="Boltz Studio — predicted protein structure"
-      className="w-full h-auto select-none"
-    />
-  </div>
+// ── Hero media — the platform dashboard, stuck to the bottom edge, bleeding right.
+const DashboardBleed = () => (
+  <>
+    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
+    <div className="absolute bottom-0 right-0 w-[1200px] max-w-[72vw] translate-x-[8%]">
+      <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="w-full h-auto select-none" />
+    </div>
+  </>
 );
 
 // ── Logo strip — token-styled (no shipped component for this) ───────────────────
@@ -206,16 +205,11 @@ export const Platform: Story = {
 
       <main>
         {/* 1 — Hero */}
-        <Hero
-          eyebrow="Build on Boltz"
-          eyebrowIcon={<Leaf {...sz} />}
+        <PrimaryHero
+          tone="dark"
           heading="A New Foundation for End-to-End Discovery"
-          body="Streamlined molecular design platform for modern research teams."
-          actions={<>
-            <Button variant="black">Get early access</Button>
-            <TextButton arrow>Read the docs</TextButton>
-          </>}
-          media={<ProteinRender />}
+          body="Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
+          media={<DashboardBleed />}
         />
 
         {/* 2 — Logo strip */}

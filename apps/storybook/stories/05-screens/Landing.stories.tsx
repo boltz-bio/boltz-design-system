@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  Hero, StatBand, Footer, Embed,
+  PrimaryHero, StatBand, Footer, Blob, BLOB_COUNT,
   Accordion, AccordionItem, AccordionActions, Badge,
   NewsItem, BlogThumbnail, IconContainer, Thumbnail,
 } from '@boltz/ui';
@@ -33,24 +33,15 @@ type Story = StoryObj<typeof meta>;
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 const PROTEIN = '/render-a.png';
 
-// Hero media — Boltz Studio turntable (click to rotate the live model).
-const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
-const STUDIO_LIVE = 'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
-
-const ProteinRender = () => (
-  <div className="w-[280px] tablet:w-[460px]">
-    <Embed
-      src={STUDIO_TURNTABLE}
-      kind="video"
-      title="Boltz Studio — protein turntable"
-      aspect="square"
-      surface="sage"
-      reveal
-      scrub
-      interactive
-      interactiveSrc={STUDIO_LIVE}
-    />
-  </div>
+// Primary-hero media: a large solid library blob spanning the band + the protein
+// render bleeding off the right (see 04-Sections/Hero → Primary hero — Landing).
+const HeroProteinBleed = () => (
+  <>
+    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 text-sage-medium" />
+    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+      <img src="/hero-protein.png" alt="Boltz protein render" className="w-full h-auto" />
+    </div>
+  </>
 );
 
 // Blog list (intro section, right column).
@@ -93,14 +84,12 @@ export const Landing: Story = {
       </NavBar>
 
       <main>
-        <Hero
-          eyebrow="Build on Boltz"
-          eyebrowIcon={<Leaf {...sz} />}
-          background="sage-pale"
-          heading="Foundational AI for biology and chemistry."
+        <PrimaryHero
+          tone="sage"
+          heading="Foundational AI for Biology and Chemistry"
           body="Frontier models and high-performance compute for designing all of life's molecules."
           actions={<Button variant="black">Start building with Boltz</Button>}
-          media={<ProteinRender />}
+          media={<HeroProteinBleed />}
         />
 
         {/* Intro + blog-post list (Figma Frame 3466207) */}
