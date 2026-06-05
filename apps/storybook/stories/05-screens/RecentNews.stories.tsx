@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, PageHeader, FilterTabBar, NewsItem,
   Badge, Thumbnail, TextButton, Footer,
-  placeholderImage, type ViewMode,
+  type ViewMode,
 } from '@boltz/ui';
 import { BookStack } from 'iconoir-react';
 import { articles, navItems } from '../_data/boltz';
@@ -48,9 +48,16 @@ const moreArticles: Article[] = [
   { id: 'a8', category: 'Research', title: 'De novo binder design at atomic resolution', date: 'Oct 2025' },
 ];
 
-const allArticles: Article[] = [...articles, ...moreArticles].map((a) => ({
+// Real brand photos, cycled so adjacent cards differ.
+const brandPhotos = [
+  '/brand/people-1.jpg', '/brand/micro-1.jpg',
+  '/brand/people-2.jpg', '/brand/micro-2.jpg',
+  '/brand/people-3.jpg', '/brand/micro-3.jpg',
+];
+
+const allArticles: Article[] = [...articles, ...moreArticles].map((a, i) => ({
   ...a,
-  thumbnail: placeholderImage(a.id, 800, 500),
+  thumbnail: brandPhotos[i % brandPhotos.length],
 }));
 
 // Tab categories per Figma (Latest = the "all" view).
@@ -130,7 +137,7 @@ function FeaturedStory({ article }: { article: Article }) {
       <div className="max-w-container mx-auto px-md tablet:px-40">
         <a href="#" className="group flex flex-col gap-lg no-underline">
           <Thumbnail
-            src={placeholderImage(`${article.id}-hero`, 1600, 800)}
+            src={article.thumbnail}
             aspect="video"
             radius="lg"
             className="w-full"
