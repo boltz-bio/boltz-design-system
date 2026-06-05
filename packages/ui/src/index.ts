@@ -52,8 +52,10 @@ export type { ProgressBarProps } from './components/ProgressBar';
 export { MetricComparison } from './components/MetricComparison';
 export type { MetricComparisonProps, MetricItem, MetricDatum } from './components/MetricComparison';
 
-export { Blob, BLOB_SHAPES } from './components/Blob';
-export type { BlobProps, BlobShape } from './components/Blob';
+export { Blob, BLOB_COUNT } from './components/Blob';
+export type { BlobProps } from './components/Blob';
+export { BLOB_SHAPES } from './components/blobShapes';
+export type { BlobShapeDef } from './components/blobShapes';
 
 export { Thumbnail, placeholderImage } from './components/Thumbnail';
 export type { ThumbnailProps } from './components/Thumbnail';
