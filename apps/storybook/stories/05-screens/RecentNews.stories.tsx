@@ -48,16 +48,16 @@ const moreArticles: (typeof articles)[number][] = [
   { id: 'a8', category: 'Research', title: 'De novo binder design at atomic resolution', date: 'Oct 2025' },
 ];
 
-const PROTEIN = '/boltz-protein.png';
+const PROTEIN = '/render-a.png';
 
 // On-brand blog-thumbnail covers (Figma 57:3218), cycled across cards as prop specs.
 const coverSpecs: BlogThumbnailProps[] = [
-  { tone: 'sage', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz-prot-1', renderSrc: PROTEIN, blobShape: 8 },
-  { tone: 'tierra', layout: 'title', title: 'The future we are building at Boltz', blobShape: 5 },
-  { tone: 'blue', layout: 'cobrand', partner: 'Pfizer', blobShape: 3 },
-  { tone: 'blue', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz Lab', renderSrc: PROTEIN, blobShape: 11 },
-  { tone: 'sage', layout: 'cobrand', partner: 'dsm-firmenich', blobShape: 6 },
-  { tone: 'tierra', layout: 'mark', renderSrc: PROTEIN, blobShape: 9 },
+  { tone: 'sage', category: 'product-launch', title: 'Boltz-prot-1', renderSrc: PROTEIN, blobShape: 8 },
+  { tone: 'tierra', align: 'center', titlePosition: 'center', title: 'The future we are building at Boltz', blobShape: 5 },
+  { tone: 'blue', partner: 'Pfizer', blobShape: 3 },
+  { tone: 'blue', category: 'product-launch', title: 'Boltz Lab', renderSrc: PROTEIN, blobShape: 11 },
+  { tone: 'sage', partner: 'dsm-firmenich', blobShape: 6 },
+  { tone: 'tierra', renderSrc: PROTEIN, blobShape: 9 },
 ];
 
 const allArticles: Article[] = [...articles, ...moreArticles].map((a, i) => ({

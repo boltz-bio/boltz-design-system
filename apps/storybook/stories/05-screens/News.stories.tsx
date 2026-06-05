@@ -24,16 +24,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
-const PROTEIN = '/boltz-protein.png';
+const PROTEIN = '/render-a.png';
 
 // On-brand blog-thumbnail covers (Figma 57:3218), cycled across the cards.
 const covers = [
-  <BlogThumbnail tone="sage" layout="announce" eyebrow="Announcing" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />,
-  <BlogThumbnail tone="tierra" layout="title" title="The future we are building at Boltz" blobShape={5} />,
-  <BlogThumbnail tone="blue" layout="cobrand" partner="Pfizer" blobShape={3} />,
-  <BlogThumbnail tone="blue" layout="announce" eyebrow="Announcing" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />,
-  <BlogThumbnail tone="sage" layout="cobrand" partner="dsm-firmenich" blobShape={6} />,
-  <BlogThumbnail tone="tierra" layout="mark" renderSrc={PROTEIN} blobShape={9} />,
+  <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />,
+  <BlogThumbnail tone="tierra" align="center" titlePosition="center" title="The future we are building at Boltz" blobShape={5} />,
+  <BlogThumbnail tone="blue" partner="Pfizer" blobShape={3} />,
+  <BlogThumbnail tone="blue" category="product-launch" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />,
+  <BlogThumbnail tone="sage" partner="dsm-firmenich" blobShape={6} />,
+  <BlogThumbnail tone="tierra" renderSrc={PROTEIN} blobShape={9} />,
 ];
 
 // Extend the read-only `articles` fixture with a composed blog cover per card.

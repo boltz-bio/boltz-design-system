@@ -31,7 +31,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
-const PROTEIN = '/boltz-protein.png';
+const PROTEIN = '/render-a.png';
 
 // Hero media — Boltz Studio turntable (click to rotate the live model).
 const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
@@ -55,9 +55,9 @@ const ProteinRender = () => (
 
 // Blog list (intro section, right column).
 const blogPosts = [
-  { id: 'b1', title: 'Announcing Boltz', cover: { tone: 'sage', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz-prot-1', renderSrc: PROTEIN, blobShape: 8 } as const },
-  { id: 'b2', title: 'Announcing Boltz Lab and our first agents', cover: { tone: 'blue', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz Lab', renderSrc: PROTEIN, blobShape: 11 } as const },
-  { id: 'b3', title: 'The future we are building at Boltz', cover: { tone: 'tierra', layout: 'title', title: 'The future we are building at Boltz', blobShape: 5 } as const },
+  { id: 'b1', title: 'Announcing Boltz', cover: { tone: 'sage', category: 'product-launch', title: 'Boltz-prot-1', renderSrc: PROTEIN, blobShape: 8 } as const },
+  { id: 'b2', title: 'Announcing Boltz Lab and our first agents', cover: { tone: 'blue', category: 'product-launch', title: 'Boltz Lab', renderSrc: PROTEIN, blobShape: 11 } as const },
+  { id: 'b3', title: 'The future we are building at Boltz', cover: { tone: 'tierra', align: 'center', titlePosition: 'center', title: 'The future we are building at Boltz', blobShape: 5 } as const },
 ];
 
 const models = [
