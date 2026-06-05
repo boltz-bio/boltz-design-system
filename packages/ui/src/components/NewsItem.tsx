@@ -30,6 +30,8 @@ export interface NewsItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
   /** Thumbnail image src */
   thumbnail?: string;
   thumbnailAlt?: string;
+  /** Composed cover node (e.g. <BlogThumbnail/>). Overrides the image thumbnail. */
+  cover?: React.ReactNode;
   href?: string;
 }
 
@@ -57,6 +59,7 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
     summary,
     thumbnail,
     thumbnailAlt = '',
+    cover,
     href = '#',
     ...rest
   }, ref) => {
@@ -70,14 +73,16 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
           className={cn('group flex flex-col gap-[20px] items-start no-underline w-full', className)}
           {...rest}
         >
-          {/* Thumbnail — 16:10 aspect; tinted placeholder when no src */}
-          <Thumbnail
-            src={thumbnail}
-            alt={thumbnailAlt}
-            aspect="wide"
-            radius="lg"
-            className="w-full"
-          />
+          {/* Cover — a composed BlogThumbnail node, else an image/tinted placeholder */}
+          {cover ?? (
+            <Thumbnail
+              src={thumbnail}
+              alt={thumbnailAlt}
+              aspect="wide"
+              radius="lg"
+              className="w-full"
+            />
+          )}
           {/* Text */}
           <div className="flex flex-col gap-[12px] w-full">
             <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline">

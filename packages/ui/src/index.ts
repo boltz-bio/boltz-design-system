@@ -63,6 +63,9 @@ export type { BlobShapeDef } from './components/blobShapes';
 export { Thumbnail, placeholderImage } from './components/Thumbnail';
 export type { ThumbnailProps } from './components/Thumbnail';
 
+export { BlogThumbnail } from './components/BlogThumbnail';
+export type { BlogThumbnailProps } from './components/BlogThumbnail';
+
 export { Embed } from './components/Embed';
 export type { EmbedProps } from './components/Embed';
 

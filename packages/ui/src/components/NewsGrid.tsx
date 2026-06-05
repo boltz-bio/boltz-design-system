@@ -17,6 +17,8 @@ export interface NewsGridArticle {
   date: string;
   summary?: string;
   thumbnail?: string;
+  /** Composed cover node (e.g. <BlogThumbnail/>) — overrides the image thumbnail. */
+  cover?: React.ReactNode;
 }
 
 export interface NewsGridProps extends React.HTMLAttributes<HTMLElement> {
@@ -74,6 +76,7 @@ export const NewsGrid = React.forwardRef<HTMLElement, NewsGridProps>(
                   date={article.date}
                   summary={article.summary}
                   thumbnail={article.thumbnail}
+                  cover={article.cover}
                 />
               ))}
             </div>
