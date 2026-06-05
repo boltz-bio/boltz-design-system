@@ -92,6 +92,9 @@ export { ModelCard } from './components/ModelCard';
 export type { ModelCardProps, ModelCardTone } from './components/ModelCard';
 
 // ── Sections ──────────────────────────────────────────────────────────────────
+export { Section } from './components/Section';
+export type { SectionProps } from './components/Section';
+
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
 
