@@ -83,7 +83,7 @@ export const Landing: Story = {
         {navItems.map((n) => <NavLink key={n} href="#">{n}</NavLink>)}
       </NavBar>
 
-      <main>
+      <main className="-mt-60">
         <PrimaryHero
           tone="sage"
           heading="Foundational AI for Biology and Chemistry"

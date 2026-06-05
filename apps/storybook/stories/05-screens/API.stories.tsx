@@ -160,7 +160,7 @@ export const API: Story = {
         {navItems.map((n) => <NavLink key={n} href="#" active={n === 'API'}>{n}</NavLink>)}
       </NavBar>
 
-      <main>
+      <main className="-mt-60">
         {/* 1 + 2 — Hero */}
         <PrimaryHero
           tone="blue"

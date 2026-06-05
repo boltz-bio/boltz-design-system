@@ -39,22 +39,21 @@ function useScrolled(threshold = 10) {
 
 export interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   active?: boolean;
+  /** 'light' (dark pills, for light backgrounds) or 'dark' (inverted, for dark heroes). */
+  tone?: 'light' | 'dark';
 }
 
 export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
-  ({ className, active, children, ...rest }, ref) => (
+  ({ className, active, tone = 'light', children, ...rest }, ref) => (
     <a
       ref={ref}
       className={cn(
-        'h-36 px-20 rounded-full',
-        'border border-action-primary',
-        'inline-flex items-center',
-        'text-body-sm whitespace-nowrap',
-        'text-text-primary no-underline',
+        'h-36 px-20 rounded-full border inline-flex items-center',
+        'text-body-sm whitespace-nowrap no-underline',
         'transition-colors duration-base ease-standard',
-        active
-          ? 'bg-transparent text-text-primary'
-          : 'bg-transparent hover:bg-surface-secondary',
+        tone === 'dark'
+          ? cn('border-white/60 text-white', active ? 'bg-white text-text-primary' : 'bg-transparent hover:bg-white/10')
+          : cn('border-action-primary text-text-primary', active ? 'bg-action-primary text-text-on-dark' : 'bg-transparent hover:bg-surface-secondary'),
         className,
       )}
       {...rest}
@@ -72,15 +71,22 @@ export interface NavBarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   /** CTA label — defaults to "Get early access". Pass null to hide. */
   cta?: string | null;
+  /** 'light' (dark nav, for light backgrounds) or 'dark' (inverted, for dark heroes). */
+  tone?: 'light' | 'dark';
   /** Nav link items rendered as children */
   children?: React.ReactNode;
 }
 
 export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
-  ({ className, logo, cta = 'Get early access', children, ...rest }, ref) => {
+  ({ className, logo, cta = 'Get early access', tone = 'light', children, ...rest }, ref) => {
     const scrolled = useScrolled();
     const [open, setOpen] = React.useState(false);
     const panelId = React.useId();
+    const dark = tone === 'dark';
+    // Inject the nav tone into NavLink children so they invert on dark heroes.
+    const tonedChildren = React.Children.map(children, (child) =>
+      React.isValidElement<NavLinkProps>(child) ? React.cloneElement(child, { tone }) : child,
+    );
     return (
     <nav
       ref={ref}
@@ -89,14 +95,16 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
         'flex items-center justify-between',
         'sticky top-0 z-50',
         'transition-[background-color,backdrop-filter] duration-300 ease-standard',
-        scrolled ? 'bg-white/80 backdrop-blur-md' : 'bg-transparent backdrop-blur-none',
+        scrolled
+          ? (dark ? 'bg-surface-card-dark/80 backdrop-blur-md' : 'bg-white/80 backdrop-blur-md')
+          : 'bg-transparent backdrop-blur-none',
         className,
       )}
       {...rest}
     >
       {/* Logo */}
-      <a href="/" className="flex items-center text-text-primary flex-shrink-0">
-        {logo ?? <Logo title="Boltz" />}
+      <a href="/" className={cn('flex items-center flex-shrink-0', dark ? 'text-white' : 'text-text-primary')}>
+        {logo ?? <Logo title="Boltz" className={dark ? 'text-white' : undefined} />}
       </a>
 
       {/* Nav cluster — links + CTA, merged borders.
@@ -105,7 +113,7 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
       <div className="flex items-center ml-auto">
         {/* Wrap children so we can apply -ml-px to merge link borders */}
         <div className="hidden mobile:flex items-center">
-          {React.Children.map(children, (child, i) => (
+          {React.Children.map(tonedChildren, (child, i) => (
             <span key={i} className={i > 0 ? '-ml-px' : ''}>
               {child}
             </span>
@@ -113,7 +121,7 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
         </div>
         {cta !== null && (
           <span className="hidden mobile:inline-flex mobile:-ml-px">
-            <NavCta variant="dark">{cta}</NavCta>
+            <NavCta variant={dark ? 'light' : 'dark'}>{cta}</NavCta>
           </span>
         )}
 
@@ -126,12 +134,12 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
           onClick={() => setOpen((v) => !v)}
           className={cn(
             'mobile:hidden',
-            'h-36 w-36 rounded-full',
-            'border border-action-primary',
+            'h-36 w-36 rounded-full border',
             'inline-flex items-center justify-center',
-            'text-text-primary',
             'transition-colors duration-base ease-standard',
-            'hover:bg-surface-secondary',
+            dark
+              ? 'border-white/60 text-white hover:bg-white/10'
+              : 'border-action-primary text-text-primary hover:bg-surface-secondary',
             interactive,
             focusRing,
           )}
@@ -152,18 +160,18 @@ export const NavBar = React.forwardRef<HTMLElement, NavBarProps>(
             'mobile:hidden',
             'absolute left-0 right-0 top-full',
             'flex flex-col gap-12',
-            'bg-white border-b border-border-light',
+            dark ? 'bg-surface-card-dark border-b border-white/10' : 'bg-white border-b border-border-light',
             'px-40 py-20',
           )}
         >
-          {React.Children.map(children, (child, i) => (
+          {React.Children.map(tonedChildren, (child, i) => (
             <span key={i} className="flex w-full">
               {child}
             </span>
           ))}
           {cta !== null && (
             <span className="flex w-full">
-              <NavCta variant="dark">{cta}</NavCta>
+              <NavCta variant={dark ? 'light' : 'dark'}>{cta}</NavCta>
             </span>
           )}
         </div>

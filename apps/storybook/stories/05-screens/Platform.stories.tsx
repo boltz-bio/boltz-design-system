@@ -197,13 +197,13 @@ const footerColumns = [
 export const Platform: Story = {
   render: () => (
     <div className="bg-surface-primary">
-      <NavBar cta="Get early access">
+      <NavBar tone="dark" cta="Get early access">
         {navItems.map((n) => (
           <NavLink key={n} href="#" active={n === 'Platform'}>{n}</NavLink>
         ))}
       </NavBar>
 
-      <main>
+      <main className="-mt-60">
         {/* 1 — Hero */}
         <PrimaryHero
           tone="dark"
