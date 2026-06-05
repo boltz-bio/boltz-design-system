@@ -86,22 +86,49 @@ export const BlobPlaceholders: Story = {
 };
 
 // ── Blog covers — the BlogThumbnail component (Figma "Blog thumbnails" 57:3218) ─
+// Four editorial categories. Every cover is fully scalable (container-query units)
+// so it reads correctly at any width — see the small/large pair at the bottom.
 
-const PROTEIN = '/boltz-protein.png';
+const PROTEIN = '/render-a.png';
+
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div className="flex flex-col gap-md">
+    <p className="text-body-sm text-text-muted font-mono">{title}</p>
+    <div className="grid grid-cols-1 gap-lg tablet:grid-cols-2">{children}</div>
+  </div>
+);
 
 export const BlogCovers: Story = {
   name: 'Blog covers',
   parameters: {
-    docs: { description: { story: 'Composed blog-cover thumbnails via the `BlogThumbnail` component (announce / title / cobrand / mark layouts). Co-brand partner names are token text (only the Boltz wordmark exists as a brand asset).' } },
+    docs: { description: { story: 'The `BlogThumbnail` component across the four editorial categories (new research / product launch / case study / other). Configurable tone, blob layer (behind/front), title alignment + position, co-brand partner, and a 3D/PNG render — all sized in container-query units so a cover scales proportionally at any width.' } },
   },
   render: () => (
-    <div className="mx-auto grid max-w-container grid-cols-1 gap-lg tablet:grid-cols-2">
-      <BlogThumbnail tone="sage" layout="announce" eyebrow="Announcing" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
-      <BlogThumbnail tone="tierra" layout="title" title="The future we are building at Boltz" blobShape={5} />
-      <BlogThumbnail tone="blue" layout="cobrand" partner="Pfizer" blobShape={3} />
-      <BlogThumbnail tone="blue" layout="announce" eyebrow="Announcing" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />
-      <BlogThumbnail tone="sage" layout="cobrand" partner="dsm-firmenich" blobShape={6} />
-      <BlogThumbnail tone="tierra" layout="mark" renderSrc={PROTEIN} blobShape={9} />
+    <div className="mx-auto flex max-w-container flex-col gap-2xl">
+      <Section title="New research">
+        <BlogThumbnail tone="sage" category="new-research" title="Scaling laws for biomolecular structure" renderSrc={PROTEIN} blobShape={8} />
+        <BlogThumbnail tone="blue" category="new-research" align="center" titlePosition="center" title="Benchmarking de novo design" blobShape={4} />
+      </Section>
+
+      <Section title="Product launch">
+        <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
+        <BlogThumbnail tone="blue" category="product-launch" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} />
+      </Section>
+
+      <Section title="Case study">
+        <BlogThumbnail tone="blue" partner="Pfizer" blobShape={3} />
+        <BlogThumbnail tone="sage" partner="dsm-firmenich" blobShape={6} />
+      </Section>
+
+      <Section title="Other">
+        <BlogThumbnail tone="tierra" align="center" titlePosition="center" title="The future we are building at Boltz" blobShape={5} />
+        <BlogThumbnail tone="tierra" category="other" title="Inside the Boltz inference stack" titlePosition="top" blobLayer="front" blobShape={9} />
+      </Section>
+
+      <Section title="Scalable — same cover at 240px and full width">
+        <div className="w-[240px]"><BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} /></div>
+        <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
+      </Section>
     </div>
   ),
 };

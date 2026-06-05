@@ -10,6 +10,9 @@ export type { EyebrowLabelProps } from './components/EyebrowLabel';
 export { NavCta } from './components/NavCta';
 export type { NavCtaProps } from './components/NavCta';
 
+export { Icon } from './components/Icon';
+export type { IconProps } from './components/Icon';
+
 export { IconContainer } from './components/IconContainer';
 export type { IconContainerProps } from './components/IconContainer';
 

@@ -110,13 +110,17 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
             </p>
             <Meta category={category} date={date} />
           </div>
-          {/* Thumbnail — fixed 278×174 box; tinted placeholder when no src */}
-          <Thumbnail
-            src={thumbnail}
-            alt={thumbnailAlt}
-            radius="md"
-            className="w-[278px] h-[174px] aspect-auto flex-shrink-0"
-          />
+          {/* Cover node, else a fixed 278×174 thumbnail box */}
+          {cover ? (
+            <div className="w-[278px] flex-shrink-0">{cover}</div>
+          ) : (
+            <Thumbnail
+              src={thumbnail}
+              alt={thumbnailAlt}
+              radius="md"
+              className="w-[278px] h-[174px] aspect-auto flex-shrink-0"
+            />
+          )}
         </a>
       );
     }

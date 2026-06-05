@@ -3,12 +3,20 @@ import { cn } from '../utils';
 import { Logo } from './Logo';
 import { Blob } from './Blob';
 
-// Spec: Figma "Blog thumbnails" 57:3218.
-// A composed, on-brand cover card (16:10) used as a blog/news thumbnail: a tinted
-// token surface with a faint Blob line, the Boltz wordmark, and one of four
-// layouts. NOTE the spacing scale here is raw px — h-20 = 20px (a small wordmark).
+// Spec: Figma "Blog thumbnails" 57:3218 (57:3219 / 57:3246 / 57:3287 / 57:3329 / …).
+//
+// A flexible, fully-scalable blog/news cover. Everything inside is sized in
+// container-query units (cqw) against the card's own width, so the SAME cover
+// reads correctly whether it's a 1600px blog hero or a 360px news-grid card —
+// the wordmark, title, eyebrow, padding and render all scale proportionally
+// (no fixed px that breaks at small sizes).
+//
+// Supports: 3 background tones · a Blob behind or in front · the Boltz wordmark ·
+// a co-brand partner (logo node or text) · title aligned left/centre and placed
+// top/centre/bottom · a transparent 3D/PNG render bleeding the right edge.
 
 type Tone = 'sage' | 'blue' | 'tierra';
+type Category = 'new-research' | 'product-launch' | 'case-study' | 'other';
 
 const toneBg: Record<Tone, string> = {
   sage: 'bg-sage-pale',
@@ -26,88 +34,138 @@ const toneInk: Record<Tone, string> = {
   tierra: 'text-text-primary',
 };
 
+// Sensible eyebrow per editorial category (overridable via `eyebrow`).
+const categoryEyebrow: Record<Category, string | undefined> = {
+  'new-research': 'New research',
+  'product-launch': 'Announcing',
+  'case-study': 'Case study',
+  other: undefined,
+};
+
 export interface BlogThumbnailProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Surface tint. Default 'sage'. */
+  /** Background tint. Default 'sage'. */
   tone?: Tone;
-  /**
-   * Composition:
-   *  - 'announce' — wordmark top, eyebrow + title bottom-left, render bleeds right
-   *  - 'title'    — big centred title + wordmark below
-   *  - 'cobrand'  — centred "Boltz | partner" lockup
-   *  - 'mark'     — wordmark top-left, render bleeding a corner (no title)
-   * Default 'announce'.
-   */
-  layout?: 'announce' | 'title' | 'cobrand' | 'mark';
-  title?: string;
-  /** Small uppercase eyebrow (announce layout). */
+  /** Editorial category — sets a default eyebrow. */
+  category?: Category;
+  /** Small uppercase eyebrow above the title. Overrides the category default. */
   eyebrow?: string;
-  /** Co-brand partner name (cobrand layout) — rendered as text. */
-  partner?: string;
-  /** Transparent protein render to bleed off a corner. */
+  title?: string;
+  /** Horizontal alignment of the text block. Default 'left'. */
+  align?: 'left' | 'center';
+  /** Vertical placement of the text block. Default 'bottom'. */
+  titlePosition?: 'top' | 'center' | 'bottom';
+  /** Show the Boltz wordmark. Default true. */
+  showLogo?: boolean;
+  /** Co-brand partner — a logo node or text. Renders a centred "Boltz | partner" lockup. */
+  partner?: React.ReactNode;
+  /** Transparent 3D / PNG render, bled off the right edge. */
   renderSrc?: string;
   /** Decorative blob shape index (wraps). */
   blobShape?: number;
+  /** Whether the blob sits behind the content or in front of it. Default 'behind'. */
+  blobLayer?: 'behind' | 'front';
 }
-
-const Protein = ({ src, className }: { src: string; className: string }) => (
-  <img src={src} alt="" aria-hidden className={cn('pointer-events-none absolute select-none', className)} />
-);
 
 export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps>(
   (
-    { className, tone = 'sage', layout = 'announce', title, eyebrow, partner, renderSrc, blobShape = 0, ...rest },
+    {
+      className,
+      tone = 'sage',
+      category,
+      eyebrow,
+      title,
+      align = 'left',
+      titlePosition = 'bottom',
+      showLogo = true,
+      partner,
+      renderSrc,
+      blobShape = 0,
+      blobLayer = 'behind',
+      ...rest
+    },
     ref,
-  ) => (
-    <div
-      ref={ref}
-      className={cn('relative w-full aspect-[16/10] overflow-hidden rounded-lg', toneBg[tone], className)}
-      {...rest}
-    >
+  ) => {
+    const ink = toneInk[tone];
+    const resolvedEyebrow = eyebrow ?? (category ? categoryEyebrow[category] : undefined);
+    const isCenter = align === 'center';
+    // Logo sits opposite the title (announce: title bottom → logo top).
+    const logoAtTop = titlePosition === 'bottom';
+
+    const blob = (
       <Blob
         shape={blobShape}
         aria-hidden
-        className={cn('pointer-events-none absolute h-auto w-2/3 opacity-40 -right-1/4 -top-1/4', toneBlob[tone])}
+        className={cn(
+          'pointer-events-none absolute -right-1/4 -top-1/4 h-auto w-2/3',
+          blobLayer === 'front' ? 'z-20 opacity-30' : 'z-0 opacity-40',
+          toneBlob[tone],
+        )}
       />
+    );
 
-      {layout === 'announce' && (
-        <>
-          {renderSrc && <Protein src={renderSrc} className="-right-[6%] top-1/2 w-[44%] -translate-y-1/2" />}
-          <div className="absolute inset-0 flex flex-col justify-between p-xl">
-            <Logo className={cn('h-20 w-auto', toneInk[tone])} />
-            <div className="flex flex-col gap-xs">
-              {eyebrow && <span className="text-body-sm uppercase tracking-wide text-text-muted">{eyebrow}</span>}
-              {title && <span className={cn('text-heading-sm', toneInk[tone])}>{title}</span>}
+    const wordmark = showLogo ? (
+      <Logo aria-label="Boltz" className={cn('h-auto w-[18cqw] min-w-[52px] max-w-[150px]', ink)} />
+    ) : null;
+
+    // Keep the text clear of a right-side render; centred titles get more room.
+    const titleMax = isCenter ? 'max-w-[86cqw]' : renderSrc ? 'max-w-[54cqw]' : 'max-w-[82cqw]';
+    const titleBlock = (title || resolvedEyebrow) && (
+      <div className={cn('flex flex-col gap-[1.5cqw]', titleMax, isCenter ? 'items-center text-center' : 'items-start text-left')}>
+        {resolvedEyebrow && (
+          <span className="text-[3.4cqw] uppercase tracking-wide text-text-muted leading-none">{resolvedEyebrow}</span>
+        )}
+        {title && <span className={cn('text-[6.4cqw] leading-[1.08] [text-wrap:balance]', ink)}>{title}</span>}
+      </div>
+    );
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'relative w-full aspect-[16/10] overflow-hidden rounded-lg [container-type:inline-size]',
+          toneBg[tone],
+          className,
+        )}
+        {...rest}
+      >
+        {blobLayer === 'behind' && blob}
+
+        {renderSrc && (
+          <img
+            src={renderSrc}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute -right-[6%] -top-[6%] z-10 w-[48cqw] select-none"
+          />
+        )}
+
+        {/* Co-brand lockup */}
+        {partner ? (
+          <div className="absolute inset-0 z-10 flex items-center justify-center gap-[4cqw] p-[6cqw]">
+            {wordmark}
+            <span className="h-[16cqw] w-px bg-border-light" aria-hidden />
+            <span className={cn('text-[5.5cqw] font-semibold italic leading-none', ink)}>{partner}</span>
+          </div>
+        ) : (
+          <div className={cn('absolute inset-0 z-10 flex flex-col p-[6cqw]', isCenter && 'items-center')}>
+            {/* top row */}
+            <div className="flex w-full">
+              {logoAtTop ? wordmark : titlePosition === 'top' ? titleBlock : null}
+            </div>
+            {/* middle */}
+            <div className="flex flex-1 items-center">
+              {titlePosition === 'center' && titleBlock}
+            </div>
+            {/* bottom row */}
+            <div className="flex w-full">
+              {!logoAtTop ? wordmark : titlePosition === 'bottom' ? titleBlock : null}
             </div>
           </div>
-        </>
-      )}
+        )}
 
-      {layout === 'title' && (
-        <div className="absolute inset-0 flex flex-col items-center justify-between p-xl">
-          <span aria-hidden />
-          {title && <span className={cn('max-w-[80%] text-center text-heading-md', toneInk[tone])}>{title}</span>}
-          <Logo className={cn('h-20 w-auto', toneInk[tone])} />
-        </div>
-      )}
-
-      {layout === 'cobrand' && (
-        <div className="absolute inset-0 flex items-center justify-center gap-md p-xl">
-          <Logo className={cn('h-20 w-auto', toneInk[tone])} />
-          <span className="h-20 w-px bg-border-light" aria-hidden />
-          {partner && <span className={cn('text-heading-sm font-semibold italic', toneInk[tone])}>{partner}</span>}
-        </div>
-      )}
-
-      {layout === 'mark' && (
-        <>
-          {renderSrc && <Protein src={renderSrc} className="-bottom-[10%] -right-[6%] w-[48%]" />}
-          <div className="absolute inset-0 flex flex-col justify-between p-xl">
-            <Logo className={cn('h-20 w-auto', toneInk[tone])} />
-            <span aria-hidden />
-          </div>
-        </>
-      )}
-    </div>
-  ),
+        {blobLayer === 'front' && blob}
+      </div>
+    );
+  },
 );
 BlogThumbnail.displayName = 'BlogThumbnail';
