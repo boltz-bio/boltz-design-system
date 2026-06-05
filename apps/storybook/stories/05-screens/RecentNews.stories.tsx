@@ -2,8 +2,8 @@ import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, PageHeader, FilterTabBar, NewsItem,
-  Badge, Thumbnail, TextButton, Footer,
-  type ViewMode,
+  Badge, BlogThumbnail, TextButton, Footer,
+  type ViewMode, type BlogThumbnailProps,
 } from '@boltz/ui';
 import { BookStack } from 'iconoir-react';
 import { articles, navItems } from '../_data/boltz';
@@ -39,25 +39,30 @@ const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 // ── Article data ──────────────────────────────────────────────────────────────
 // Reuse the shared `articles` fixture, extended inline (read-only fixtures must
 // not change) with a few more items + thumbnails for a fuller grid.
-type Article = (typeof articles)[number] & { thumbnail?: string; summary?: string };
+type Article = (typeof articles)[number] & { cover?: BlogThumbnailProps; summary?: string };
 
-const moreArticles: Article[] = [
+const moreArticles: (typeof articles)[number][] = [
   { id: 'a5', category: 'Partnerships', title: 'Boltz joins the open biomolecular design consortium', date: 'Jan 2026' },
   { id: 'a6', category: 'Company', title: 'Scaling the team behind frontier structure models', date: 'Dec 2025' },
   { id: 'a7', category: 'Platform', title: 'Predictable latency: inside the Boltz inference stack', date: 'Nov 2025' },
   { id: 'a8', category: 'Research', title: 'De novo binder design at atomic resolution', date: 'Oct 2025' },
 ];
 
-// Real brand photos, cycled so adjacent cards differ.
-const brandPhotos = [
-  '/brand/people-1.jpg', '/brand/micro-1.jpg',
-  '/brand/people-2.jpg', '/brand/micro-2.jpg',
-  '/brand/people-3.jpg', '/brand/micro-3.jpg',
+const PROTEIN = '/boltz-protein.png';
+
+// On-brand blog-thumbnail covers (Figma 57:3218), cycled across cards as prop specs.
+const coverSpecs: BlogThumbnailProps[] = [
+  { tone: 'sage', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz-prot-1', renderSrc: PROTEIN, blobShape: 8 },
+  { tone: 'tierra', layout: 'title', title: 'The future we are building at Boltz', blobShape: 5 },
+  { tone: 'blue', layout: 'cobrand', partner: 'Pfizer', blobShape: 3 },
+  { tone: 'blue', layout: 'announce', eyebrow: 'Announcing', title: 'Boltz Lab', renderSrc: PROTEIN, blobShape: 11 },
+  { tone: 'sage', layout: 'cobrand', partner: 'dsm-firmenich', blobShape: 6 },
+  { tone: 'tierra', layout: 'mark', renderSrc: PROTEIN, blobShape: 9 },
 ];
 
 const allArticles: Article[] = [...articles, ...moreArticles].map((a, i) => ({
   ...a,
-  thumbnail: brandPhotos[i % brandPhotos.length],
+  cover: coverSpecs[i % coverSpecs.length],
 }));
 
 // Tab categories per Figma (Latest = the "all" view).
@@ -83,7 +88,7 @@ function ArticleBand({ items, exclude }: { items: Article[]; exclude?: string })
     .filter((a) => tab === 'Latest' || a.category === tab);
 
   return (
-    <section className="w-full py-2xl">
+    <section className="w-full pt-xl pb-2xl">
       <div className="max-w-container mx-auto px-md tablet:px-40">
         <FilterTabBar
           className="mb-xl"
@@ -103,7 +108,7 @@ function ArticleBand({ items, exclude }: { items: Article[]; exclude?: string })
                 title={a.title}
                 category={a.category}
                 date={a.date}
-                thumbnail={a.thumbnail}
+                cover={a.cover ? <BlogThumbnail {...a.cover} /> : undefined}
               />
             ))}
           </div>
@@ -116,7 +121,6 @@ function ArticleBand({ items, exclude }: { items: Article[]; exclude?: string })
                 title={a.title}
                 category={a.category}
                 date={a.date}
-                thumbnail={a.thumbnail}
               />
             ))}
           </div>
@@ -136,12 +140,7 @@ function FeaturedStory({ article }: { article: Article }) {
     <section className="w-full">
       <div className="max-w-container mx-auto px-md tablet:px-40">
         <a href="#" className="group flex flex-col gap-lg no-underline">
-          <Thumbnail
-            src={article.thumbnail}
-            aspect="video"
-            radius="lg"
-            className="w-full"
-          />
+          {article.cover && <BlogThumbnail {...article.cover} className="aspect-video" />}
           <div className="flex flex-col gap-md">
             <Badge variant="primary">{article.category}</Badge>
             <h2 className="text-heading-md text-text-primary max-w-body group-hover:underline">
@@ -171,6 +170,7 @@ export const RecentNews: Story = {
           eyebrow="News"
           eyebrowIcon={<BookStack {...sz} />}
           heading="Latest news"
+          className="pb-lg"
         />
         <FeaturedStory article={featured} />
         <ArticleBand items={allArticles} exclude={featured.id} />
@@ -194,6 +194,7 @@ export const RecentNewsGrid: Story = {
           eyebrow="Research"
           eyebrowIcon={<BookStack {...sz} />}
           heading="Latest news"
+          className="pb-lg"
         />
         <ArticleBand items={allArticles} />
       </main>
