@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
   Hero, FeatureGrid, StatBand, CTABand, Footer, Embed,
-  Accordion, AccordionItem, AccordionActions, Badge,
+  Carousel, ModelCard,
 } from '@boltz/ui';
-import { Leaf, Code, Community } from 'iconoir-react';
-import { models, stats, navItems } from '../_data/boltz';
+import { Leaf, Code, Community, ViewGrid } from 'iconoir-react';
+import { stats, navItems } from '../_data/boltz';
 
 // Example page — assembled from section components (Hero, FeatureGrid, StatBand,
 // CTABand, Footer) + a Models accordion block. Data comes from fixtures.
@@ -91,28 +91,37 @@ export const Landing: Story = {
         ]}
       />
 
-      {/* Models — accordion block (documented pattern, not a shipped section) */}
+      {/* Our models — carousel of model cards (Figma 57:2079 / 57:2513) */}
       <section className="py-2xl">
-        <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-          <EyebrowLabel icon={<Leaf {...sz} />}>Our models</EyebrowLabel>
-          <Accordion type="single" collapsible defaultValue={models[0].id} className="max-w-body">
-            {models.map((m, i) => (
-              <AccordionItem
-                key={m.id}
-                value={m.id}
-                title={m.name}
-                badge={m.badge ? <Badge variant={m.badge.tone}>{m.badge.label}</Badge> : undefined}
-              >
-                <p className="text-body-md text-text-secondary">{m.body}</p>
-                {i === 0 && (
-                  <AccordionActions>
-                    <Button variant="black">Get early access</Button>
-                    <TextButton arrow>Technical report</TextButton>
-                  </AccordionActions>
-                )}
-              </AccordionItem>
+        <div className="max-w-container mx-auto px-md tablet:px-40">
+          <Carousel
+            ariaLabel="Our models"
+            controls="bottom"
+            slideClassName="basis-[88%] tablet:basis-[53%]"
+            caption={
+              <>
+                <EyebrowLabel icon={<ViewGrid {...sz} />}>Our models</EyebrowLabel>
+                <h2 className="text-heading-lg text-text-primary max-w-[20ch] mt-md">
+                  We&rsquo;re creating top models for all molecule types
+                </h2>
+              </>
+            }
+          >
+            {[
+              { title: 'BoltzMol 1.1', tone: 'light' as const },
+              { title: 'BoltzProt 1.1', tone: 'sand' as const },
+              { title: 'Boltz-2', tone: 'clay' as const },
+              { title: 'BoltzRNA 1.0', tone: 'sage' as const },
+            ].map((m) => (
+              <ModelCard
+                key={m.title}
+                title={m.title}
+                tone={m.tone}
+                body="A powerful end-to-end pipeline for de novo protein design powered by Boltz-2 and our state of the art protein interaction and ADME models"
+                renderSrc="/boltz-protein.png"
+              />
             ))}
-          </Accordion>
+          </Carousel>
         </div>
       </section>
 
