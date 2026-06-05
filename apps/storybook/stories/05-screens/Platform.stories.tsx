@@ -280,7 +280,7 @@ export const Platform: Story = {
         <section className="w-full py-2xl">
           <div className="max-w-container mx-auto px-md tablet:px-40">
             <Carousel
-              controls="bottom"
+              controls="top"
               ariaLabel="Our models"
               slideClassName="basis-[88%] tablet:basis-[53%]"
               caption={<>

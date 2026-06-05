@@ -96,7 +96,7 @@ export const Landing: Story = {
         <div className="max-w-container mx-auto px-md tablet:px-40">
           <Carousel
             ariaLabel="Our models"
-            controls="bottom"
+            controls="top"
             slideClassName="basis-[88%] tablet:basis-[53%]"
             caption={
               <>

@@ -54,26 +54,26 @@ const ourModelsCaption = (
   </>
 );
 
-// ── Default — the real "Our models" carousel (caption + arrows below) ─────────
+// ── Default — the real "Our models" carousel (caption + arrows ABOVE track) ───
 
 export const Default: Story = {
   name: 'Carousel',
   args: {
     ariaLabel: 'Our models',
-    controls: 'bottom',
+    controls: 'top',
     caption: ourModelsCaption,
     slideClassName: 'basis-[88%] tablet:basis-[53%]',
     children: modelSlides,
   },
 };
 
-// ── Caption + arrows above the track ─────────────────────────────────────────
+// ── Alternative — caption + arrows BELOW the track ───────────────────────────
 
-export const ControlsTop: Story = {
-  name: 'Controls top',
+export const ControlsBottom: Story = {
+  name: 'Controls bottom',
   args: {
     ariaLabel: 'Our models',
-    controls: 'top',
+    controls: 'bottom',
     caption: ourModelsCaption,
     slideClassName: 'basis-[88%] tablet:basis-[53%]',
     children: modelSlides,
@@ -86,7 +86,7 @@ export const WithCaption: Story = {
   name: 'No caption',
   args: {
     ariaLabel: 'Models',
-    controls: 'bottom',
+    controls: 'top',
     slideClassName: 'basis-[88%] tablet:basis-[53%]',
     children: modelSlides,
   },
@@ -99,7 +99,7 @@ export const OurModelsContained: Story = {
   parameters: { layout: 'fullscreen' },
   args: {
     ariaLabel: 'Our models',
-    controls: 'bottom',
+    controls: 'top',
     caption: ourModelsCaption,
     slideClassName: 'basis-[88%] tablet:basis-[53%]',
     children: modelSlides,
@@ -120,7 +120,7 @@ export const OurModelsFullBleed: Story = {
   parameters: { layout: 'fullscreen' },
   args: {
     ariaLabel: 'Our models',
-    controls: 'bottom',
+    controls: 'top',
     bleed: true,
     caption: ourModelsCaption,
     slideClassName: 'basis-[88%] tablet:basis-[44%] laptop:basis-[36%]',
