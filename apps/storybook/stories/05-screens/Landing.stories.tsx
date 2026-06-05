@@ -72,14 +72,27 @@ export const Landing: Story = {
       <Hero
         eyebrow="Build on Boltz"
         eyebrowIcon={<Leaf {...sz} />}
-        heading="Frontier models for biomolecular design."
-        body="State-of-the-art structure prediction, served as production-ready infrastructure. Built to integrate."
+        heading="Foundational AI for biology and chemistry."
+        body="Frontier models and high-performance compute for biomolecular design. Built to integrate."
         actions={<>
           <Button variant="black">Try Boltz Lab</Button>
           <TextButton arrow>Read the paper</TextButton>
         </>}
         media={<ProteinRender />}
       />
+
+      {/* Intro statement (Figma 57:2079 → Frame 3466207) */}
+      <section className="py-2xl bg-surface-primary">
+        <div className="max-w-container mx-auto px-md tablet:px-40">
+          <p className="max-w-[24ch] text-heading-md text-text-primary">
+            Boltz is a frontier research lab building foundational AI for biology and chemistry.
+          </p>
+          <p className="mt-lg max-w-body text-body-lg text-text-secondary">
+            Our open models are used by millions of scientists worldwide — from single-protein
+            structure prediction to end-to-end molecular design pipelines.
+          </p>
+        </div>
+      </section>
 
       <FeatureGrid
         eyebrow="Capabilities"

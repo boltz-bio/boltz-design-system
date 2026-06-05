@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { SplitSection, EyebrowLabel, Button, TextButton } from '@boltz/ui';
+import { SplitSection, EyebrowLabel, Button, TextButton, Embed, Thumbnail } from '@boltz/ui';
 import { Code } from 'iconoir-react';
+
+const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
+const STUDIO_LIVE = 'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
 
 const meta = {
   title: '04-Sections/SplitSection',
@@ -62,4 +65,42 @@ export const MediaAbove: Story = {
 
 export const TextOnly: Story = {
   args: { width: 'contained', background: 'secondary', content: <Content /> },
+};
+
+// ── Real media: a brand image instead of the placeholder slot ─────────────────
+export const WithImage: Story = {
+  args: {
+    mediaPosition: 'right',
+    width: 'contained',
+    background: 'none',
+    content: <Content />,
+    media: (
+      <div className="w-full max-w-[460px]">
+        <Thumbnail src="/brand/people-2.jpg" alt="Boltz scientist" aspect="square" radius="lg" />
+      </div>
+    ),
+  },
+};
+
+// ── Real media: an interactive Boltz Studio embed ─────────────────────────────
+export const WithInteractiveEmbed: Story = {
+  args: {
+    mediaPosition: 'left',
+    width: 'contained',
+    background: 'sage-pale',
+    content: <Content />,
+    media: (
+      <div className="w-full max-w-[460px]">
+        <Embed
+          src={STUDIO_TURNTABLE}
+          kind="video"
+          title="Boltz Studio — protein turntable"
+          aspect="square"
+          surface="sage"
+          interactive
+          interactiveSrc={STUDIO_LIVE}
+        />
+      </div>
+    ),
+  },
 };
