@@ -47,7 +47,7 @@ const staggerParent: Variants = {
 };
 
 const meta = {
-  title: '01-Foundations/Motion',
+  title: '01-Foundations/Motion/Overview',
   parameters: {
     layout: 'padded',
     docs: {

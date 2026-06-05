@@ -39,7 +39,7 @@ const transitionSpring = {
 } as const;
 
 const meta = {
-  title: '01-Foundations/Motion patterns',
+  title: '01-Foundations/Motion/Patterns',
   parameters: {
     layout: 'padded',
     docs: {

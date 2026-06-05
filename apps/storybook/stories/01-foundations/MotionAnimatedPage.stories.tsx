@@ -44,7 +44,7 @@ import { navItems } from '../_data/boltz';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const meta = {
-  title: '01-Foundations/Motion — Animated page',
+  title: '01-Foundations/Motion/Animated page',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -386,7 +386,7 @@ const LandingPage: React.FC = () => {
                   variants={fadeRise}
                   whileHover={reduce ? undefined : { y: -4 }}
                   transition={transitionSpring}
-                  className="flex min-h-[180px] flex-col justify-between gap-2xl rounded-lg border border-border-light bg-surface-card-light p-lg transition-colors hover:border-sage-medium"
+                  className="flex min-h-[180px] flex-col justify-between gap-2xl rounded-lg bg-blue-pale p-lg"
                 >
                   <IconContainer variant="light">{f.icon}</IconContainer>
                   <div className="flex flex-col gap-xs">
