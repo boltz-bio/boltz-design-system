@@ -12,7 +12,7 @@ import { EyebrowLabel } from '@boltz/ui';
  */
 
 const meta = {
-  title: '01-Foundations/Motion/SVG & brand',
+  title: '01-Foundations/Motion/Patterns',
   parameters: { layout: 'padded' },
 } satisfies Meta;
 
