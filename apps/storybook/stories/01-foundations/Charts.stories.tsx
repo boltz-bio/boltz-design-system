@@ -76,13 +76,12 @@ function BarChart() {
     <div className="flex flex-col gap-sm">
       <div className="flex items-end gap-sm h-[200px]" role="img" aria-label="Weekly throughput, bar chart">
         {barData.map((d) => (
-          <div key={d.label} className="flex-1 flex flex-col justify-end">
-            <div
-              className={`${d.tone} rounded-sm w-full`}
-              style={{ height: `${d.pct}%` }}
-              title={`${d.label}: ${d.pct}%`}
-            />
-          </div>
+          <div
+            key={d.label}
+            className={`${d.tone} rounded-sm flex-1`}
+            style={{ height: `${d.pct}%` }}
+            title={`${d.label}: ${d.pct}%`}
+          />
         ))}
       </div>
       <div className="flex gap-sm">
