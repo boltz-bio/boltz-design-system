@@ -65,6 +65,15 @@ const headerBorder: Record<CodeBlockColor, string> = {
   tierra: 'border-b border-tierra-100',
 };
 
+// Scroll-edge fade — gradient `from-<headerBg>` so the tab strip fades into the
+// header colour when there are more tabs to scroll to. Not a drop shadow (the DS
+// forbids those) — a colour fade affordance.
+const headerFade: Record<CodeBlockColor, string> = {
+  sage:   'from-sage-pale',
+  blue:   'from-blue-pale',
+  tierra: 'from-tierra-100',
+};
+
 // ── Per-line animated code ────────────────────────────────────────────────────
 // Fades each line in with a staggered delay whenever `active` flips true.
 // Two nested rAFs ensure the opacity-0 initial state is painted before
@@ -124,6 +133,22 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
     if (el) setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
   }, [activeTab]);
 
+  // Scroll affordance — show an edge fade when the tab strip can scroll further
+  // in that direction (recomputed on scroll, on resize, and when tabs change).
+  const stripRef = React.useRef<HTMLDivElement | null>(null);
+  const [scroll, setScroll] = React.useState({ start: false, end: false });
+  const updateScroll = React.useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setScroll({ start: scrollLeft > 1, end: scrollLeft + clientWidth < scrollWidth - 1 });
+  }, []);
+  React.useEffect(() => {
+    updateScroll();
+    window.addEventListener('resize', updateScroll);
+    return () => window.removeEventListener('resize', updateScroll);
+  }, [updateScroll, tabs]);
+
   const handleCopy = async () => {
     const textToCopy = tabs ? tabs[activeTab]?.code : code;
     if (!textToCopy) return;
@@ -152,28 +177,53 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
             inner row is full-height so the sliding underline sits at the bottom
             edge without being clipped by the scroll container. */}
         {tabs && tabs.length > 0 ? (
-          <div className="relative h-full min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="relative flex items-center gap-[24px] h-full w-max">
-              {tabs.map((tab, i) => (
-                <button
-                  key={i}
-                  ref={el => { tabRefs.current[i] = el; }}
-                  onClick={() => setActiveTab(i)}
-                  className={cn(
-                    'relative shrink-0 font-sans font-regular text-body-sm cursor-pointer bg-transparent border-none',
-                    'focus-visible:outline-none transition-colors duration-base ease-standard',
-                    i === activeTab ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary',
-                  )}
-                >
-                  {tab.label}
-                </button>
-              ))}
-              {/* Sliding underline indicator — pinned to the header's bottom edge */}
-              <div
-                className="absolute bottom-0 h-[2px] bg-action-primary transition-[left,width] duration-[200ms] ease-standard"
-                style={{ left: indicator.left, width: indicator.width }}
-              />
+          <div className="relative h-full min-w-0">
+            <div
+              ref={stripRef}
+              onScroll={updateScroll}
+              className="h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              <div className="relative flex items-center gap-[24px] h-full w-max">
+                {tabs.map((tab, i) => (
+                  <button
+                    key={i}
+                    ref={el => { tabRefs.current[i] = el; }}
+                    onClick={() => setActiveTab(i)}
+                    className={cn(
+                      'relative shrink-0 font-sans font-regular text-body-sm cursor-pointer bg-transparent border-none',
+                      'focus-visible:outline-none transition-colors duration-base ease-standard',
+                      i === activeTab ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary',
+                    )}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+                {/* Sliding underline indicator — pinned to the header's bottom edge */}
+                <div
+                  className="absolute bottom-0 h-[2px] bg-action-primary transition-[left,width] duration-[200ms] ease-standard"
+                  style={{ left: indicator.left, width: indicator.width }}
+                />
+              </div>
             </div>
+            {/* Edge fades — hint that there are more tabs to scroll to */}
+            <div
+              aria-hidden
+              className={cn(
+                'pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r',
+                'transition-opacity duration-base ease-standard',
+                headerFade[color],
+                scroll.start ? 'opacity-100' : 'opacity-0',
+              )}
+            />
+            <div
+              aria-hidden
+              className={cn(
+                'pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l',
+                'transition-opacity duration-base ease-standard',
+                headerFade[color],
+                scroll.end ? 'opacity-100' : 'opacity-0',
+              )}
+            />
           </div>
         ) : (
           <div /> // spacer so copy button stays right

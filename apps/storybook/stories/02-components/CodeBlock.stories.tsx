@@ -91,6 +91,21 @@ export const StandaloneNoTabs: Story = {
   args: { color: 'tierra', contained: false, code: SIMPLE_CODE },
 };
 
+// Many tabs → the strip scrolls horizontally with an edge-fade hint. Narrow the
+// viewport (Boltz — Mobile) to see the right fade appear.
+const MANY_TABS = [
+  ...TABS,
+  { label: 'TypeScript', code: TABS[2].code },
+  { label: 'Go',         code: `client := boltz.New("your-key")\nres, _ := client.Predict("MKTAYIAKQR")` },
+  { label: 'Rust',       code: `let client = Boltz::new("your-key");\nlet res = client.predict("MKTAYIAKQR")?;` },
+  { label: 'Java',       code: `var client = new BoltzClient("your-key");\nvar res = client.predict("MKTAYIAKQR");` },
+];
+
+export const ManyTabsScroll: Story = {
+  name: 'Many tabs — scrollable with edge fade',
+  args: { color: 'blue', contained: false, tabs: MANY_TABS },
+};
+
 // ── Contained ─────────────────────────────────────────────────────────────────
 
 export const ContainedSage: Story = {
