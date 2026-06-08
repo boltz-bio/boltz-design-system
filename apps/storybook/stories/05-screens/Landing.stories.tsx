@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  PrimaryHero, Footer, Blob, BLOB_COUNT,
+  PrimaryHero, Footer, Blob, BLOB_COUNT, SplitSection,
   Accordion, AccordionItem, AccordionActions, Badge,
   NewsItem, BlogThumbnail, PlatformFeatureSection, CommunitySection,
 } from '@boltz/ui';
@@ -109,10 +109,13 @@ export const Landing: Story = {
           media={<HeroProteinBleed />}
         />
 
-        {/* Intro + blog-post list (Figma Frame 3466207) */}
-        <section className="py-section">
-          <div className="max-w-container mx-auto px-md tablet:px-40 grid grid-cols-1 gap-2xl laptop:grid-cols-2">
-            <div className="flex flex-col gap-lg">
+        {/* Intro + blog-post list (Figma Frame 3466207) — the generic
+            SplitSection base, with the wide column gap for a text + list split. */}
+        <SplitSection
+          align="start"
+          gap="wide"
+          content={
+            <>
               <EyebrowLabel icon={<Leaf {...sz} />}>About us</EyebrowLabel>
               <h2 className="text-heading-md text-text-primary max-w-[20ch]">
                 Boltz is a frontier research lab building generative models for biology and chemistry.
@@ -125,9 +128,10 @@ export const Landing: Story = {
                 We founded Boltz PBC to advance the open frontier and build powerful new primitives
                 for science.
               </p>
-            </div>
-
-            <div className="flex flex-col gap-lg">
+            </>
+          }
+          media={
+            <div className="flex flex-col gap-lg w-full">
               {blogPosts.map((p) => (
                 <NewsItem
                   key={p.id}
@@ -140,8 +144,8 @@ export const Landing: Story = {
               ))}
               <div><Button variant="black">View all blog posts</Button></div>
             </div>
-          </div>
-        </section>
+          }
+        />
 
         {/* Our models — protein render + accordion (Figma 57:2513 accordion variant) */}
         <section className="py-section bg-tierra-100">

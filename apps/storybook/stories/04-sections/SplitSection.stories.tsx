@@ -22,7 +22,8 @@ const meta = {
     mediaPosition: { control: 'select', options: ['left', 'right', 'above', 'below'] },
     width: { control: 'select', options: ['contained', 'fluid'] },
     background: { control: 'select', options: ['none', 'secondary', 'sage-pale', 'blue-pale', 'tierra-100', 'dark'] },
-    align: { control: 'select', options: ['start', 'center'] },
+    align: { control: 'select', options: ['start', 'center', 'stretch'] },
+    gap: { control: 'select', options: ['default', 'comfortable', 'wide'] },
   },
 } satisfies Meta<typeof SplitSection>;
 

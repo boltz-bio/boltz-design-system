@@ -43,6 +43,14 @@ export interface SplitSectionProps
   width?: 'contained' | 'fluid';
   /** Vertical alignment of the two columns when side-by-side. Default 'center'. `stretch` makes both columns fill the row height. */
   align?: 'start' | 'center' | 'stretch';
+  /**
+   * Column gap when the two columns sit side-by-side (laptop+).
+   *   default     → 20px — the tight Hero-style inset (text + a single image)
+   *   comfortable → 40px
+   *   wide        → 80px — content + content splits (e.g. text + a list/card)
+   * The stacked (mobile) gap stays a constant 40px.
+   */
+  gap?: 'default' | 'comfortable' | 'wide';
 }
 
 // Side-by-side direction at laptop+; left/right swap order, above/below stay stacked.
@@ -53,10 +61,17 @@ const rowDir: Record<MediaPosition, string> = {
   below: 'flex-col',
 };
 
+// Side-by-side (laptop) column gap. Base/stacked gap stays gap-xl (40px).
+const sideGap = {
+  default: 'laptop:gap-20', // 20px
+  comfortable: 'laptop:gap-xl', // 40px
+  wide: 'laptop:gap-2xl', // 80px
+} as const;
+
 export const SplitSection = React.forwardRef<HTMLElement, SplitSectionProps>(
   (
     { className, content, media, mediaPosition = 'right', width = 'contained',
-      align = 'center', background, pad, ...rest },
+      align = 'center', gap = 'default', background, pad, ...rest },
     ref,
   ) => {
     const stacked = mediaPosition === 'above' || mediaPosition === 'below';
@@ -73,7 +88,7 @@ export const SplitSection = React.forwardRef<HTMLElement, SplitSectionProps>(
               'flex gap-xl',
               media ? rowDir[mediaPosition] : 'flex-col',
               !stacked && (align === 'stretch' ? 'items-stretch' : align === 'center' ? 'items-center' : 'items-start'),
-              !stacked && 'laptop:gap-20',
+              !stacked && sideGap[gap],
             )}
           >
             <div className={cn('flex flex-col gap-lg', media && !stacked && 'laptop:flex-1')}>
