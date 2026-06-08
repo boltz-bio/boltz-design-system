@@ -62,8 +62,9 @@ export const IntegrationsSection = React.forwardRef<HTMLElement, IntegrationsSec
             </div>
           </div>
 
-          {/* Right — 2-column integration grid using ListItemApp */}
-          <div className="grid grid-cols-2 gap-x-2xl gap-y-xl">
+          {/* Right — integration grid using ListItemApp. One column on phones
+              (two 77px-icon items won't fit side-by-side), two from mobile: (768). */}
+          <div className="grid grid-cols-1 gap-y-xl mobile:grid-cols-2 mobile:gap-x-2xl">
             {integrations.map((item, i) => (
               <ListItemApp
                 key={i}

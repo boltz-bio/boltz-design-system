@@ -66,7 +66,7 @@ export const NewsGrid = React.forwardRef<HTMLElement, NewsGridProps>(
           )}
 
           {view === 'grid' ? (
-            <div className="grid grid-cols-1 gap-lg tablet:grid-cols-2 laptop:grid-cols-3">
+            <div className="grid grid-cols-1 gap-lg mobile:grid-cols-2 laptop:grid-cols-3">
               {filtered.map((article) => (
                 <NewsItem
                   key={article.id}

@@ -46,10 +46,12 @@ export interface FeatureGridProps
   width?: 'contained' | 'fluid';
 }
 
-// Column count from tablet (1024px) up — so a 3-up grid isn't lopsided on laptops.
-const tabletCols: Record<2 | 3, string> = {
-  2: 'tablet:grid-cols-2',
-  3: 'tablet:grid-cols-3',
+// Responsive columns: always 1 on phones, 2 from the tablet-portrait breakpoint
+// (mobile: 768px), then the full count at tablet (1024px) so a 3-up grid steps
+// 1 → 2 → 3 instead of jumping straight to 3.
+const gridCols: Record<2 | 3, string> = {
+  2: 'mobile:grid-cols-2',
+  3: 'mobile:grid-cols-2 tablet:grid-cols-3',
 };
 
 export const FeatureGrid = React.forwardRef<HTMLElement, FeatureGridProps>(
@@ -60,7 +62,7 @@ export const FeatureGrid = React.forwardRef<HTMLElement, FeatureGridProps>(
           {eyebrow && (
             <EyebrowLabel icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>
           )}
-          <div className={cn('grid grid-cols-1 gap-lg', tabletCols[columns])}>
+          <div className={cn('grid grid-cols-1 gap-lg', gridCols[columns])}>
             {items.map((item, i) => (
               <CardMedium
                 key={i}

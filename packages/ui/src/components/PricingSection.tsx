@@ -42,7 +42,7 @@ export const PricingSection = React.forwardRef<HTMLElement, PricingSectionProps>
           </div>
 
           {/* Split: feature tabs (left) drive the comparison card (right) */}
-          <div className="grid grid-cols-1 gap-xl laptop:grid-cols-2 laptop:gap-2xl items-start">
+          <div className="grid grid-cols-1 gap-xl tablet:grid-cols-2 tablet:gap-2xl items-start">
             <ListItemTabGroup
               active={active}
               onActiveChange={setActive}

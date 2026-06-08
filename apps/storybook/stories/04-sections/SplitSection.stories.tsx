@@ -32,8 +32,8 @@ type Story = StoryObj<typeof meta>;
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
 
 const Media = () => (
-  <div className="w-full max-w-[460px] aspect-square rounded-lg bg-sage-pale border border-sage-medium flex items-center justify-center">
-    <span className="text-body-sm text-text-muted">Media slot</span>
+  <div className="w-full max-w-[460px]">
+    <img src="/hero-protein.png" alt="Boltz protein render" className="w-full h-auto" />
   </div>
 );
 
