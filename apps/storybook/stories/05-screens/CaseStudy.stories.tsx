@@ -1,16 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, Button, TextButton, Badge,
-  CardWide, CodeBlock, PricingSection, Footer,
+  BlogThumbnail, CodeBlock, PricingSection, Footer,
   placeholderImage,
 } from '@boltz/ui';
-import { ArrowLeft, Code, Leaf } from 'iconoir-react';
+import { ArrowLeft, Code, Leaf, Linkedin, Twitter, Link } from 'iconoir-react';
 import { navItems } from '../_data/boltz';
-
-// Example long-form article / case-study page (Figma node 76:921). Assembled
-// ONLY from existing @boltz/ui exports + fixtures. The article prose (subheads
-// and paragraphs) is plain token-styled markup constrained to `max-w-body`;
-// full-width bands use `max-w-container mx-auto px-md tablet:px-40`.
 
 const meta = {
   title: '05-Screens/Case study',
@@ -20,7 +15,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A full responsive case-study / article page composed from the NavBar, an article header, a CardWide hero, token-styled prose sections, a tabbed CodeBlock, a PricingSection comparison, a closing image, a CTA row, and the Footer. Use it as a reference for long-form editorial layout.',
+          'A full responsive case-study / article page. Shares the same header, thumbnail, and summary+CTA layout structure as the Blog post, with additional sections: a tabbed CodeBlock, a PricingSection comparison, and a closing image.',
       },
     },
   },
@@ -29,7 +24,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
+const szSm = { width: 14, height: 14, strokeWidth: 1.5 } as const;
+const szMd = { width: 16, height: 16, strokeWidth: 1.5 } as const;
+
+const PROTEIN = '/Small Molecule - Binder 01 - V2 1.png';
 
 // Tabbed code sample for the CodeBlock — Python / REST API / Agentic.
 const codeTabs = [
@@ -68,7 +66,7 @@ result.plan.show()`,
 // Pricing / comparison tabs for the PricingSection.
 const pricingTabs = [
   {
-    icon: <Leaf {...sz} />,
+    icon: <Leaf {...szSm} />,
     title: 'Structure prediction',
     body: 'Atomic-resolution folds, billed per residue.',
     header: { label: 'Per 1k predictions', value: '$0.12' },
@@ -79,7 +77,7 @@ const pricingTabs = [
     ],
   },
   {
-    icon: <Code {...sz} />,
+    icon: <Code {...szSm} />,
     title: 'Agentic design',
     body: 'Multi-step binder design loops, billed per run.',
     header: { label: 'Per design run', value: '$48' },
@@ -108,57 +106,80 @@ export const CaseStudy: Story = {
 
       <main>
         {/* 2 — Article header */}
-        <section className="w-full pt-2xl pb-xl">
-          <div className="max-w-body mx-auto px-md tablet:px-40 flex flex-col gap-lg">
-            <TextButton className="self-start">
-              <ArrowLeft {...sz} /> Back
+        <section className="max-w-container mx-auto px-md tablet:px-40 pt-2xl pb-lg">
+          <div className="max-w-body mx-auto flex flex-col gap-lg">
+
+            {/* Back */}
+            <TextButton className="self-start" onClick={() => window.history.back()}>
+              <ArrowLeft {...szSm} />
+              Back
             </TextButton>
-            <div className="flex items-center gap-sm">
-              <Badge variant="primary">Product</Badge>
-              <span className="text-body-sm text-text-secondary">October 26th, 2025</span>
+
+            {/* Category + date */}
+            <div className="flex items-center gap-0">
+              <Badge variant="outlined">Product</Badge>
+              <Badge variant="outlined">October 26th, 2025</Badge>
             </div>
+
+            {/* Title */}
             <h1 className="text-heading-lg text-text-primary">
               Announcing Boltz Lab and our first agents
             </h1>
-            <p className="text-body-sm text-text-secondary">Written by The Boltz Team</p>
+
+            {/* Author + social links */}
+            <div className="flex items-center justify-between">
+              <p className="text-body-sm text-text-muted">Written by The Boltz Team</p>
+              <div className="flex items-center gap-xs">
+                {[
+                  { icon: <Linkedin {...szMd} />, label: 'LinkedIn' },
+                  { icon: <Twitter {...szMd} />, label: 'X / Twitter' },
+                  { icon: <Link {...szMd} />, label: 'Copy link' },
+                ].map(({ icon, label }) => (
+                  <button
+                    key={label}
+                    aria-label={label}
+                    className="w-32 h-32 rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-secondary transition-colors duration-base ease-standard bg-transparent border-none cursor-pointer"
+                  >
+                    {icon}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* 3 — Hero / feature card */}
-        <section className="w-full pb-2xl">
-          <div className="max-w-container mx-auto px-md tablet:px-40">
-            <CardWide
-              eyebrowIcon={<Leaf {...sz} />}
-              eyebrowLabel="Announcing"
-              heading="Boltz Lab"
-              body="A unified workspace where prediction, design, and validation run as production infrastructure — not a notebook."
-              cta="Get early access"
-              image={
-                <img
-                  src="/boltz-protein.png"
-                  alt="Boltz protein render"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              }
+        {/* 3 — Thumbnail hero */}
+        <section className="max-w-container mx-auto px-md tablet:px-40 pb-xl">
+          <div className="max-w-body mx-auto">
+            <BlogThumbnail
+              tone="sage"
+              category="product-launch"
+              title="Boltz Lab"
+              renderSrc={PROTEIN}
+              blobShape={11}
             />
           </div>
         </section>
 
-        {/* 4 — Lead / summary */}
-        <section className="w-full pb-xl">
-          <div className="max-w-body mx-auto px-md tablet:px-40">
-            <p className="text-body-lg text-text-secondary">
+        {/* 4 — Summary + CTA */}
+        <section className="max-w-container mx-auto px-md tablet:px-40 pb-2xl">
+          <div className="max-w-body mx-auto flex flex-col gap-xl laptop:flex-row laptop:gap-2xl laptop:items-start">
+            <p className="text-body-lg text-text-secondary flex-1">
               Today we are introducing Boltz Lab, along with our first generation of
               biomolecular design agents. Breakthrough models only matter if they reach
               the bench, so we built Lab to close the gap between a prediction and a
               testable hypothesis — at the throughput a modern discovery team needs.
             </p>
+            <div className="flex flex-col gap-md flex-shrink-0">
+              <Button variant="black" suffix="arrow-icon">Get access</Button>
+              <TextButton>Read technical report</TextButton>
+            </div>
           </div>
         </section>
 
         {/* 5 — Article body */}
-        <article className="w-full pb-2xl">
-          <div className="max-w-body mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
+        <article className="max-w-container mx-auto px-md tablet:px-40 pb-2xl">
+          <div className="max-w-body mx-auto flex flex-col gap-2xl">
             <section className="flex flex-col gap-md">
               <h2 className="text-heading-md text-text-primary">Introducing Boltz Lab</h2>
               <p className="text-body-md text-text-secondary">
@@ -223,7 +244,7 @@ export const CaseStudy: Story = {
         {/* 7 — Pricing / comparison */}
         <PricingSection
           eyebrow="Pricing"
-          eyebrowIcon={<Code {...sz} />}
+          eyebrowIcon={<Code {...szSm} />}
           heading="A fraction of the cost of building it yourself."
           tabs={pricingTabs}
         />
@@ -236,24 +257,6 @@ export const CaseStudy: Story = {
               alt="Boltz Lab in production"
               className="w-full rounded-lg aspect-[16/9] object-cover"
             />
-          </div>
-        </section>
-
-        {/* 9 — CTA row */}
-        <section className="w-full pb-2xl">
-          <div className="max-w-body mx-auto px-md tablet:px-40 flex flex-wrap items-center gap-md">
-            <Button variant="black">Get access</Button>
-            <TextButton arrow>Read technical report</TextButton>
-          </div>
-        </section>
-
-        {/* 10 — Social links row */}
-        <section className="w-full pb-2xl">
-          <div className="max-w-body mx-auto px-md tablet:px-40 flex flex-wrap items-center gap-lg border-t border-border-light pt-lg">
-            <span className="text-body-sm text-text-muted">Share</span>
-            <a href="#" className="text-body-sm text-text-primary">Github</a>
-            <a href="#" className="text-body-sm text-text-primary">LinkedIn</a>
-            <a href="#" className="text-body-sm text-text-primary">Slack</a>
           </div>
         </section>
       </main>

@@ -88,20 +88,50 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
     const ink = toneInk[tone];
     const resolvedEyebrow = eyebrow ?? (category ? categoryEyebrow[category] : undefined);
     const isCenter = align === 'center';
-    // Logo sits opposite the title (announce: title bottom → logo top).
+    // Logo sits opposite the title (title bottom → logo top).
     const logoAtTop = titlePosition === 'bottom';
+    // When text is centered vertically and there's an eyebrow, split eyebrow to top row.
+    const splitCenter = titlePosition === 'center' && !!resolvedEyebrow;
 
-    const blob = (
+    // ── Blobs ──────────────────────────────────────────────────────────────────
+    // Figma node 57:3218 placement:
+    // • Two-blob variants (center text, partner): top-left + bottom-right, both bleeding off corners
+    // • Render (3D molecule) variants: single blob top-right behind the molecule
+    // • All other variants: single blob top-right
+    // Two-blob variants (center text, partner): top-left + bottom-right bleeding off corners.
+    // Render variants: single tall blob on the right, sitting behind the molecule.
+    // All other variants: single blob top-right.
+    const hasTwoBlobs = (titlePosition === 'center' || !!partner) && !renderSrc;
+
+    const blobSharedClasses = cn(
+      'pointer-events-none absolute',
+      blobLayer === 'front'
+        ? 'z-20 opacity-40'
+        : renderSrc ? 'z-0 opacity-70' : 'z-0 opacity-55',
+      toneBlob[tone],
+    );
+    const blobPrimary = (
       <Blob
         shape={blobShape}
         aria-hidden
         className={cn(
-          'pointer-events-none absolute -right-1/4 -top-1/4 h-auto w-2/3',
-          blobLayer === 'front' ? 'z-20 opacity-30' : 'z-0 opacity-40',
-          toneBlob[tone],
+          blobSharedClasses,
+          hasTwoBlobs
+            ? '-left-[20%] -top-[20%] h-auto w-[55%]'
+            : '-right-[20%] -top-[20%] h-auto w-[55%]',
         )}
       />
     );
+    const blobSecondary = (hasTwoBlobs || !!renderSrc) ? (
+      <Blob
+        shape={(blobShape + 4) % 16}
+        aria-hidden
+        className={cn(
+          blobSharedClasses,
+          '-right-[20%] -bottom-[20%] h-auto w-[55%]',
+        )}
+      />
+    ) : null;
 
     const wordmark = showLogo ? (
       <Logo aria-label="Boltz" className={cn('h-auto w-[18cqw] min-w-[52px] max-w-[150px]', ink)} />
@@ -109,14 +139,33 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
 
     // Keep the text clear of a right-side render; centred titles get more room.
     const titleMax = isCenter ? 'max-w-[86cqw]' : renderSrc ? 'max-w-[54cqw]' : 'max-w-[82cqw]';
-    const titleBlock = (title || resolvedEyebrow) && (
-      <div className={cn('flex flex-col gap-[1.5cqw]', titleMax, isCenter ? 'items-center text-center' : 'items-start text-left')}>
-        {resolvedEyebrow && (
-          <span className={cn('font-sans text-[6.4cqw] leading-[1.2] tracking-[-0.03em] opacity-50', ink)}>{resolvedEyebrow}</span>
-        )}
-        {title && <span className={cn('font-sans text-[6.4cqw] leading-[1.2] tracking-[-0.03em] [text-wrap:balance]', ink)}>{title}</span>}
+
+    const eyebrowEl = resolvedEyebrow ? (
+      <span className={cn('font-sans text-[7cqw] leading-[1.2] tracking-[-0.03em] opacity-50', ink)}>
+        {resolvedEyebrow}
+      </span>
+    ) : null;
+
+    const titleEl = title ? (
+      <span className={cn('font-sans text-[7cqw] leading-[1.2] tracking-[-0.03em] [text-wrap:balance]', ink)}>
+        {title}
+      </span>
+    ) : null;
+
+    // Full block (eyebrow + title) — used for top/bottom positions.
+    const titleBlock = (title || resolvedEyebrow) ? (
+      <div className={cn('flex flex-col gap-[0.5cqw]', titleMax, isCenter ? 'items-center text-center' : 'items-start text-left')}>
+        {eyebrowEl}
+        {titleEl}
       </div>
-    );
+    ) : null;
+
+    // Title-only block — used in the middle slot when eyebrow is split to the top row.
+    const titleOnlyBlock = title ? (
+      <div className={cn(titleMax, isCenter ? 'text-center' : 'text-left')}>
+        {titleEl}
+      </div>
+    ) : null;
 
     return (
       <div
@@ -128,14 +177,14 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
         )}
         {...rest}
       >
-        {blobLayer === 'behind' && blob}
+        {blobLayer === 'behind' && <>{blobPrimary}{blobSecondary}</>}
 
         {renderSrc && (
           <img
             src={renderSrc}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute -right-[6%] -top-[6%] z-10 w-[48cqw] select-none"
+            className="pointer-events-none absolute right-[-8%] top-1/2 -translate-y-1/2 z-10 w-[62cqw] select-none"
           />
         )}
 
@@ -148,22 +197,28 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
           </div>
         ) : (
           <div className={cn('absolute inset-0 z-10 flex flex-col p-[6cqw]', isCenter && 'items-center')}>
-            {/* top row */}
+            {/* top row — logo (title-bottom) OR eyebrow (center+split) OR titleBlock (title-top) */}
             <div className={cn('flex w-full', isCenter && 'justify-center')}>
-              {logoAtTop ? wordmark : titlePosition === 'top' ? titleBlock : null}
+              {logoAtTop
+                ? wordmark
+                : splitCenter
+                  ? eyebrowEl
+                  : titlePosition === 'top'
+                    ? titleBlock
+                    : null}
             </div>
             {/* middle */}
-            <div className="flex flex-1 items-center">
-              {titlePosition === 'center' && titleBlock}
+            <div className={cn('flex flex-1 items-center', isCenter && 'justify-center')}>
+              {titlePosition === 'center' && (splitCenter ? titleOnlyBlock : titleBlock)}
             </div>
-            {/* bottom row */}
+            {/* bottom row — logo (not title-bottom) OR titleBlock (title-bottom) */}
             <div className={cn('flex w-full', isCenter && 'justify-center')}>
               {!logoAtTop ? wordmark : titlePosition === 'bottom' ? titleBlock : null}
             </div>
           </div>
         )}
 
-        {blobLayer === 'front' && blob}
+        {blobLayer === 'front' && <>{blobPrimary}{blobSecondary}</>}
       </div>
     );
   },

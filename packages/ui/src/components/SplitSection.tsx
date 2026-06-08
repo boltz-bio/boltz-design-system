@@ -41,8 +41,8 @@ export interface SplitSectionProps
   mediaPosition?: MediaPosition;
   /** `contained` caps width at the grid container; `fluid` spans full width. */
   width?: 'contained' | 'fluid';
-  /** Vertical alignment of the two columns when side-by-side. Default 'center'. */
-  align?: 'start' | 'center';
+  /** Vertical alignment of the two columns when side-by-side. Default 'center'. `stretch` makes both columns fill the row height. */
+  align?: 'start' | 'center' | 'stretch';
 }
 
 // Side-by-side direction at laptop+; left/right swap order, above/below stay stacked.
@@ -72,7 +72,7 @@ export const SplitSection = React.forwardRef<HTMLElement, SplitSectionProps>(
             className={cn(
               'flex gap-xl',
               media ? rowDir[mediaPosition] : 'flex-col',
-              !stacked && (align === 'center' ? 'items-center' : 'items-start'),
+              !stacked && (align === 'stretch' ? 'items-stretch' : align === 'center' ? 'items-center' : 'items-start'),
               !stacked && 'laptop:gap-20',
             )}
           >
@@ -80,7 +80,12 @@ export const SplitSection = React.forwardRef<HTMLElement, SplitSectionProps>(
               {content}
             </div>
             {media && (
-              <div className={cn('flex justify-center', media && !stacked && 'laptop:flex-1 laptop:justify-end')}>
+              <div className={cn(
+                'flex',
+                align === 'stretch' ? 'flex-col' : 'justify-center',
+                media && !stacked && 'laptop:flex-1',
+                media && !stacked && align !== 'stretch' && 'laptop:justify-end',
+              )}>
                 {media}
               </div>
             )}

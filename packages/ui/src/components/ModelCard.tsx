@@ -69,8 +69,8 @@ export const ModelCard = React.forwardRef<HTMLDivElement, ModelCardProps>(
         />
       )}
 
-      <h3 className="text-heading-md text-text-primary relative z-10">{title}</h3>
-      <p className="text-body-md text-text-secondary mt-md max-w-none tablet:max-w-[56%] relative z-10">
+      <h3 className="text-heading-md text-text-primary relative z-10 max-w-[52%]">{title}</h3>
+      <p className="text-body-md text-text-secondary mt-md max-w-[52%] relative z-10">
         {body}
       </p>
 

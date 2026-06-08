@@ -74,7 +74,7 @@ export const ModelAccordion = React.forwardRef<HTMLElement, ModelAccordionProps>
           </div>
 
           {/* Two-column: media left, accordion right */}
-          <div className="grid grid-cols-1 gap-2xl laptop:grid-cols-2 laptop:gap-0 items-center">
+          <div className="grid grid-cols-1 gap-2xl tablet:grid-cols-2 tablet:gap-0 items-center">
 
             {/* Media — decorative protein render, rotated */}
             <div className="relative flex items-center justify-center py-xl overflow-visible">

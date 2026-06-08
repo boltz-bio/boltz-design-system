@@ -53,7 +53,7 @@ export const BlogPost: Story = {
             </TextButton>
 
             {/* Category + date */}
-            <div className="flex items-center gap-sm">
+            <div className="flex items-center gap-0">
               <Badge variant="outlined">Product</Badge>
               <Badge variant="outlined">October 26th, 2025</Badge>
             </div>

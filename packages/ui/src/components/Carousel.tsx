@@ -52,6 +52,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const trackRef = React.useRef<HTMLDivElement>(null);
     const [atStart, setAtStart] = React.useState(true);
     const [atEnd, setAtEnd] = React.useState(false);
+    const drag = React.useRef({ active: false, startX: 0, scrollLeft: 0 });
 
     const updateEdges = React.useCallback(() => {
       const el = trackRef.current;
@@ -137,7 +138,36 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
             // bleed off both the left and right screen edges as you scroll.
             bleed &&
               'mx-[calc(50%-50vw)] pl-[calc(50vw-50%)] pr-lg scroll-pl-[calc(50vw-50%)]',
+            'cursor-grab active:cursor-grabbing select-none',
           )}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            const el = trackRef.current;
+            if (!el) return;
+            drag.current = { active: true, startX: e.pageX - el.offsetLeft, scrollLeft: el.scrollLeft };
+            el.style.scrollBehavior = 'auto';
+            el.style.scrollSnapType = 'none';
+          }}
+          onMouseMove={(e) => {
+            if (!drag.current.active) return;
+            const el = trackRef.current;
+            if (!el) return;
+            el.scrollLeft = drag.current.scrollLeft - (e.pageX - el.offsetLeft - drag.current.startX);
+          }}
+          onMouseUp={() => {
+            drag.current.active = false;
+            if (trackRef.current) {
+              trackRef.current.style.scrollBehavior = '';
+              trackRef.current.style.scrollSnapType = '';
+            }
+          }}
+          onMouseLeave={() => {
+            drag.current.active = false;
+            if (trackRef.current) {
+              trackRef.current.style.scrollBehavior = '';
+              trackRef.current.style.scrollSnapType = '';
+            }
+          }}
         >
           {React.Children.map(children, (child) => (
             <div

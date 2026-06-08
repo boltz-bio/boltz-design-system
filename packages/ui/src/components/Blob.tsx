@@ -30,9 +30,14 @@ export const Blob = ({ shape = 0, className, ...rest }: BlobProps) => {
       className={cn('text-border-warm', className)}
       {...rest}
     >
-      {s.paths.map((d, k) => (
-        <path key={k} d={d} fill="currentColor" />
-      ))}
+      {s.paths.map((d, k) => {
+        // All paths: stroke only the outer contour (first sub-path) so the
+        // main blob and crosshair marks share the same 1.5px visual weight.
+        const outerContour = d.slice(0, d.indexOf('Z') + 1) || d;
+        return (
+          <path key={k} d={outerContour} fill="none" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+        );
+      })}
     </svg>
   );
 };

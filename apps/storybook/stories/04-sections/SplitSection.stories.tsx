@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SplitSection, EyebrowLabel, Button, TextButton, Embed, Thumbnail } from '@boltz/ui';
-import { Code } from 'iconoir-react';
+import { Code, CpuWarning } from 'iconoir-react';
 
 const STUDIO_TURNTABLE = 'https://dylan-6--embed-video.modal.run?k=2cb075d35f668f998cc460ed08dd8f67';
 const STUDIO_LIVE = 'https://dylan-6--embed.modal.run?s=03f62994ea1ff55d98c0d9d835b70631&b=B&l=__NONE__';
@@ -79,6 +79,46 @@ export const WithImage: Story = {
         <Thumbnail src="/brand/people-2.jpg" alt="Boltz scientist" aspect="square" radius="lg" />
       </div>
     ),
+  },
+};
+
+// ── Text + highlight card (Figma node 246:940) ───────────────────────────────
+// Left: eyebrow + large body text. Right: a tinted card with heading, body, and CTA.
+const HighlightCard = () => (
+  <div className="bg-blue-pale rounded-lg p-32 flex flex-col justify-between gap-xl h-full">
+    <div className="flex flex-col gap-md">
+      <h2 className="text-heading-md text-text-primary">
+        Introducing the Boltz API: New Primitives for molecular biology
+      </h2>
+      <p className="text-body-md text-text-secondary">
+        A powerful end-to-end pipeline for de novo protein design powered by Boltz-2
+        and our state-of-the-art protein interaction and ADME models.
+      </p>
+    </div>
+    <div className="flex items-center gap-sm">
+      <Button variant="black" suffix="arrow-icon">Learn more</Button>
+    </div>
+  </div>
+);
+
+export const WithHighlightCard: Story = {
+  args: {
+    mediaPosition: 'right',
+    width: 'contained',
+    background: 'none',
+    align: 'stretch',
+    content: (
+      <>
+        <EyebrowLabel icon={<CpuWarning {...{ width: 14, height: 14, strokeWidth: 1.5 }} />}>API</EyebrowLabel>
+        <p className="text-heading-sm text-text-primary max-w-body">
+          Our open source models are used by over a million scientists as part of thousands of pipelines.
+          {'\n\n'}
+          With the Boltz API you can integrate our most powerful models running on our high-performance
+          compute into your internal pipeline in new, more accessible ways.
+        </p>
+      </>
+    ),
+    media: <HighlightCard />,
   },
 };
 
