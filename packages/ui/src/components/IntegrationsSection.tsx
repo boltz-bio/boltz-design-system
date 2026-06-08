@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
-import { EyebrowLabel } from './EyebrowLabel';
+import { SectionHeader } from './SectionHeader';
 import { Button } from './Button';
 import { TextButton } from './TextButton';
 import { ListItemApp } from './ListItem';
@@ -48,10 +48,7 @@ export const IntegrationsSection = React.forwardRef<HTMLElement, IntegrationsSec
 
           {/* Left — copy + CTAs */}
           <div className="flex flex-col gap-xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>
-              <h2 className="text-heading-sm text-text-primary">{heading}</h2>
-            </div>
+            <SectionHeader eyebrowIcon={eyebrowIcon} eyebrow={eyebrow} title={heading} titleSize="sm" />
             <div className="flex items-center gap-md flex-wrap">
               <Button variant="black" suffix="arrow-icon" onClick={onCtaClick}>
                 {cta}

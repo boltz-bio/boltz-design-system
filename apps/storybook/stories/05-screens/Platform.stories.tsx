@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, Button, TextButton,
+  NavBar, NavLink, EyebrowLabel, SectionHeader, Button, TextButton,
   PrimaryHero, FeatureGrid, StatBand, CodeBlock, Carousel, ModelCard,
   CardSmall, PricingSection, CTABand, Footer, Blob, BLOB_COUNT,
 } from '@boltz/ui';
@@ -230,12 +230,12 @@ export const Platform: Story = {
         {/* 4 — API interfaces */}
         <section className="w-full py-2xl">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={<Code {...sz} />}>API</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-body">
-                Three powerful interfaces for calling Boltz
-              </h2>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<Code {...sz} />}
+              eyebrow="API"
+              title="Three powerful interfaces for calling Boltz"
+              titleClassName="max-w-body"
+            />
             <CodeBlock contained color="sage" tabs={apiTabs} />
           </div>
         </section>
@@ -243,12 +243,12 @@ export const Platform: Story = {
         {/* 5 — Security */}
         <section className="w-full py-2xl bg-surface-secondary">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={<ShieldCheck {...sz} />}>Security</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-body">
-                Enterprise-grade security, from day one
-              </h2>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<ShieldCheck {...sz} />}
+              eyebrow="Security"
+              title="Enterprise-grade security, from day one"
+              titleClassName="max-w-body"
+            />
             <div className="grid grid-cols-1 gap-lg tablet:grid-cols-3">
               {securityPoints.map((s) => (
                 <CardSmall

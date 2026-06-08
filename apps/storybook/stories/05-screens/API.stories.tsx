@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, Button, TextButton,
+  NavBar, NavLink, EyebrowLabel, SectionHeader, Button, TextButton,
   PrimaryHero, SplitSection, CodeBlock, IconContainer, StatBand,
   Carousel, ModelCard, PricingSection, Footer, Blob, BLOB_COUNT,
 } from '@boltz/ui';
@@ -195,15 +195,13 @@ export const API: Story = {
         {/* 5 — API personas + tabbed CodeBlock */}
         <section className="py-2xl">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={<Terminal {...sz} />}>For developers</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-body">
-                Three powerful interfaces for calling Boltz
-              </h2>
-              <p className="text-body-lg text-text-secondary max-w-body">
-                A python CLI for running our most powerful models.
-              </p>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<Terminal {...sz} />}
+              eyebrow="For developers"
+              title="Three powerful interfaces for calling Boltz"
+              titleClassName="max-w-body"
+              subtitle="A python CLI for running our most powerful models."
+            />
             <CodeBlock color="sage" contained tabs={apiTabs} />
           </div>
         </section>
@@ -211,12 +209,12 @@ export const API: Story = {
         {/* 6 — Integrations grid */}
         <section className="py-2xl">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={<Puzzle {...sz} />}>Integrations</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-body">
-                Call Boltz models from your favorite agent
-              </h2>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<Puzzle {...sz} />}
+              eyebrow="Integrations"
+              title="Call Boltz models from your favorite agent"
+              titleClassName="max-w-body"
+            />
 
             <div className="grid grid-cols-1 mobile:grid-cols-2 tablet:grid-cols-4 gap-lg">
               {integrations.map((ig) => (

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
-import { EyebrowLabel } from './EyebrowLabel';
+import { SectionHeader } from './SectionHeader';
 import { ListItemTabGroup } from './ListItem';
 import { MetricComparison, type MetricItem } from './MetricComparison';
 
@@ -36,10 +36,7 @@ export const PricingSection = React.forwardRef<HTMLElement, PricingSectionProps>
       <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
         <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
           {/* Header */}
-          <div className="flex flex-col gap-md">
-            {eyebrow && <EyebrowLabel icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>}
-            <h2 className="text-heading-md text-text-primary max-w-body">{heading}</h2>
-          </div>
+          <SectionHeader eyebrowIcon={eyebrowIcon} eyebrow={eyebrow} title={heading} titleClassName="max-w-body" />
 
           {/* Split: feature tabs (left) drive the comparison card (right) */}
           <div className="grid grid-cols-1 gap-xl tablet:grid-cols-2 tablet:gap-2xl items-start">
