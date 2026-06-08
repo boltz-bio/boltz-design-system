@@ -146,7 +146,7 @@ export const Landing: Story = {
         {/* Our models — protein render + accordion (Figma 57:2513 accordion variant) */}
         <section className="py-section bg-tierra-100">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-            <div className="flex items-end justify-between gap-lg">
+            <div className="flex flex-col gap-lg mobile:flex-row mobile:items-end mobile:justify-between">
               <div className="flex flex-col gap-md">
                 <EyebrowLabel icon={<ViewGrid {...sz} />}>Our models</EyebrowLabel>
                 <h2 className="text-heading-lg text-text-primary max-w-[18ch]">
@@ -180,7 +180,7 @@ export const Landing: Story = {
           eyebrowIcon={<Code {...sz} />}
           heading="A flexible platform for end-to-end molecular design, powered by frontier models, pipelines and compute — shaped for every organization."
           body="The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
-          media={<img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="w-full h-full object-cover object-left-top" />}
+          media={<img src="/platform laptop.png" alt="Boltz Platform dashboard" className="absolute inset-0 w-full h-full object-cover object-left" />}
           features={platformFeatures}
         />
 
