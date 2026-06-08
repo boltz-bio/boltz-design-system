@@ -148,7 +148,9 @@ export const Landing: Story = {
             />
 
             <div className="grid grid-cols-1 gap-2xl laptop:grid-cols-2 items-center">
-              <img src={PROTEIN} alt="Boltz protein render" className="w-full max-w-[420px] mx-auto" />
+              {/* Full, uncropped molecule render (breathing room on all sides) —
+                  render-a.png is edge-cropped, so use the binder render here. */}
+              <img src="/Small Molecule - Binder 01 - V2 1.png" alt="Boltz protein render" className="w-full max-w-[460px] mx-auto" />
               <Accordion type="single" collapsible defaultValue={models[0].id}>
                 {models.map((m) => (
                   <AccordionItem key={m.id} value={m.id} title={m.name} badge={<Badge variant="primary">{m.badge}</Badge>}>
