@@ -218,7 +218,7 @@ export const API: Story = {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 gap-lg tablet:grid-cols-4">
+            <div className="grid grid-cols-1 mobile:grid-cols-2 tablet:grid-cols-4 gap-lg">
               {integrations.map((ig) => (
                 <div
                   key={ig.label}
