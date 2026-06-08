@@ -4,7 +4,6 @@ import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
   PrimaryHero, SplitSection, Section, TabBar, CodeBlock, IntegrationsSection,
   ModelAccordion, PricingSection, CommunitySection, Footer,
-  Blob, BLOB_COUNT,
 } from '@boltz/ui';
 import {
   Code, Terminal, Cpu, Puzzle, Community, Atom, GitFork,
@@ -40,12 +39,9 @@ const PROTEIN = '/boltz-protein.png';
 
 // ── Hero media ───────────────────────────────────────────────────────────────
 const HeroMedia = () => (
-  <>
-    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 text-blue-medium" />
-    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
-      <img src="/hero-protein.png" alt="Boltz protein structure render" className="w-full h-auto select-none" />
-    </div>
-  </>
+  <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+    <img src="/hero-protein.png" alt="Boltz protein structure render" className="w-full h-auto select-none" />
+  </div>
 );
 
 // ── Section 2 — intro split + highlight card ─────────────────────────────────

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cn } from '../utils';
+import { Blob, BLOB_COUNT } from './Blob';
 
 // Section — the page-top marketing hero (Figma "Primary hero", 246:345/329/370).
 // Unlike the generic `Hero` (a contained text+media split), this is a tall band
@@ -29,6 +30,12 @@ const toneBody: Record<Tone, string> = {
   blue: 'text-text-secondary',
   dark: 'text-white/60',
 };
+// The backdrop blob colour/opacity per tone — recoloured via the `text-*` token.
+const toneBlob: Record<Tone, string> = {
+  sage: 'text-sage-medium opacity-40',
+  blue: 'text-blue-medium opacity-40',
+  dark: 'text-white opacity-[0.14]',
+};
 
 export interface PrimaryHeroProps extends React.HTMLAttributes<HTMLElement> {
   tone?: Tone;
@@ -37,10 +44,12 @@ export interface PrimaryHeroProps extends React.HTMLAttributes<HTMLElement> {
   actions?: React.ReactNode;
   /** Oversized, self-anchored visual that bleeds off the band (absolute-positioned). */
   media?: React.ReactNode;
+  /** Render the backdrop blob (recoloured per tone). Default true. */
+  blob?: boolean;
 }
 
 export const PrimaryHero = React.forwardRef<HTMLElement, PrimaryHeroProps>(
-  ({ className, tone = 'sage', heading, body, actions, media, ...rest }, ref) => (
+  ({ className, tone = 'sage', heading, body, actions, media, blob = true, ...rest }, ref) => (
     <section
       ref={ref}
       className={cn(
@@ -53,6 +62,18 @@ export const PrimaryHero = React.forwardRef<HTMLElement, PrimaryHeroProps>(
       )}
       {...rest}
     >
+      {/* Backdrop blob — one consistent position across all primary heroes,
+          recoloured per tone. Sits behind the media. */}
+      {blob && (
+        <Blob
+          shape={BLOB_COUNT - 1}
+          aria-hidden
+          className={cn(
+            'pointer-events-none absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%]',
+            toneBlob[tone],
+          )}
+        />
+      )}
       {/* Media bleeds behind the text; the band clips it. */}
       {media && <div className="pointer-events-none absolute inset-0">{media}</div>}
 

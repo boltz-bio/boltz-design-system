@@ -3,7 +3,6 @@ import {
   NavBar, NavLink, Button, EyebrowLabel, ListItem,
   PrimaryHero, AboutNews, BlogThumbnail, SplitSection,
   CardMedium, PricingSection, CommunitySection, Footer,
-  Blob, BLOB_COUNT,
 } from '@boltz/ui';
 import {
   Leaf, Code, Community, ShieldCheck, Lock, ServerConnection,
@@ -38,15 +37,12 @@ const pricingIco = { width: 48, height: 48, strokeWidth: 1 } as const;
 const PROTEIN = '/render-a.png';
 
 // ── Hero media — dashboard screenshot bleeding off bottom-right ───────────────
+// Backdrop blob is rendered by PrimaryHero. Sized to stay clear of the
+// max-w-[600px] text column at every width: small on phone/tablet, larger from laptop.
 const DashboardBleed = () => (
-  <>
-    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
-    {/* Sized to stay clear of the max-w-[600px] text column at every width:
-        small on phone/tablet, larger from laptop. (Was 72vw → overlapped the heading.) */}
-    <div className="absolute bottom-0 right-0 w-[1000px] max-w-[38vw] laptop:max-w-[50vw] translate-x-[8%]">
-      <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="w-full h-auto select-none" />
-    </div>
-  </>
+  <div className="absolute bottom-0 right-0 w-[1000px] max-w-[38vw] laptop:max-w-[50vw] translate-x-[8%]">
+    <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="w-full h-auto select-none" />
+  </div>
 );
 
 // ── AboutNews data — recent product announcements ────────────────────────────

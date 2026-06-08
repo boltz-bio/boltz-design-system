@@ -1,14 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Hero, PrimaryHero, Button, TextButton, Blob, BLOB_COUNT } from '@boltz/ui';
+import { Hero, PrimaryHero, Button, TextButton } from '@boltz/ui';
 
 // The Boltz hero protein render (transparent, exported from Figma 246:385) — has
 // breathing room around the protein so it doesn't read as cropped.
 const PROTEIN = '/hero-protein.png';
-
-// The hero backdrop blob — the large solid blob from the shape library (the last
-// BLOB_SHAPES entry, added from Figma 245:487). Filled (not stroked), faint and
-// recoloured via the `text-*` token.
-const HERO_BLOB = BLOB_COUNT - 1;
 
 const meta = {
   title: '04-Sections/Hero',
@@ -65,19 +60,12 @@ export const TextOnly: Story = {
 // The canonical page-top heroes (tall band, oversized media bleeding off the
 // edges) used on Landing, API and Platform — via the PrimaryHero component.
 
-// A large solid blob that spans the hero and bleeds off the edges, with the
-// protein render sitting on top toward the right.
-const ProteinBleed = ({ blob }: { blob: string }) => (
-  <>
-    <Blob
-      shape={HERO_BLOB}
-      aria-hidden
-      className={`absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 ${blob}`}
-    />
-    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
-      <img src={PROTEIN} alt="Boltz protein render" className="relative w-full h-auto" />
-    </div>
-  </>
+// The protein render, sitting toward the right and bleeding off the edge.
+// The backdrop blob is rendered by PrimaryHero itself (tone-driven).
+const ProteinBleed = () => (
+  <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+    <img src={PROTEIN} alt="Boltz protein render" className="relative w-full h-auto" />
+  </div>
 );
 
 export const PrimaryHeroLanding: Story = {
@@ -90,7 +78,7 @@ export const PrimaryHeroLanding: Story = {
       heading="Foundational AI for Biology and Chemistry"
       body="Frontier models and high-performance compute for designing all of life’s molecules."
       actions={<Button variant="black">Start building with Boltz</Button>}
-      media={<ProteinBleed blob="text-sage-medium" />}
+      media={<ProteinBleed />}
     />
   ),
 };
@@ -105,7 +93,7 @@ export const PrimaryHeroApi: Story = {
       heading="New Primitives for Agentic Science"
       body="Integrate state-of-the-art biomolecular models into your agentic product or pipeline."
       actions={<Button variant="black">Read the Docs</Button>}
-      media={<ProteinBleed blob="text-blue-medium" />}
+      media={<ProteinBleed />}
     />
   ),
 };
@@ -119,16 +107,13 @@ export const PrimaryHeroPlatform: Story = {
       tone="dark"
       heading="A New Foundation for End-to-End Discovery"
       body="Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
-      // Monitor stuck to the bottom edge, bleeding off the right.
+      // Monitor stuck to the bottom edge, bleeding off the right. (Backdrop blob
+      // is rendered by PrimaryHero.) Sized to stay clear of the max-w-[600px]
+      // text column at every width: small on phone/tablet, larger from laptop.
       media={
-        <>
-          <Blob shape={HERO_BLOB} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
-          {/* Sized to stay clear of the max-w-[600px] text column at every width:
-              small on phone/tablet, larger from laptop. (Was 72vw → overlapped the heading.) */}
-          <div className="absolute bottom-0 right-0 w-[1000px] max-w-[38vw] laptop:max-w-[50vw] translate-x-[8%]">
-            <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
-          </div>
-        </>
+        <div className="absolute bottom-0 right-0 w-[1000px] max-w-[38vw] laptop:max-w-[50vw] translate-x-[8%]">
+          <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
+        </div>
       }
     />
   ),

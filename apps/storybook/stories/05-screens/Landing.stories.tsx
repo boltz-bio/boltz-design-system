@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, Button, TextButton, SectionHeader,
-  PrimaryHero, Footer, Blob, BLOB_COUNT,
+  PrimaryHero, Footer,
   Accordion, AccordionItem, AccordionActions, Badge,
   BlogThumbnail, AboutNews, PlatformFeatureSection, CommunitySection,
 } from '@boltz/ui';
@@ -36,12 +36,9 @@ const PROTEIN = '/render-a.png';
 // Primary-hero media: a large solid library blob spanning the band + the protein
 // render bleeding off the right (see 04-Sections/Hero → Primary hero — Landing).
 const HeroProteinBleed = () => (
-  <>
-    <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%] opacity-40 text-sage-medium" />
-    <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
-      <img src="/hero-protein.png" alt="Boltz protein render" className="w-full h-auto" />
-    </div>
-  </>
+  <div className="absolute right-0 top-1/2 w-[820px] max-w-[64vw] -translate-y-1/2 laptop:translate-x-[8%]">
+    <img src="/hero-protein.png" alt="Boltz protein render" className="w-full h-auto" />
+  </div>
 );
 
 // Blog list (intro section, right column).
