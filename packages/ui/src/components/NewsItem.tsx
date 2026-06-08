@@ -100,25 +100,26 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
         <a
           ref={ref}
           href={href}
-          className={cn('group flex gap-[40px] items-start no-underline w-full', className)}
+          className={cn('group flex flex-col mobile:flex-row gap-md mobile:gap-[40px] items-start no-underline w-full', className)}
           {...rest}
         >
           {/* Text */}
-          <div className="flex flex-col gap-[12px] flex-1 min-w-0">
+          <div className="flex flex-col gap-[12px] flex-1 min-w-0 order-2 mobile:order-1">
             <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline decoration-current underline-offset-2 transition-all duration-base ease-standard" style={{ textDecorationThickness: '1px' }}>
               {title}
             </p>
             <Meta category={category} date={date} />
           </div>
-          {/* Cover node, else a fixed 278×174 thumbnail box */}
+          {/* Cover node, else a fixed 278×174 thumbnail box. Full width on phone,
+              fixed 278px from mobile: (>=768). Image sits above text on phone. */}
           {cover ? (
-            <div className="w-[278px] flex-shrink-0">{cover}</div>
+            <div className="w-full mobile:w-[278px] flex-shrink-0 order-1 mobile:order-2">{cover}</div>
           ) : (
             <Thumbnail
               src={thumbnail}
               alt={thumbnailAlt}
               radius="md"
-              className="w-[278px] h-[174px] aspect-auto flex-shrink-0"
+              className="w-full mobile:w-[278px] h-[174px] aspect-auto flex-shrink-0 order-1 mobile:order-2"
             />
           )}
         </a>
@@ -131,19 +132,19 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
         ref={ref}
         href={href}
         className={cn(
-          'group flex items-start justify-between no-underline w-full',
+          'group flex flex-col gap-xs mobile:flex-row mobile:gap-0 mobile:items-start mobile:justify-between no-underline w-full',
           'py-lg border-b border-border-light',
           className,
         )}
         {...rest}
       >
-        {/* Meta column */}
-        <div className="w-[240px] flex-shrink-0">
+        {/* Meta column — full width above the title on phone, fixed 240px from mobile: */}
+        <div className="w-full mobile:w-[240px] flex-shrink-0">
           <Meta category={category} date={date} stacked />
         </div>
 
         {/* Title + summary */}
-        <div className="flex flex-col gap-[8px] flex-1 min-w-0 mr-[40px]">
+        <div className="flex flex-col gap-[8px] flex-1 min-w-0 mr-0 mobile:mr-[40px]">
           <h3 className="font-sans font-regular text-heading-sm text-text-primary group-hover:underline decoration-current underline-offset-2" style={{ textDecorationThickness: '1px' }}>
             {title}
           </h3>
@@ -154,9 +155,10 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
           )}
         </div>
 
-        {/* Thumbnail — hidden by default, fades in on hover */}
+        {/* Thumbnail — hover-reveal; hidden on phone (no hover on touch, and it
+            would otherwise reserve dead space) */}
         <div className={cn(
-          'w-[168px] h-[105px] flex-shrink-0',
+          'hidden mobile:block w-[168px] h-[105px] flex-shrink-0',
           'opacity-0 group-hover:opacity-100',
           'transition-opacity duration-200 ease-standard',
         )}>

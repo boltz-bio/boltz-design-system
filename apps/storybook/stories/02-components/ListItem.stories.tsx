@@ -234,7 +234,7 @@ export const WithTabStates: Story = {
 export const BothVariants: Story = {
   name: 'Both variants',
   render: () => (
-    <div className="grid grid-cols-2 gap-xl max-w-container">
+    <div className="grid grid-cols-1 mobile:grid-cols-2 gap-xl max-w-container">
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-lg">List item with icon</p>
         <div className="flex flex-col gap-[56px]">

@@ -66,7 +66,13 @@ export const TabBar = React.forwardRef<HTMLDivElement, TabBarProps>(
     <div
       ref={ref}
       role="tablist"
-      className={cn('inline-flex items-center', className)}
+      // Connected pills can't wrap (the -ml-px border seam breaks), so on overflow
+      // (e.g. many tabs on mobile) the strip scrolls horizontally instead.
+      className={cn(
+        'inline-flex items-center max-w-full min-w-0 overflow-x-auto',
+        '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+        className,
+      )}
       {...rest}
     >
       {items
@@ -149,7 +155,7 @@ export const FilterTabBar = React.forwardRef<HTMLDivElement, FilterTabBarProps>(
   ({ className, items, value, onValueChange, view, onViewChange, rightSlot, ...rest }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center justify-between', className)}
+      className={cn('flex flex-col gap-md mobile:flex-row mobile:items-center mobile:justify-between', className)}
       {...rest}
     >
       <TabBar items={items} value={value} onValueChange={onValueChange} />

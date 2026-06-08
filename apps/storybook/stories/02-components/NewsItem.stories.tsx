@@ -46,7 +46,7 @@ export const PortraitGrid: Story = {
   name: 'Portrait — 3-column grid',
   args: { variant: 'portrait', title: 'Boltz', category: 'Product', date: 'Feb 2026' },
   render: () => (
-    <div className="grid grid-cols-3 gap-lg max-w-container">
+    <div className="grid grid-cols-1 mobile:grid-cols-2 tablet:grid-cols-3 gap-lg max-w-container">
       <NewsItem variant="portrait" title="Announcing Boltz-prot-1: state-of-the-art protein structure prediction" category="Product" date="Feb 10, 2026" thumbnail={THUMB_SAGE} />
       <NewsItem variant="portrait" title="The future we are building at Boltz" category="Company" date="Jan 28, 2026" thumbnail={THUMB_TIERRA} />
       <NewsItem variant="portrait" title="Boltz × Pfizer: accelerating small molecule discovery" category="Partnership" date="Jan 15, 2026" thumbnail={THUMB_BLUE} />
@@ -133,7 +133,7 @@ export const AllVariants: Story = {
     <div className="flex flex-col gap-2xl max-w-container mx-auto p-xl">
       <section>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-lg">Portrait — grid of 3</p>
-        <div className="grid grid-cols-3 gap-lg">
+        <div className="grid grid-cols-1 mobile:grid-cols-2 tablet:grid-cols-3 gap-lg">
           <NewsItem variant="portrait" title="Announcing Boltz-prot-1" category="Product" date="Feb 10, 2026" thumbnail={THUMB_SAGE} />
           <NewsItem variant="portrait" title="The future we are building at Boltz" category="Company" date="Jan 28, 2026" thumbnail={THUMB_TIERRA} />
           <NewsItem variant="portrait" title="Boltz × Pfizer partnership" category="Partnership" date="Jan 15, 2026" thumbnail={THUMB_BLUE} />
