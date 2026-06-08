@@ -57,9 +57,10 @@ const models = [
   { id: 'm3', name: 'Boltz-2', badge: 'MIT', body: 'Open foundation model for biomolecular structure, weights and benchmarks shared with the community.' },
 ];
 
-// Feature-card icons render in CardSmall's 56px slot — size them up from the
-// 14px eyebrow icons so they don't look lost.
-const iconLg = { width: 28, height: 28, strokeWidth: 1.5 } as const;
+// Feature-card icons render in CardSmall's 56px slot. Match the canonical spec
+// used by the PlatformFeatureSection story (48×48, strokeWidth 1) so the feature
+// cells look identical wherever the section is used.
+const iconLg = { width: 48, height: 48, strokeWidth: 1 } as const;
 const platformFeatures = [
   { icon: <Code {...iconLg} />, title: 'Powerful APIs' },
   { icon: <Flash {...iconLg} />, title: 'Blazing fast inference' },
