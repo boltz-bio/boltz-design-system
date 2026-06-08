@@ -79,8 +79,12 @@ const footerColumns = [
 ];
 
 // ── Article band — FilterTabBar + responsive grid/list (client state) ──────────
-function ArticleBand({ items, exclude }: { items: Article[]; exclude?: string }) {
-  const [tab, setTab] = React.useState<string>('Latest');
+function ArticleBand({ items, exclude, tab, onTabChange }: {
+  items: Article[];
+  exclude?: string;
+  tab: string;
+  onTabChange: (t: string) => void;
+}) {
   const [view, setView] = React.useState<ViewMode>('grid');
 
   const filtered = items
@@ -94,7 +98,7 @@ function ArticleBand({ items, exclude }: { items: Article[]; exclude?: string })
           className="mb-xl"
           items={tabItems}
           value={tab}
-          onValueChange={setTab}
+          onValueChange={onTabChange}
           view={view}
           onViewChange={setView}
         />
@@ -157,42 +161,44 @@ function FeaturedStory({ article }: { article: Article }) {
 
 // 57:2692 — featured story on top, then the filtered grid.
 export const RecentNews: Story = {
-  render: () => (
-    <div className="bg-surface-primary min-h-screen">
-      <NavBar>
-        {navItems.map((n) => (
-          <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>
-        ))}
-      </NavBar>
-      <main>
-        <PageHeader
-          heading="Latest news"
-          className="pb-lg"
-        />
-        <ArticleBand items={allArticles} />
-      </main>
-      <Footer columns={footerColumns} />
-    </div>
-  ),
+  render: () => {
+    const [tab, setTab] = React.useState('Latest');
+    const heading = tab === 'Latest' ? 'Latest news' : tab;
+    return (
+      <div className="bg-white min-h-screen">
+        <NavBar>
+          {navItems.map((n) => (
+            <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>
+          ))}
+        </NavBar>
+        <main>
+          <PageHeader heading={heading} className="pb-lg" />
+          <ArticleBand items={allArticles} tab={tab} onTabChange={setTab} />
+        </main>
+        <Footer columns={footerColumns} />
+      </div>
+    );
+  },
 };
 
 // 57:2801 — plain grid, no featured story.
 export const RecentNewsGrid: Story = {
-  render: () => (
-    <div className="bg-surface-primary min-h-screen">
-      <NavBar>
-        {navItems.map((n) => (
-          <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>
-        ))}
-      </NavBar>
-      <main>
-        <PageHeader
-          heading="Latest news"
-          className="pb-lg"
-        />
-        <ArticleBand items={allArticles} />
-      </main>
-      <Footer columns={footerColumns} />
-    </div>
-  ),
+  render: () => {
+    const [tab, setTab] = React.useState('Latest');
+    const heading = tab === 'Latest' ? 'Latest news' : tab;
+    return (
+      <div className="bg-white min-h-screen">
+        <NavBar>
+          {navItems.map((n) => (
+            <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>
+          ))}
+        </NavBar>
+        <main>
+          <PageHeader heading={heading} className="pb-lg" />
+          <ArticleBand items={allArticles} tab={tab} onTabChange={setTab} />
+        </main>
+        <Footer columns={footerColumns} />
+      </div>
+    );
+  },
 };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, NavCta, Button, TextButton, Badge, IconButton,
+  NavBar, NavLink, Button, TextButton, Badge, IconButton,
   BlogThumbnail, NewsGrid, Footer, placeholderImage,
 } from '@boltz/ui';
 import { ArrowLeft, Linkedin, Twitter, Link } from 'iconoir-react';
@@ -38,7 +38,6 @@ export const BlogPost: Story = {
     <div className="bg-white min-h-screen">
       <NavBar>
         {navItems.map((n) => <NavLink key={n} href="#" active={n === 'News'}>{n}</NavLink>)}
-        <NavCta>Get early access</NavCta>
       </NavBar>
 
       <main>

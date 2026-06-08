@@ -52,8 +52,8 @@ export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
         'text-body-sm whitespace-nowrap no-underline',
         'transition-colors duration-base ease-standard',
         tone === 'dark'
-          ? cn('border-white/60 text-white', active ? 'bg-white text-text-primary' : 'bg-transparent hover:bg-white/10')
-          : cn('border-action-primary text-text-primary', active ? 'bg-action-primary text-text-on-dark' : 'bg-transparent hover:bg-surface-secondary'),
+          ? cn('border-white/60 text-white', active ? 'bg-transparent' : 'bg-transparent hover:bg-white/10')
+          : cn('border-action-primary text-text-primary', active ? 'bg-transparent' : 'bg-transparent hover:bg-surface-secondary'),
         className,
       )}
       {...rest}

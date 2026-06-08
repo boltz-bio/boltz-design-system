@@ -72,7 +72,7 @@ function UseCasesSection() {
 
   return (
     <Section innerClassName="flex flex-col items-center gap-xl">
-      <h2 className="text-heading-lg text-text-primary text-center">How you can use Boltz</h2>
+      <h2 className="text-heading-md text-text-primary text-center">How you can use Boltz</h2>
       <TabBar
         items={personas.map((p) => ({ value: p.value, label: p.label }))}
         value={active}

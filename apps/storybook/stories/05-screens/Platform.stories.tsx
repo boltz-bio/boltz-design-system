@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, SectionHeader, Button, TextButton,
-  PrimaryHero, FeatureGrid, StatBand, CodeBlock, Carousel, ModelCard,
-  CardSmall, PricingSection, CTABand, Footer, Blob, BLOB_COUNT,
+  NavBar, NavLink, Button, EyebrowLabel, ListItem,
+  PrimaryHero, AboutNews, BlogThumbnail, SplitSection,
+  CardMedium, PricingSection, CommunitySection, Footer,
+  Blob, BLOB_COUNT,
 } from '@boltz/ui';
-import { Leaf, Code, Community, ShieldCheck, Lock, ServerConnection, ViewGrid } from 'iconoir-react';
+import {
+  Leaf, Code, Community, ShieldCheck, Lock, ServerConnection,
+  CodeBrackets, DashboardSpeed, Settings, Cpu, Packages,
+} from 'iconoir-react';
 import { navItems } from '../_data/boltz';
 
-// Example page — "Platform - v2" (Figma 57:3935). A full responsive marketing /
-// landing page assembled ONLY from existing @boltz/ui section components +
-// token-styled markup. Screen-specific copy lives inline here.
+// Platform marketing page — Figma "Platform - v2", node 57:3935.
+// Assembled exclusively from existing @boltz/ui section components.
 
 const meta = {
   title: '05-Screens/Platform',
@@ -19,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'The Boltz Platform landing page. Composes NavBar, Hero (protein render), a partner logo strip, FeatureGrid, a tabbed CodeBlock for the three API interfaces, a Security card grid, StatBand, an "Our models" Carousel of ModelCards, PricingSection, a CTABand, and the Footer.',
+          'The Boltz Platform landing page (Figma 57:3935): dark hero, AboutNews, PlatformFeatureSection, security FeatureGrid, PricingSection, CommunitySection, and Footer.',
       },
     },
   },
@@ -28,10 +31,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
-const cardIcon = { width: 24, height: 24, strokeWidth: 1.5 } as const;
+const sz     = { width: 14, height: 14, strokeWidth: 1.5 } as const;
+const iconSz = { width: 28, height: 28, strokeWidth: 1.5 } as const;
+const pricingIco = { width: 48, height: 48, strokeWidth: 1 } as const;
 
-// ── Hero media — the platform dashboard, stuck to the bottom edge, bleeding right.
+const PROTEIN = '/render-a.png';
+
+// ── Hero media — dashboard screenshot bleeding off bottom-right ───────────────
 const DashboardBleed = () => (
   <>
     <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
@@ -41,154 +47,68 @@ const DashboardBleed = () => (
   </>
 );
 
-// ── Logo strip — token-styled (no shipped component for this) ───────────────────
-const partners = [
-  'Chemical Manufacturing',
-  'Therapeutics',
-  'Academic Research',
-  'Biotech',
-  'Agrochemistry',
-];
-
-const LogoStrip = () => (
-  <section className="w-full py-2xl">
-    <div className="max-w-container mx-auto px-md tablet:px-40">
-      <p className="text-body-sm text-text-muted mb-lg">
-        Trusted across research and industry
-      </p>
-      <div className="flex flex-wrap items-center gap-x-2xl gap-y-md">
-        {partners.map((p) => (
-          <span key={p} className="text-body-md text-text-muted whitespace-nowrap">
-            {p}
-          </span>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// ── API interfaces — short code per tab ─────────────────────────────────────────
-const apiTabs = [
+// ── AboutNews data — recent product announcements ────────────────────────────
+const newsItems = [
   {
-    label: 'Python',
-    code: `from boltz import Client
-
-client = Client(api_key="bz_...")
-result = client.predict(
-    sequence="MKTAYIAKQR...",
-    model="boltz-prot-1.1",
-)
-print(result.structure.pdb)`,
+    title: 'Announcing Boltz',
+    category: 'Product',
+    date: 'Feb 10, 2026',
+    cover: <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} className="h-[174px]" />,
   },
   {
-    label: 'REST API',
-    code: `curl https://api.boltz.bio/v1/predict \\
-  -H "Authorization: Bearer bz_..." \\
-  -d '{
-    "sequence": "MKTAYIAKQR...",
-    "model": "boltz-prot-1.1"
-  }'`,
+    title: 'Announcing Boltz Lab and our first agents',
+    category: 'Product',
+    date: 'Feb 10, 2026',
+    cover: <BlogThumbnail tone="blue" category="product-launch" title="Boltz Lab" renderSrc={PROTEIN} blobShape={11} className="h-[174px]" />,
   },
   {
-    label: 'Agentic',
-    code: `agent.use_tool("boltz.predict", {
-  "sequence": seq,
-  "model": "boltz-prot-1.1",
-})
-# Boltz returns a structured result the
-# agent can reason over in-context.`,
+    title: 'The future we are building at Boltz',
+    category: 'Product',
+    date: 'Feb 10, 2026',
+    cover: <BlogThumbnail tone="tierra" align="center" titlePosition="center" title="The future we are building at Boltz" blobShape={5} className="h-[174px]" />,
   },
 ];
 
-// ── Security feature points ─────────────────────────────────────────────────────
-const securityPoints = [
-  {
-    icon: <ShieldCheck {...cardIcon} />,
-    heading: 'SOC 2 Type II',
-    body: 'Independently audited controls across security, availability, and confidentiality.',
-  },
-  {
-    icon: <Lock {...cardIcon} />,
-    heading: 'Private by default',
-    body: 'Your sequences are never used for training. Encrypted in transit and at rest.',
-  },
-  {
-    icon: <ServerConnection {...cardIcon} />,
-    heading: 'Deploy anywhere',
-    body: 'Run in our cloud, your VPC, or fully on-premise for regulated workloads.',
-  },
-];
-
-// ── Stats — Community band ──────────────────────────────────────────────────────
-const communityStats = [
-  { value: '1M+', label: 'scientists worldwide' },
-  { value: '6,000+', label: 'GitHub stars' },
-  { value: 'Top 20', label: 'pharma companies' },
-  { value: '200+', label: 'active integrations' },
-];
-
-// ── Models — carousel slides ────────────────────────────────────────────────────
-const modelSlides = [
-  {
-    title: 'BoltzProt 1.1',
-    tone: 'light' as const,
-    body: 'State-of-the-art protein structure prediction, exceeding AlphaFold2 on novel folds.',
-  },
-  {
-    title: 'BoltzMol 1.1',
-    tone: 'sand' as const,
-    body: 'Small-molecule screening and hit discovery over 200M+ compound–protein pairs.',
-  },
-  {
-    title: 'BoltzDock 1.0',
-    tone: 'clay' as const,
-    body: 'High-throughput co-folding and docking for protein–ligand complex design.',
-  },
-  {
-    title: 'BoltzRNA 1.0',
-    tone: 'sage' as const,
-    body: 'RNA secondary and tertiary structure prediction for therapeutic design.',
-  },
-];
-
-// ── Pricing tabs ────────────────────────────────────────────────────────────────
+// ── PricingSection tabs ───────────────────────────────────────────────────────
 const pricingTabs = [
   {
-    icon: <Leaf {...sz} />,
-    title: 'Starter',
-    body: 'Prototype and benchmark with generous free credits.',
-    header: { label: 'Starter', value: 'Free' },
+    icon: <Leaf {...pricingIco} />,
+    title: 'Single prediction',
+    body: 'On-demand inference, billed per call.',
+    header: { label: 'Per call', value: '$0.04' },
     items: [
-      { label: 'Predictions / month', cost: { display: '1,000', value: 1000 } },
-      { label: 'Concurrent jobs', cost: { display: '2', value: 200 } },
-      { label: 'Support', cost: { display: 'Community', value: 100 } },
+      { label: 'Boltz API',       cost: { display: '$0.04',  value: 0.04  } },
+      { label: 'Self-hosted GPU', cost: { display: '$0.21',  value: 0.21  } },
+      { label: 'Legacy pipeline', cost: { display: '$0.38',  value: 0.38  } },
     ],
   },
   {
-    icon: <Code {...sz} />,
-    title: 'Team',
-    body: 'Production API access for research teams shipping daily.',
-    header: { label: 'Team', value: '$2,400 / mo' },
+    icon: <Code {...pricingIco} />,
+    title: 'Batch screening',
+    body: 'High-throughput jobs across a compound library.',
+    header: { label: 'Per 10k', value: '$320' },
     items: [
-      { label: 'Predictions / month', cost: { display: '50,000', value: 50000 } },
-      { label: 'Concurrent jobs', cost: { display: '20', value: 2000 } },
-      { label: 'Support', cost: { display: 'Priority', value: 1500 } },
-    ],
-  },
-  {
-    icon: <Community {...sz} />,
-    title: 'Enterprise',
-    body: 'Dedicated capacity, VPC deployment, and an SLA.',
-    header: { label: 'Enterprise', value: 'Custom' },
-    items: [
-      { label: 'Predictions / month', cost: { display: 'Unlimited', value: 100000 } },
-      { label: 'Concurrent jobs', cost: { display: 'Custom', value: 5000 } },
-      { label: 'Support', cost: { display: 'Dedicated', value: 3000 } },
+      { label: 'Boltz API',       cost: { display: '$320',   value: 320   } },
+      { label: 'Self-hosted GPU', cost: { display: '$1,450', value: 1450  } },
+      { label: 'Legacy pipeline', cost: { display: '$2,700', value: 2700  } },
     ],
   },
 ];
 
-// ── Footer links per Figma ──────────────────────────────────────────────────────
+// ── CommunitySection data ─────────────────────────────────────────────────────
+const communityStats = [
+  { value: '8M+',    label: 'scientists worldwide' },
+  { value: '6,000+', label: 'GitHub stars' },
+  { value: 'Top 20', label: 'pharma companies' },
+  { value: '200+',   label: 'active integrations' },
+];
+
+const PfizerLogo = () => (
+  <svg height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Pfizer">
+    <text y="24" fontFamily="sans-serif" fontSize="22" fontWeight="700" fill="white">Pfizer</text>
+  </svg>
+);
+
 const footerColumns = [
   { links: [{ label: 'Github', href: '#' }, { label: 'LinkedIn', href: '#' }, { label: 'Slack', href: '#' }] },
   { links: [{ label: 'Career', href: '#' }, { label: 'News', href: '#' }, { label: 'Pricing', href: '#' }, { label: 'Legal', href: '#' }] },
@@ -196,8 +116,8 @@ const footerColumns = [
 
 export const Platform: Story = {
   render: () => (
-    <div className="bg-surface-primary">
-      <NavBar tone="dark" cta="Get early access">
+    <div className="bg-white">
+      <NavBar tone="dark">
         {navItems.map((n) => (
           <NavLink key={n} href="#" active={n === 'Platform'}>{n}</NavLink>
         ))}
@@ -207,109 +127,124 @@ export const Platform: Story = {
         {/* 1 — Hero */}
         <PrimaryHero
           tone="dark"
-          heading="A New Foundation for End-to-End Discovery"
-          body="Streamlined molecular design platform for all organizations. The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
+          heading="Streamlined molecular design platform for all organizations."
+          body="A flexible platform for end-to-end molecular design, powered by frontier models, pipelines and compute — shaped for every organization."
+          actions={<Button variant="white">Get early access</Button>}
           media={<DashboardBleed />}
         />
 
-        {/* 2 — Logo strip */}
-        <LogoStrip />
-
-        {/* 3 — Platform overview */}
-        <FeatureGrid
-          eyebrow="Platform"
-          eyebrowIcon={<ViewGrid {...sz} />}
-          background="secondary"
-          items={[
-            { color: 'sage-pale', heading: 'Frontier models', body: 'Best-in-class structure, docking, and generation models under one API.', cta: 'Explore models' },
-            { color: 'blue-pale', heading: 'Production infra', body: 'Predictable latency and throughput, scaled for high-volume pipelines.', cta: 'Read the docs' },
-            { color: 'tierra-100', heading: 'End-to-end design', body: 'From target to candidate — co-fold, screen, and rank in one workflow.', cta: 'See workflows' },
-          ]}
+        {/* 2 — About + recent news */}
+        <AboutNews
+          eyebrow="About us"
+          eyebrowIcon={<Community {...sz} />}
+          heading="Boltz is a frontier research lab building generative models for biology and chemistry"
+          body={
+            <>
+              <p>Our models are used by millions of scientists across biopharma, agriculture and consumer products and form the foundation of modern R&D.</p>
+              <p className="mt-md">We founded Boltz PBC to advance the open frontier and build powerful new primitives for science.</p>
+            </>
+          }
+          items={newsItems}
+          cta="View all blog posts"
         />
 
-        {/* 4 — API interfaces */}
-        <section className="w-full py-2xl">
-          <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-            <SectionHeader
-              eyebrowIcon={<Code {...sz} />}
-              eyebrow="API"
-              title="Three powerful interfaces for calling Boltz"
-              titleClassName="max-w-body"
+        {/* 3 — Products section */}
+        <SplitSection
+          background="none"
+          className="bg-tierra-50"
+          mediaPosition="right"
+          align="start"
+          content={
+            <>
+              <EyebrowLabel icon={<Packages {...sz} />}>Products</EyebrowLabel>
+              <h2 className="text-heading-md text-text-primary">
+                One Powerful Platform for End-to-End Molecular Design &amp; Discovery
+              </h2>
+              <div className="flex flex-col gap-lg mt-sm">
+                <ListItem icon={<CodeBrackets {...iconSz} />} heading="Frontier Models" description="Get early access to our latest models and pipelines for molecular design" />
+                <ListItem icon={<DashboardSpeed {...iconSz} />} heading="Blazing Fast Inference" description="Run jobs on our massively parallel cluster or deploy securely on your VPC" />
+                <ListItem icon={<Settings {...iconSz} />} heading="Deep Integration" description="Customize models on your data and integrate pipelines deep into your experimental workflows so they work for you." />
+              </div>
+            </>
+          }
+          media={
+            <img
+              src="/boltz-protein.png"
+              alt="Boltz protein render"
+              className="w-full h-auto select-none"
             />
-            <CodeBlock contained color="sage" tabs={apiTabs} />
-          </div>
-        </section>
+          }
+        />
 
-        {/* 5 — Security */}
-        <section className="w-full py-2xl bg-surface-secondary">
+        {/* 4 — Security */}
+        <section className="w-full py-2xl bg-sage-pale">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-            <SectionHeader
-              eyebrowIcon={<ShieldCheck {...sz} />}
-              eyebrow="Security"
-              title="Enterprise-grade security, from day one"
-              titleClassName="max-w-body"
-            />
-            <div className="grid grid-cols-1 gap-lg tablet:grid-cols-3">
-              {securityPoints.map((s) => (
-                <CardSmall
-                  key={s.heading}
-                  color="white"
-                  icon={s.icon}
-                  heading={s.heading}
-                  body={s.body}
-                />
-              ))}
+            <div className="flex flex-col gap-md">
+              <EyebrowLabel icon={<ShieldCheck {...sz} />}>Security</EyebrowLabel>
+              <h2 className="text-heading-md text-text-primary max-w-[720px]">
+                Built for the biggest enterprise and the most sensitive applications
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-sm tablet:grid-cols-3">
+              <CardMedium
+                color="sage-dark"
+                heading="Data Security"
+                body="A set of enterprise-grade REST APIs with built-in security and data privacy for integrating Boltz models into your products."
+              />
+              <CardMedium
+                color="sage-medium"
+                heading="IP & Ownership"
+                body="You own everything you create. We never claim rights to your research outputs or molecular designs."
+              />
+              <CardMedium
+                color="sage-light"
+                heading="Privacy"
+                body="Deploy in your VPC or fully on-premise. Complete data residency control for regulated workloads."
+              />
             </div>
           </div>
         </section>
 
-        {/* 6 — Community stats */}
-        <StatBand
-          stats={communityStats}
-        />
-
-        {/* 7 — Our models carousel */}
-        <section className="w-full py-2xl">
-          <div className="max-w-container mx-auto px-md tablet:px-40">
-            <Carousel
-              controls="top"
-              ariaLabel="Our models"
-              slideClassName="basis-[88%] tablet:basis-[53%]"
-              caption={<>
-                <EyebrowLabel icon={<Leaf {...sz} />}>Our models</EyebrowLabel>
-                <h2 className="text-heading-md text-text-primary">
-                  A model for every step of discovery
-                </h2>
-              </>}
-            >
-              {modelSlides.map((m) => (
-                <ModelCard
-                  key={m.title}
-                  title={m.title}
-                  body={m.body}
-                  tone={m.tone}
-                  renderSrc="/boltz-protein.png"
-                />
-              ))}
-            </Carousel>
-          </div>
-        </section>
-
-        {/* 8 — Pricing */}
+        {/* 5 — Pricing */}
         <PricingSection
           eyebrow="Pricing"
-          eyebrowIcon={<ViewGrid {...sz} />}
-          heading="Pricing that scales with your research"
+          eyebrowIcon={<Code {...sz} />}
+          heading="Our API is the best place to run Boltz models at drug development scale"
           tabs={pricingTabs}
         />
 
-        {/* 9 — CTA */}
-        <CTABand
-          eyebrowIcon={<Leaf {...sz} />}
-          eyebrowLabel="Get started"
-          heading="A foundation for end-to-end discovery."
-          body="Streamlined molecular design for modern research teams."
-          cta="Get early access"
+        {/* 6 — Community */}
+        <CommunitySection
+          eyebrowIcon={<Community {...sz} />}
+          eyebrow="Community"
+          heading="Boltz models are used by over 8M scientists spanning biotech, biopharma, agriculture, and academia"
+          caseStudies={[
+            {
+              logo: <PfizerLogo />,
+              heading: "How Pfizer scientists are using Boltz's platform across large and small molecule discovery",
+              cta: 'Read more',
+              image: (
+                <img
+                  src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=900&q=80"
+                  alt="Lab scientist"
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
+              ),
+            },
+          ]}
+          stats={communityStats}
+          ctas={[
+            {
+              title: 'Partner with us',
+              body: 'We partner with pioneering teams to tackle the most challenging problems in drug discovery. Reach out to explore how we can accelerate your research.',
+              cta: 'Get in touch',
+            },
+            {
+              title: 'Join our team',
+              body: "We're building a world-class team to push the boundaries of AI-driven drug discovery. See our open positions and help us shape the future of medicine.",
+              cta: 'View open roles',
+            },
+          ]}
         />
       </main>
 

@@ -59,3 +59,17 @@ export const CustomCta: Story = {
     </NavBar>
   ),
 };
+
+export const DarkTone: Story = {
+  name: 'Dark (hero overlay)',
+  parameters: { backgrounds: { default: 'dark' } },
+  render: () => (
+    <div className="bg-surface-card-dark min-h-[120px]">
+      <NavBar tone="dark">
+        <NavLink href="#" tone="dark" active>Platform</NavLink>
+        <NavLink href="#" tone="dark">API</NavLink>
+        <NavLink href="#" tone="dark">News</NavLink>
+      </NavBar>
+    </div>
+  ),
+};
