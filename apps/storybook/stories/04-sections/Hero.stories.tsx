@@ -123,8 +123,10 @@ export const PrimaryHeroPlatform: Story = {
       media={
         <>
           <Blob shape={HERO_BLOB} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
-          <div className="absolute bottom-0 right-0 w-[1200px] max-w-[72vw] translate-x-[8%]">
-            <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
+          {/* Sized to stay clear of the max-w-[600px] text column at every width:
+              small on phone/tablet, larger from laptop. (Was 72vw → overlapped the heading.) */}
+          <div className="absolute bottom-0 right-0 w-[1000px] max-w-[38vw] laptop:max-w-[50vw] translate-x-[8%]">
+            <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="relative w-full h-auto" />
           </div>
         </>
       }
