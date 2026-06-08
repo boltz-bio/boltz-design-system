@@ -48,15 +48,17 @@ export const TextButton = React.forwardRef<HTMLButtonElement, TextButtonProps>(
       className={cn(textButtonVariants({ variant }), className)}
       {...rest}
     >
-      {children}
+      {/* Wrap text in relative span so the underline is scoped to the text width only */}
+      <span className="relative">
+        {children}
+        <span
+          aria-hidden="true"
+          className="absolute left-0 -bottom-px h-px w-0 bg-current group-hover:w-full transition-[width] duration-base ease-standard"
+        />
+      </span>
       {arrow && (
         <span aria-hidden="true" className="leading-none text-[13px]">↗</span>
       )}
-      {/* Underline — grows left → right on hover */}
-      <span
-        aria-hidden="true"
-        className="absolute bottom-8 left-0 h-px w-0 bg-current group-hover:w-full transition-[width] duration-base ease-standard"
-      />
     </button>
   ),
 );

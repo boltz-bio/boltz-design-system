@@ -42,7 +42,7 @@ const DashboardBleed = () => (
   <>
     <Blob shape={BLOB_COUNT - 1} aria-hidden className="absolute -top-[25%] right-0 h-auto w-[88%] translate-x-[16%] opacity-[0.14] text-white" />
     <div className="absolute bottom-0 right-0 w-[1200px] max-w-[72vw] translate-x-[8%]">
-      <img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="w-full h-auto select-none" />
+      <img src="/platform laptop.png" alt="Boltz Platform dashboard" className="w-full h-auto select-none" />
     </div>
   </>
 );

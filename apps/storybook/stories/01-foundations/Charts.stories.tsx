@@ -285,8 +285,8 @@ function SparklineCard({ label, value, tone }: {
         aria-label={`${label} trend`}
       >
         <path d={d} className={`${tone.line} fill-none`} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-        <circle cx={x0} cy={y0} r="1.8" className={`${tone.bg} ${tone.dot}`} strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
-        <circle cx={xN} cy={yN} r="2" className={tone.line.replace('stroke-', 'fill-')} vectorEffect="non-scaling-stroke" />
+        <circle cx={x0} cy={y0} r="2.5" className={`${tone.bg} ${tone.dot}`} strokeWidth="1.5" />
+        <circle cx={xN} cy={yN} r="2.5" className={tone.line.replace('stroke-', 'fill-')} />
       </svg>
     </Card>
   );

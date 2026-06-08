@@ -21,7 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const sz = { width: 14, height: 14, strokeWidth: 1.5 } as const;
-const iconSz = { width: 28, height: 28, strokeWidth: 1.5 } as const;
+const iconSz = { width: 48, height: 48, strokeWidth: 1 } as const;
 
 export const Default: StoryObj = {
   render: () => (
