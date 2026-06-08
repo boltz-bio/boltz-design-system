@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Embed, Hero, Button, TextButton, placeholderImage } from '@boltz/ui';
-import { Leaf } from 'iconoir-react';
 
 // A frozen Boltz Studio view (Modal-hosted protein renderer). Replace with your own
 // embed URL from Studio → "Generate embed".
@@ -123,8 +122,6 @@ export const InHero: Story = {
   parameters: { layout: 'fullscreen' },
   render: (args) => (
     <Hero
-      eyebrow="Build on Boltz"
-      eyebrowIcon={<Leaf width={14} height={14} strokeWidth={1.5} />}
       heading="Frontier models for biomolecular design."
       body="State-of-the-art structure prediction, served as production-ready infrastructure."
       actions={<>

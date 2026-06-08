@@ -172,8 +172,9 @@ module.exports = {
         },
       },
       animation: {
-        'accordion-open':  'accordion-open 600ms cubic-bezier(0.175, 1.4, 0.32, 1) both',
-        'accordion-close': 'accordion-close 400ms cubic-bezier(0.4, 0, 0.2, 1) both',
+        // easeOutExpo — fast, smooth settle with NO overshoot (no height bounce)
+        'accordion-open':  'accordion-open 400ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        'accordion-close': 'accordion-close 300ms cubic-bezier(0.4, 0, 1, 1) both',
       },
       transitionTimingFunction: {
         standard: 'cubic-bezier(0.4, 0, 0.2, 1)',

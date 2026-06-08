@@ -46,7 +46,7 @@ export const AccordionItem = ({
     value={value}
     className={cn(
       'border-b border-border-light',
-      'transition-[border-color,padding] duration-spring ease-spring',
+      'transition-[border-color,padding] duration-slow ease-standard',
       className,
     )}
   >
@@ -75,7 +75,7 @@ export const AccordionItem = ({
             {/* Horizontal bar — always visible. 1.5px = hairline stroke (not a spacing-scale value). */}
             <span className="absolute w-16 h-[1.5px] bg-current rounded-full" />
             {/* Vertical bar — collapses on open */}
-            <span className="absolute w-[1.5px] h-16 bg-current rounded-full transition-transform duration-spring ease-spring origin-center group-data-[state=open]:scale-y-0" />
+            <span className="absolute w-[1.5px] h-16 bg-current rounded-full transition-transform duration-slow ease-standard origin-center group-data-[state=open]:scale-y-0" />
           </span>
         </RadixAccordion.Trigger>
       </div>
