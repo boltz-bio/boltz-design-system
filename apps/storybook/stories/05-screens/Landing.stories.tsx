@@ -95,7 +95,7 @@ const footerColumns = [
 
 export const Landing: Story = {
   render: () => (
-    <div className="bg-surface-primary">
+    <div className="bg-white">
       <NavBar>
         {navItems.map((n) => <NavLink key={n} href="#">{n}</NavLink>)}
       </NavBar>
