@@ -47,7 +47,7 @@ export const ColourPalette: Story = {
       {/* Sage */}
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-sm">Sage family</p>
-        <div className="grid grid-cols-4 gap-md">
+        <div className="grid grid-cols-2 mobile:grid-cols-4 gap-md">
           {SAGE.map(c => (
             <CardSmall key={c} color={c} heading={c.replace('sage-', 'Sage ')} body={c === 'sage-dark' ? '#003014' : c === 'sage-medium' ? '#C6E5C6' : c === 'sage-light' ? '#D9EED9' : '#EDF7ED'} />
           ))}
@@ -57,7 +57,7 @@ export const ColourPalette: Story = {
       {/* Blue */}
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-sm">Blue family</p>
-        <div className="grid grid-cols-4 gap-md">
+        <div className="grid grid-cols-2 mobile:grid-cols-4 gap-md">
           {BLUE.map(c => (
             <CardSmall key={c} color={c} heading={c.replace('blue-', 'Blue ')} body={c === 'blue-dark' ? '#142D36' : c === 'blue-medium' ? '#C7E3EE' : c === 'blue-light' ? '#E5F2F7' : '#EEF6FA'} />
           ))}
@@ -67,7 +67,7 @@ export const ColourPalette: Story = {
       {/* Tierra */}
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-sm">Tierra family</p>
-        <div className="grid grid-cols-4 gap-md">
+        <div className="grid grid-cols-2 mobile:grid-cols-4 gap-md">
           {TIERRA.map(c => (
             <CardSmall key={c} color={c} heading={c.replace('tierra-', 'Tierra ')} body={c === 'tierra-500' ? '#DACAB0' : c === 'tierra-200' ? '#EEE7DB' : c === 'tierra-100' ? '#F7F2E9' : '#FBFAF7'} />
           ))}
@@ -87,7 +87,7 @@ export const StackingGaps: Story = {
 
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-sm">Connected cards — 8px gap (shared visual group)</p>
-        <CardGroup>
+        <CardGroup className="flex-col mobile:flex-row">
           <div className="flex-[2] bg-sage-dark text-text-on-dark rounded-lg p-xl flex flex-col justify-between" style={{minHeight: 220}}>
             <div>
               <h3 className="font-sans font-regular text-heading-md text-text-on-dark mb-md">Data Security</h3>
@@ -107,7 +107,7 @@ export const StackingGaps: Story = {
 
       <div>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-sm">Standalone cards — 24px gap (independent elements)</p>
-        <CardGroup>
+        <CardGroup className="flex-col mobile:flex-row">
           <div className="flex-1 bg-sage-pale border border-border-light rounded-lg p-xl flex flex-col justify-between" style={{minHeight: 220}}>
             <div>
               <p className="text-body-sm text-text-secondary mb-xl">🅿 Pfizer</p>
@@ -139,7 +139,7 @@ export const Small: Story = {
     <div className="flex flex-col gap-lg max-w-[900px]">
       <div>
         <p className="text-body-sm text-text-muted mb-sm">On white → pale variants</p>
-        <CardGroup className="grid grid-cols-3">
+        <CardGroup className="grid grid-cols-1 mobile:grid-cols-3">
           <CardSmall color="blue-pale" heading="BoltzMol 1.1" body="Small molecule screening and hit discovery." />
           <CardSmall color="sage-pale" heading="BoltzProt 1.1" body="Protein structure prediction at scale." />
           <CardSmall color="tierra-50" heading="BoltzRNA 1.0" body="RNA design and structure prediction." />
@@ -147,7 +147,7 @@ export const Small: Story = {
       </div>
       <div>
         <p className="text-body-sm text-text-muted mb-sm">With icons</p>
-        <CardGroup className="grid grid-cols-3">
+        <CardGroup className="grid grid-cols-1 mobile:grid-cols-3">
           <CardSmall color="blue-pale" icon={<AllIcons.Cpu {...sz} />} heading="BoltzMol 1.1" />
           <CardSmall color="sage-pale" icon={<AllIcons.Dna {...sz} />} heading="BoltzProt 1.1" />
           <CardSmall color="tierra-100" icon={<AllIcons.Microscope {...sz} />} heading="BoltzRNA 1.0" />
@@ -155,7 +155,7 @@ export const Small: Story = {
       </div>
       <div>
         <p className="text-body-sm text-text-muted mb-sm">4+ cards → same colour (connected)</p>
-        <CardGroup>
+        <CardGroup className="flex-col mobile:flex-row">
           {(['blue-dark','blue-dark','blue-dark','blue-dark'] as CardColor[]).map((c, i) => (
             <CardSmall key={i} color={c} heading={['BoltzMol','BoltzProt','BoltzRNA','BoltzAb'][i]} body="Frontier model." className="flex-1" />
           ))}
@@ -173,14 +173,14 @@ export const Medium: Story = {
     <div className="flex flex-col gap-lg max-w-[900px]">
       <div>
         <p className="text-body-sm text-text-muted mb-sm">2 per row — different scale, same family (connected)</p>
-        <CardGroup>
+        <CardGroup className="flex-col mobile:flex-row">
           <CardMedium color="blue-light" heading="Platform infrastructure" body="Production-ready APIs, model endpoints, and managed infrastructure." cta="Get early access" className="flex-1" />
           <CardMedium color="blue-dark" heading="Research grade models" body="State-of-the-art structure prediction across all molecule classes." cta="Read the paper" className="flex-1" />
         </CardGroup>
       </div>
       <div>
         <p className="text-body-sm text-text-muted mb-sm">3 per row — standalone</p>
-        <CardGroup className="grid grid-cols-3">
+        <CardGroup className="grid grid-cols-1 mobile:grid-cols-3">
           <CardMedium color="sage-pale" heading="Security" body="Enterprise-grade data privacy for regulated industries." cta="Learn more" />
           <CardMedium color="sage-light" heading="Compliance" body="HIPAA-ready infrastructure, audit trails, role-based access." cta="Learn more" />
           <CardMedium color="sage-dark" heading="Private deployment" body="Deploy on your cloud or on-premise for maximum data control." cta="Learn more" />
@@ -278,14 +278,14 @@ export const Overview: Story = {
       </section>
       <section>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-md">Card Medium — connected (8px gap)</p>
-        <CardGroup>
+        <CardGroup className="flex-col mobile:flex-row">
           <CardMedium color="blue-light" heading="Platform infrastructure" body="Production-ready APIs and managed infrastructure." cta="Get early access" className="flex-1" />
           <CardMedium color="blue-dark" heading="Research grade models" body="State-of-the-art structure prediction." cta="Read the paper" className="flex-1" />
         </CardGroup>
       </section>
       <section>
         <p className="text-body-sm text-text-muted uppercase tracking-widest mb-md">Card Small — standalone (24px gap)</p>
-        <CardGroup className="grid grid-cols-3">
+        <CardGroup className="grid grid-cols-1 mobile:grid-cols-3">
           <CardSmall color="blue-pale" icon={<AllIcons.Cpu {...sz} />} heading="BoltzMol 1.1" />
           <CardSmall color="sage-pale" icon={<AllIcons.Dna {...sz} />} heading="BoltzProt 1.1" />
           <CardSmall color="tierra-100" icon={<AllIcons.Microscope {...sz} />} heading="BoltzRNA 1.0" />

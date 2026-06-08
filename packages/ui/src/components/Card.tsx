@@ -197,7 +197,8 @@ export const CardWide = React.forwardRef<HTMLDivElement, CardWideProps>(
       ref={ref}
       className={cn(
         'rounded-lg bg-action-primary overflow-hidden w-full',
-        image ? 'flex items-stretch h-[560px]' : 'flex flex-col',
+        // Phone: stack content over image. mobile: (≥768) split side-by-side at fixed height.
+        image ? 'flex flex-col mobile:flex-row mobile:items-stretch mobile:h-[560px]' : 'flex flex-col',
         className,
       )}
       {...rest}
@@ -217,7 +218,7 @@ export const CardWide = React.forwardRef<HTMLDivElement, CardWideProps>(
         {cta && <Button variant="white" onClick={onCtaClick}>{cta}</Button>}
       </div>
       {image && (
-        <div className="flex-1 overflow-hidden relative">{image}</div>
+        <div className="flex-1 overflow-hidden relative h-[280px] mobile:h-auto">{image}</div>
       )}
     </div>
   ),
@@ -243,15 +244,15 @@ export interface CardCaseStudyProps extends React.HTMLAttributes<HTMLDivElement>
 
 export const CardCaseStudy = React.forwardRef<HTMLDivElement, CardCaseStudyProps>(
   ({ className, logo, heading, cta = 'Read more', onCtaClick, image, ...rest }, ref) => (
-    <div ref={ref} className={cn('flex gap-sm items-stretch w-full', className)} {...rest}>
-      <div className="w-1/2 bg-sage-dark rounded-lg p-xl flex flex-col justify-between h-[350px] overflow-hidden">
+    <div ref={ref} className={cn('flex flex-col mobile:flex-row gap-sm items-stretch w-full', className)} {...rest}>
+      <div className="w-full mobile:w-1/2 bg-sage-dark rounded-lg p-xl flex flex-col justify-between h-[350px] overflow-hidden">
         <div className="flex flex-col gap-lg">
           {logo && <div className="h-32 flex items-center">{logo}</div>}
           <h3 className="text-heading-sm text-text-on-dark">{heading}</h3>
         </div>
         {cta && <Button variant="white" onClick={onCtaClick}>{cta}</Button>}
       </div>
-      <div className="w-1/2 rounded-lg h-[350px] overflow-hidden bg-surface-secondary relative">
+      <div className="w-full mobile:w-1/2 rounded-lg h-[350px] overflow-hidden bg-surface-secondary relative">
         {image}
       </div>
     </div>
