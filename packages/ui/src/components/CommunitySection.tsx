@@ -116,7 +116,7 @@ export const CommunitySection = React.forwardRef<HTMLElement, CommunitySectionPr
             {ctas.map((row, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between gap-lg py-lg border-b border-border-light first:border-t"
+                className="flex flex-col gap-md mobile:flex-row mobile:items-center mobile:justify-between gap-lg py-lg border-b border-border-light first:border-t"
               >
                 <div className="flex flex-col gap-sm max-w-[660px]">
                   <h3 className="text-heading-sm text-text-primary">{row.title}</h3>

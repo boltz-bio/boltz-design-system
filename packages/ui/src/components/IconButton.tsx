@@ -21,6 +21,7 @@ const iconButtonVariants = cva(
   {
     variants: {
       size: {
+        xs: 'h-32 w-32', // 32×32 — inline/social icon controls
         sm: 'h-36 w-36', // 36×36 — carousel arrows
         md: 'h-40 w-40',
         lg: 'h-44 w-44',
@@ -32,6 +33,10 @@ const iconButtonVariants = cva(
         // On dark backgrounds.
         'outline-on-dark':
           'border-white/50 text-white bg-transparent hover:bg-white hover:text-text-primary',
+        // Borderless — subtle ghost control (e.g. share/social rows). No border;
+        // a faint surface fill on hover.
+        ghost:
+          'border-transparent text-text-secondary bg-transparent hover:bg-surface-secondary hover:text-text-primary',
       },
     },
     defaultVariants: { size: 'sm', variant: 'outline' },

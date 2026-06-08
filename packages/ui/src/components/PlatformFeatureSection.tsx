@@ -27,8 +27,9 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
     <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
       <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-sm">
 
-        {/* Hero card — black, split: text left + media right */}
-        <div className="relative bg-action-primary rounded-lg overflow-hidden w-full flex items-stretch h-[560px]">
+        {/* Hero card — black, split: text left + media right. Stacks on phone,
+            splits side-by-side at a fixed height from mobile: (>=768). */}
+        <div className="relative bg-action-primary rounded-lg overflow-hidden w-full flex flex-col mobile:flex-row mobile:items-stretch mobile:h-[560px]">
           {/* Text column */}
           <div className="flex flex-col gap-md p-xl flex-1 justify-start">
             <EyebrowLabel variant="dark" icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>
@@ -37,14 +38,14 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
           </div>
           {/* Media column */}
           {media && (
-            <div className="flex-1 relative overflow-hidden">
+            <div className="flex-1 relative overflow-hidden h-[240px] mobile:h-auto">
               {media}
             </div>
           )}
         </div>
 
         {/* Feature cards row */}
-        <div className="grid grid-cols-2 gap-sm laptop:grid-cols-4">
+        <div className="grid grid-cols-1 mobile:grid-cols-2 gap-sm laptop:grid-cols-4">
           {features.map((f, i) => (
             <CardSmall
               key={i}

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  PrimaryHero, StatBand, Footer, Blob, BLOB_COUNT,
+  PrimaryHero, Footer, Blob, BLOB_COUNT,
   Accordion, AccordionItem, AccordionActions, Badge,
-  NewsItem, BlogThumbnail, IconContainer, Thumbnail,
+  NewsItem, BlogThumbnail, PlatformFeatureSection, CommunitySection,
 } from '@boltz/ui';
 import { Leaf, Community, ViewGrid, Code, Flash, Lock, Settings } from 'iconoir-react';
 import { navItems } from '../_data/boltz';
@@ -57,11 +57,14 @@ const models = [
   { id: 'm3', name: 'Boltz-2', badge: 'MIT', body: 'Open foundation model for biomolecular structure, weights and benchmarks shared with the community.' },
 ];
 
+// Feature-card icons render in CardSmall's 56px slot — size them up from the
+// 14px eyebrow icons so they don't look lost.
+const iconLg = { width: 28, height: 28, strokeWidth: 1.5 } as const;
 const platformFeatures = [
-  { icon: <Code {...sz} />, label: 'Powerful APIs' },
-  { icon: <Flash {...sz} />, label: 'Blazing fast inference' },
-  { icon: <Lock {...sz} />, label: 'Secure deployment' },
-  { icon: <Settings {...sz} />, label: 'Fine-tuning' },
+  { icon: <Code {...iconLg} />, title: 'Powerful APIs' },
+  { icon: <Flash {...iconLg} />, title: 'Blazing fast inference' },
+  { icon: <Lock {...iconLg} />, title: 'Secure deployment' },
+  { icon: <Settings {...iconLg} />, title: 'Fine-tuning' },
 ];
 
 const communityStats = [
@@ -69,6 +72,20 @@ const communityStats = [
   { value: '6,000+', label: 'GitHub stars' },
   { value: 'Top 20', label: 'pharma companies' },
   { value: '200+', label: 'active integrations' },
+];
+
+const communityCaseStudies = [
+  {
+    logo: <span className="text-body-lg text-text-on-dark italic font-semibold">Pfizer</span>,
+    heading: 'How Pfizer scientists are using Boltz’s platform across large and small molecule discovery.',
+    cta: 'Read more',
+    image: <img src="/brand/people-2.jpg" alt="Boltz scientist" className="w-full h-full object-cover" />,
+  },
+];
+
+const communityCtas = [
+  { title: 'Partner with us', body: 'We partner with pioneering teams to tackle the most challenging problems in drug discovery. Reach out to explore how we can accelerate your research.', cta: 'Get in touch' },
+  { title: 'Join our team', body: 'We’re building a world-class team to push the boundaries of AI-driven drug discovery. See our open positions and help shape the future of medicine.', cta: 'View open roles' },
 ];
 
 const footerColumns = [
@@ -121,7 +138,7 @@ export const Landing: Story = {
                   cover={<BlogThumbnail {...p.cover} />}
                 />
               ))}
-              <TextButton arrow>View all blog posts</TextButton>
+              <div><Button variant="black">View all blog posts</Button></div>
             </div>
           </div>
         </section>
@@ -136,7 +153,7 @@ export const Landing: Story = {
                   We&rsquo;re creating top models for all molecule sizes.
                 </h2>
               </div>
-              <TextButton arrow>View all models</TextButton>
+              <Button variant="black">View all models</Button>
             </div>
 
             <div className="grid grid-cols-1 gap-2xl laptop:grid-cols-2 items-center">
@@ -158,78 +175,25 @@ export const Landing: Story = {
           </div>
         </section>
 
-        {/* Platform — dark feature card + feature cells */}
-        <section className="py-section">
-          <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-lg">
-            <div className="rounded-xl bg-surface-card-dark p-xl tablet:p-2xl flex flex-col gap-xl laptop:flex-row laptop:items-center">
-              <div className="flex flex-col gap-md flex-1">
-                <EyebrowLabel icon={<Code {...sz} />} className="text-white">Platform</EyebrowLabel>
-                <h2 className="text-heading-md text-text-on-dark max-w-[22ch]">
-                  A flexible platform for end-to-end molecular design, powered by frontier models,
-                  pipelines and compute — shaped for every organization.
-                </h2>
-                <p className="text-body-md text-white/70 max-w-body">
-                  The Boltz Platform brings together frontier AI models and intelligent agents to
-                  accelerate drug discovery — from hit identification to lead optimization.
-                </p>
-              </div>
-              <div className="flex-1">
-                <Thumbnail tone="blue" radius="lg" aspect="wide" className="w-full" />
-              </div>
-            </div>
+        {/* Platform — dark feature card + feature cells (04-Sections/PlatformFeatureSection) */}
+        <PlatformFeatureSection
+          eyebrowIcon={<Code {...sz} />}
+          heading="A flexible platform for end-to-end molecular design, powered by frontier models, pipelines and compute — shaped for every organization."
+          body="The Boltz Platform brings together frontier AI models and intelligent agents to accelerate drug discovery — from hit identification to lead optimization."
+          media={<img src="/platform-dashboard.png" alt="Boltz Platform dashboard" className="w-full h-full object-cover object-left-top" />}
+          features={platformFeatures}
+        />
 
-            <div className="grid grid-cols-2 gap-lg laptop:grid-cols-4">
-              {platformFeatures.map((f) => (
-                <div key={f.label} className="rounded-lg bg-blue-pale p-lg flex flex-col gap-2xl justify-between min-h-[160px]">
-                  <IconContainer variant="light">{f.icon}</IconContainer>
-                  <span className="text-body-md text-text-primary">{f.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Community — case card + photo, then StatBand */}
-        <section className="py-section bg-sage-pale">
-          <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-            <h2 className="text-heading-lg text-text-primary max-w-[24ch]">
-              Boltz models are used by over 1M scientists across pharma, biotech, agriculture, and academia.
-            </h2>
-
-            <div className="grid grid-cols-1 gap-lg laptop:grid-cols-2">
-              <div className="rounded-xl bg-sage-dark p-xl flex flex-col justify-between gap-2xl min-h-[280px]">
-                <span className="text-body-lg text-text-on-dark italic font-semibold">Pfizer</span>
-                <div className="flex flex-col gap-lg">
-                  <p className="text-heading-sm text-text-on-dark max-w-[28ch]">
-                    How Pfizer scientists are using Boltz&rsquo;s platform across large and small molecule discovery.
-                  </p>
-                  <Button variant="white">Read more</Button>
-                </div>
-              </div>
-              <Thumbnail src="/brand/people-2.jpg" alt="Boltz scientist" aspect="wide" radius="lg" className="w-full h-full" />
-            </div>
-
-            <StatBand stats={communityStats} className="!py-0" />
-          </div>
-        </section>
-
-        {/* Closing CTAs */}
-        <section className="py-2xl">
-          <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col divide-y divide-border-light">
-            {[
-              { heading: 'Partner with us', body: 'We partner with pioneering teams to tackle the most challenging problems in drug discovery. Reach out to explore how we can accelerate your research.', cta: 'Get in touch' },
-              { heading: 'Join our team', body: 'We’re building a world-class team to push the boundaries of AI-driven drug discovery. See our open positions and help shape the future of medicine.', cta: 'View open roles' },
-            ].map((row) => (
-              <div key={row.heading} className="flex flex-col gap-lg py-xl laptop:flex-row laptop:items-start laptop:justify-between">
-                <div className="flex flex-col gap-sm max-w-body">
-                  <h3 className="text-heading-sm text-text-primary">{row.heading}</h3>
-                  <p className="text-body-md text-text-secondary">{row.body}</p>
-                </div>
-                <Button variant="black">{row.cta}</Button>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Community — case study + stats + CTA rows, all on sage-pale
+            (04-Sections/CommunitySection). Replaces the old hand-rolled case card,
+            StatBand and the closing CTAs that sat on the wrong (white) background. */}
+        <CommunitySection
+          eyebrowIcon={<Community {...sz} />}
+          heading="Boltz models are used by over 1M scientists across pharma, biotech, agriculture, and academia."
+          caseStudies={communityCaseStudies}
+          stats={communityStats}
+          ctas={communityCtas}
+        />
       </main>
 
       <Footer columns={footerColumns} />
