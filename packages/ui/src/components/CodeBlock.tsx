@@ -142,33 +142,38 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
       {/* Header — tabs + copy button */}
       <div
         className={cn(
-          'flex items-center justify-between h-[60px] px-[32px]',
+          'flex items-center justify-between gap-md h-[60px] px-md mobile:px-[32px]',
           headerBg[color],
           headerBorder[color],
         )}
       >
-        {/* Tab strip — relative so the sliding indicator can be absolute */}
+        {/* Tab strip — scrolls horizontally when there are too many tabs to fit
+            (esp. on mobile) instead of overflowing or breaking the header. The
+            inner row is full-height so the sliding underline sits at the bottom
+            edge without being clipped by the scroll container. */}
         {tabs && tabs.length > 0 ? (
-          <div className="relative flex items-center gap-[24px]">
-            {tabs.map((tab, i) => (
-              <button
-                key={i}
-                ref={el => { tabRefs.current[i] = el; }}
-                onClick={() => setActiveTab(i)}
-                className={cn(
-                  'relative pb-[2px] font-sans font-regular text-body-sm cursor-pointer bg-transparent border-none',
-                  'focus-visible:outline-none transition-colors duration-base ease-standard',
-                  i === activeTab ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary',
-                )}
-              >
-                {tab.label}
-              </button>
-            ))}
-            {/* Sliding underline indicator */}
-            <div
-              className="absolute bottom-[-18px] h-[2px] bg-action-primary transition-[left,width] duration-[200ms] ease-standard"
-              style={{ left: indicator.left, width: indicator.width }}
-            />
+          <div className="relative h-full min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="relative flex items-center gap-[24px] h-full w-max">
+              {tabs.map((tab, i) => (
+                <button
+                  key={i}
+                  ref={el => { tabRefs.current[i] = el; }}
+                  onClick={() => setActiveTab(i)}
+                  className={cn(
+                    'relative shrink-0 font-sans font-regular text-body-sm cursor-pointer bg-transparent border-none',
+                    'focus-visible:outline-none transition-colors duration-base ease-standard',
+                    i === activeTab ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary',
+                  )}
+                >
+                  {tab.label}
+                </button>
+              ))}
+              {/* Sliding underline indicator — pinned to the header's bottom edge */}
+              <div
+                className="absolute bottom-0 h-[2px] bg-action-primary transition-[left,width] duration-[200ms] ease-standard"
+                style={{ left: indicator.left, width: indicator.width }}
+              />
+            </div>
           </div>
         ) : (
           <div /> // spacer so copy button stays right
@@ -179,7 +184,7 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
           onClick={handleCopy}
           aria-label="Copy code"
           className={cn(
-            'inline-flex items-center gap-[6px]',
+            'inline-flex items-center gap-[6px] shrink-0 whitespace-nowrap',
             'font-sans font-regular text-body-sm',
             'text-text-muted hover:text-text-primary',
             'bg-transparent border-none cursor-pointer',
@@ -194,7 +199,7 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
       </div>
 
       {/* Code area — all tabs in same grid cell; lines animate in on tab-switch */}
-      <div className="grid p-[32px]">
+      <div className="grid p-md mobile:p-[32px]">
         {tabs && tabs.length > 0 ? tabs.map((tab, i) => (
           <pre
             key={i}
@@ -232,7 +237,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           className={cn(
             'relative w-full rounded-lg overflow-hidden',
             'flex items-center justify-center',
-            'py-[70px] px-[40px]',
+            'py-xl px-md mobile:py-[70px] mobile:px-[40px]',
             bandBg[color],
             className,
           )}

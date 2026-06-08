@@ -88,14 +88,14 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(
     >
       <FooterPattern />
 
-      <div className="relative z-10 max-w-container mx-auto px-[40px] py-[80px] flex items-start justify-between">
+      <div className="relative z-10 max-w-container mx-auto px-md py-2xl mobile:px-[40px] mobile:py-[80px] flex flex-col gap-xl mobile:flex-row mobile:gap-md mobile:items-start mobile:justify-between">
         {/* Logo */}
         <a href="/" className="text-text-primary flex-shrink-0">
           {logo ?? <BoltzMark />}
         </a>
 
         {/* Link columns */}
-        <div className="flex gap-[80px] items-start">
+        <div className="flex gap-xl mobile:gap-[80px] items-start">
           {columns.map((col, i) => (
             <div key={i} className="flex flex-col gap-sm">
               {col.heading && (
