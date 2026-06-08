@@ -69,7 +69,7 @@ export const PrimaryHero = React.forwardRef<HTMLElement, PrimaryHeroProps>(
           shape={BLOB_COUNT - 1}
           aria-hidden
           className={cn(
-            'pointer-events-none absolute -top-[28%] right-0 h-auto w-[92%] translate-x-[16%]',
+            'pointer-events-none absolute -top-[22%] right-0 h-auto w-[68%] translate-x-[30%]',
             toneBlob[tone],
           )}
         />

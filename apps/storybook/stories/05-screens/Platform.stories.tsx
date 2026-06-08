@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, Button, EyebrowLabel, ListItem,
+  NavBar, NavLink, Button, EyebrowLabel, ListItem, SectionHeader,
   PrimaryHero, AboutNews, BlogThumbnail, SplitSection,
   CardMedium, PricingSection, CommunitySection, Footer,
 } from '@boltz/ui';
@@ -177,12 +177,12 @@ export const Platform: Story = {
         {/* 4 — Security */}
         <section className="w-full py-2xl bg-sage-pale">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-xl">
-            <div className="flex flex-col gap-md">
-              <EyebrowLabel icon={<ShieldCheck {...sz} />}>Security</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-[720px]">
-                Built for the biggest enterprise and the most sensitive applications
-              </h2>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<ShieldCheck {...sz} />}
+              eyebrow="Security"
+              title="Built for the biggest enterprise and the most sensitive applications"
+              titleClassName="max-w-[720px]"
+            />
             <div className="grid grid-cols-1 gap-sm tablet:grid-cols-3">
               <CardMedium
                 color="sage-dark"
