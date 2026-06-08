@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  NavBar, NavLink, EyebrowLabel, Button, TextButton,
-  PrimaryHero, Footer, Blob, BLOB_COUNT, SplitSection,
+  NavBar, NavLink, Button, TextButton, SectionHeader,
+  PrimaryHero, Footer, Blob, BLOB_COUNT,
   Accordion, AccordionItem, AccordionActions, Badge,
-  NewsItem, BlogThumbnail, PlatformFeatureSection, CommunitySection,
+  BlogThumbnail, AboutNews, PlatformFeatureSection, CommunitySection,
 } from '@boltz/ui';
 import { Leaf, Community, ViewGrid, Code, Flash, Lock, Settings } from 'iconoir-react';
 import { navItems } from '../_data/boltz';
@@ -109,56 +109,43 @@ export const Landing: Story = {
           media={<HeroProteinBleed />}
         />
 
-        {/* Intro + blog-post list (Figma Frame 3466207) — the generic
-            SplitSection base, with the wide column gap for a text + list split. */}
-        <SplitSection
-          align="start"
-          gap="wide"
-          content={
-            <>
-              <EyebrowLabel icon={<Leaf {...sz} />}>About us</EyebrowLabel>
-              <h2 className="text-heading-md text-text-primary max-w-[20ch]">
-                Boltz is a frontier research lab building generative models for biology and chemistry.
-              </h2>
-              <p className="text-body-md text-text-secondary max-w-body">
+        {/* About + blog-post list (Figma Frame 3466207) — the purpose-built
+            AboutNews section: left copy, right landscape news list with dividers
+            between posts, and a CTA. */}
+        <AboutNews
+          eyebrowIcon={<Leaf {...sz} />}
+          heading="Boltz is a frontier research lab building generative models for biology and chemistry."
+          body={
+            <div className="flex flex-col gap-md">
+              <p>
                 Our models are used by millions of scientists across biopharma, agriculture, and
                 consumer products, and form the foundation of modern R&amp;D.
               </p>
-              <p className="text-body-md text-text-secondary max-w-body">
+              <p>
                 We founded Boltz PBC to advance the open frontier and build powerful new primitives
                 for science.
               </p>
-            </>
-          }
-          media={
-            <div className="flex flex-col gap-lg w-full">
-              {blogPosts.map((p) => (
-                <NewsItem
-                  key={p.id}
-                  variant="landscape"
-                  title={p.title}
-                  category="Product"
-                  date="Feb 10, 2026"
-                  cover={<BlogThumbnail {...p.cover} />}
-                />
-              ))}
-              <div><Button variant="black">View all blog posts</Button></div>
             </div>
           }
+          items={blogPosts.map((p) => ({
+            title: p.title,
+            category: 'Product',
+            date: 'Feb 10, 2026',
+            cover: <BlogThumbnail {...p.cover} />,
+          }))}
+          cta="View all blog posts"
         />
 
         {/* Our models — protein render + accordion (Figma 57:2513 accordion variant) */}
         <section className="py-section bg-tierra-100">
           <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-2xl">
-            <div className="flex flex-col gap-lg mobile:flex-row mobile:items-end mobile:justify-between">
-              <div className="flex flex-col gap-md">
-                <EyebrowLabel icon={<ViewGrid {...sz} />}>Our models</EyebrowLabel>
-                <h2 className="text-heading-lg text-text-primary max-w-[18ch]">
-                  We&rsquo;re creating top models for all molecule sizes.
-                </h2>
-              </div>
-              <Button variant="black">View all models</Button>
-            </div>
+            <SectionHeader
+              eyebrowIcon={<ViewGrid {...sz} />}
+              eyebrow="Our models"
+              title="We’re creating top models for all molecule sizes."
+              titleClassName="max-w-[18ch]"
+              action={<Button variant="black">View all models</Button>}
+            />
 
             <div className="grid grid-cols-1 gap-2xl laptop:grid-cols-2 items-center">
               <img src={PROTEIN} alt="Boltz protein render" className="w-full max-w-[420px] mx-auto" />

@@ -95,6 +95,9 @@ export type { ModelCardProps, ModelCardTone } from './components/ModelCard';
 export { Section } from './components/Section';
 export type { SectionProps } from './components/Section';
 
+export { SectionHeader } from './components/SectionHeader';
+export type { SectionHeaderProps } from './components/SectionHeader';
+
 export { SplitSection } from './components/SplitSection';
 export type { SplitSectionProps } from './components/SplitSection';
 
