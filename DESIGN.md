@@ -274,12 +274,15 @@ components:
 
   nav-link:
     # Outlined pill — 36px tall, 20px horizontal padding, 1px black border
+    # Active state: no fill change — only text colour shifts to text-primary (no bg)
     height: "36px"
     padding: "0 20px"
     borderRadius: "44px"
     border: "1px solid {colors.neutral-black}"
     backgroundColor: "transparent"
-    textColor: "{colors.text-primary}"
+    textColor: "{colors.text-secondary}"
+    activeTextColor: "{colors.text-primary}"
+    activeBackgroundColor: "transparent"   # no fill on active — text-only state change
     typography: "{typography.body-sm}"
 
   nav-items-group:
@@ -1507,24 +1510,24 @@ Paste this block into your global stylesheet (e.g. `globals.css`, `tokens.css`, 
 /* Mobile first — add complexity upward */
 
 /* Mobile: default (no media query needed) */
-/* < 640px */
+/* < 768px */
 
 /* Tablet */
-@media (min-width: 640px) { }
+@media (min-width: 768px) { }
 
 /* Desktop */
 @media (min-width: 1024px) { }
 
 /* Wide */
-@media (min-width: 1440px) { }
+@media (min-width: 1328px) { }
 ```
 
-**In JavaScript / Tailwind config:**
+**In JavaScript / Tailwind config (matches `@boltz/tokens` preset):**
 ```js
 screens: {
-  sm:  '640px',
-  md:  '1024px',
-  lg:  '1440px',
+  mobile: '768px',
+  tablet: '1024px',
+  laptop: '1328px',
 }
 ```
 
@@ -1862,9 +1865,14 @@ Buttons are a connected split: text pill (left) + arrow circle (right). Three co
   text-decoration: none;
 }
 
-.nav__link:hover,
+.nav__link:hover {
+  background-color: var(--surface-secondary);
+}
+
+/* Active state: text colour only — no background fill */
 .nav__link[aria-current="page"] {
   color: var(--text-primary);
+  background-color: transparent;
 }
 
 .nav__cta {
