@@ -44,15 +44,15 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
           )}
         </div>
 
-        {/* Feature cards row */}
-        <div className="grid grid-cols-1 mobile:grid-cols-2 gap-sm laptop:grid-cols-4">
+        {/* Feature cards row — 2-up and shorter on phone, full 4-up at laptop. */}
+        <div className="grid grid-cols-2 gap-sm laptop:grid-cols-4">
           {features.map((f, i) => (
             <CardSmall
               key={i}
               color="blue-pale"
               icon={f.icon}
               heading={f.title}
-              className="h-[320px] justify-between"
+              className="h-[200px] mobile:h-[320px] justify-between"
             />
           ))}
         </div>
