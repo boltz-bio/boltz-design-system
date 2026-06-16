@@ -1,5 +1,9 @@
 import * as React from 'react';
 import { Copy, Check } from 'iconoir-react';
+import hljs from 'highlight.js/lib/core';
+import python from 'highlight.js/lib/languages/python';
+import bash from 'highlight.js/lib/languages/bash';
+import typescript from 'highlight.js/lib/languages/typescript';
 import { cn } from '../utils';
 import { CodePattern } from './Patterns';
 
@@ -78,42 +82,31 @@ const headerFade: Record<CodeBlockColor, string> = {
   tierra: 'from-tierra-100',
 };
 
-// ── Per-line animated code ────────────────────────────────────────────────────
-// Fades each line in with a staggered delay whenever `active` flips true.
-// Two nested rAFs ensure the opacity-0 initial state is painted before
-// the transition starts, so every tab-switch re-triggers the animation.
+// ── Syntax highlighting ─────────────────────────────────────────────────────────
+// highlight.js with only the languages we use registered. Token colours are themed
+// via the consuming app's CSS (.hljs-* rules), keeping this component build-less.
 
-function CodeLines({ code, active }: { code: string; active: boolean }) {
-  const [visible, setVisible] = React.useState(false);
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('typescript', typescript);
 
-  React.useEffect(() => {
-    if (!active) { setVisible(false); return; }
-    let r1: number, r2: number;
-    r1 = requestAnimationFrame(() => {
-      r2 = requestAnimationFrame(() => setVisible(true));
-    });
-    return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
-  }, [active]);
+// Map a tab label to a registered highlight.js language.
+const LANG_BY_LABEL: Record<string, string> = {
+  Python: 'python',
+  CLI: 'bash',
+  Shell: 'bash',
+  TypeScript: 'typescript',
+};
 
-  return (
-    <>
-      {code.split('\n').map((line, i) => (
-        <span
-          key={i}
-          className="block transition-opacity"
-          style={{
-            opacity: visible ? 1 : 0,
-            transitionDuration: '280ms',
-            transitionTimingFunction: 'ease',
-            transitionDelay: visible ? `${i * 35}ms` : '0ms',
-          }}
-        >
-          {/* Preserve empty lines */}
-          {line || ' '}
-        </span>
-      ))}
-    </>
-  );
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+function highlightCode(code: string, label?: string): string {
+  const lang = label ? LANG_BY_LABEL[label] : undefined;
+  if (lang && hljs.getLanguage(lang)) {
+    return hljs.highlight(code, { language: lang }).value;
+  }
+  return escapeHtml(code);
 }
 
 // ── Inner sandbox card ─────────────────────────────────────────────────────────
@@ -167,6 +160,10 @@ function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTab
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
+
+  const activeLabel = tabs?.[activeTab]?.label;
+  const activeCode = (tabs ? tabs[activeTab]?.code : code) ?? '';
+  const codeHtml = highlightCode(activeCode, typeof activeLabel === 'string' ? activeLabel : undefined);
 
   return (
     <div
@@ -259,28 +256,11 @@ function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTab
         </button>
       </div>
 
-      {/* Code area — all tabs in same grid cell; lines animate in on tab-switch */}
-      <div className="grid p-md mobile:p-[32px]">
-        {tabs && tabs.length > 0 ? tabs.map((tab, i) => (
-          <pre
-            key={i}
-            aria-hidden={i !== activeTab}
-            className={cn(
-              'font-mono text-mono-md text-text-primary',
-              'leading-[1.6] overflow-x-auto whitespace-pre m-0',
-              '[grid-area:1/1]',
-              i !== activeTab && 'pointer-events-none select-none',
-            )}
-          >
-            <code>
-              <CodeLines code={tab.code} active={i === activeTab} />
-            </code>
-          </pre>
-        )) : (
-          <pre className="font-mono text-mono-md text-text-primary leading-[1.6] overflow-x-auto whitespace-pre m-0 [grid-area:1/1]">
-            <code>{code}</code>
-          </pre>
-        )}
+      {/* Code area — the active tab's code, syntax-highlighted (highlight.js). */}
+      <div className="p-md mobile:p-[32px]">
+        <pre className="font-mono text-mono-md text-text-primary leading-[1.6] overflow-x-auto whitespace-pre m-0">
+          <code className="hljs" dangerouslySetInnerHTML={{ __html: codeHtml }} />
+        </pre>
       </div>
     </div>
   );
