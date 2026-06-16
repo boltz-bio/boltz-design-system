@@ -26,6 +26,7 @@ export const colors = {
     tierra500:  '#DACAB0',
     tierra200:  '#EEE7DB',
     tierra100:  '#F7F2E9',
+    tierra75:   '#F9F6EF',
     tierra50:   '#FBFAF7',
   },
   text: {
@@ -55,6 +56,7 @@ export const colors = {
     500: '#DACAB0',
     200: '#EEE7DB',
     100: '#F7F2E9',
+    75: '#F9F6EF',
     50: '#FBFAF7',
   },
   neutral: {

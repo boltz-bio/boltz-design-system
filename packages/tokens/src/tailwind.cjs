@@ -40,6 +40,7 @@ module.exports = {
         'tierra-500':  '#DACAB0',
         'tierra-200':  '#EEE7DB',
         'tierra-100':  '#F7F2E9',
+        'tierra-75':   '#F9F6EF',
         'tierra-50':   '#FBFAF7',
       },
       text: {
@@ -69,6 +70,7 @@ module.exports = {
         500: '#DACAB0',
         200: '#EEE7DB',
         100: '#F7F2E9',
+        75: '#F9F6EF',
         50: '#FBFAF7',
       },
       neutral: {

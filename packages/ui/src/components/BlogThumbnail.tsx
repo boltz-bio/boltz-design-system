@@ -60,6 +60,8 @@ export interface BlogThumbnailProps extends React.HTMLAttributes<HTMLDivElement>
   partner?: React.ReactNode;
   /** Transparent 3D / PNG render, bled off the right edge. */
   renderSrc?: string;
+  /** Where the render bleeds from. 'right' (default) or 'bottom'. */
+  renderPosition?: 'right' | 'bottom';
   /** Decorative blob shape index (wraps). */
   blobShape?: number;
   /** Whether the blob sits behind the content or in front of it. Default 'behind'. */
@@ -79,6 +81,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
       showLogo = true,
       partner,
       renderSrc,
+      renderPosition = 'right',
       blobShape = 0,
       blobLayer = 'behind',
       ...rest
@@ -184,7 +187,12 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
             src={renderSrc}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute right-[-8%] top-1/2 -translate-y-1/2 z-10 w-[62cqw] select-none"
+            className={cn(
+              'pointer-events-none absolute z-10 select-none',
+              renderPosition === 'bottom'
+                ? 'bottom-[-8%] left-1/2 -translate-x-1/2 w-[78cqw]'
+                : 'right-[-8%] top-1/2 -translate-y-1/2 w-[62cqw]',
+            )}
           />
         )}
 
