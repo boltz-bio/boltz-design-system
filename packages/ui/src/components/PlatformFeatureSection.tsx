@@ -1,21 +1,24 @@
 import * as React from 'react';
 import { cn } from '../utils';
 import { EyebrowLabel } from './EyebrowLabel';
-import { CardSmall } from './Card';
 
 // Section — platform feature block (Figma node 246:808).
 // A full-width black hero card (eyebrow + heading + body + media) stacked with
-// a 4-column row of blue-pale feature cards (icon + title). 8px gap between all cards.
+// a 4-column row of surface-secondary feature cards (visual + title + description).
 
 export interface PlatformFeature {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   title: React.ReactNode;
+  description?: React.ReactNode;
+  /** Line-art visual shown above the title (preferred over icon). */
+  visual?: React.ReactNode;
 }
 
 export interface PlatformFeatureSectionProps extends React.HTMLAttributes<HTMLElement> {
   eyebrowIcon?: React.ReactNode;
   eyebrow?: React.ReactNode;
-  heading: React.ReactNode;
+  /** Hero card heading. Omit to render only the feature tiles (no black card). */
+  heading?: React.ReactNode;
   body?: React.ReactNode;
   /** Right-side media in the hero card — e.g. a laptop screenshot */
   media?: React.ReactNode;
@@ -27,33 +30,40 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
     <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
       <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-sm">
 
-        {/* Hero card — black, split: text left + media right. Stacks on phone,
-            splits side-by-side at a fixed height from mobile: (>=768). */}
-        <div className="relative bg-action-primary rounded-lg overflow-hidden w-full flex flex-col mobile:flex-row mobile:items-stretch mobile:h-[560px]">
-          {/* Text column */}
-          <div className="flex flex-col gap-md p-xl flex-1 justify-start">
-            <EyebrowLabel variant="dark" icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>
-            <h2 className="text-heading-md text-text-on-dark max-w-[565px]">{heading}</h2>
-            {body && <p className="text-body-md text-white/60 max-w-[460px]">{body}</p>}
-          </div>
-          {/* Media column */}
-          {media && (
-            <div className="flex-1 relative overflow-hidden h-[240px] mobile:h-auto">
-              {media}
+        {/* Hero card — black, split: text left + media right. Rendered only when a
+            heading is provided; omit it to render just the feature tiles. */}
+        {heading && (
+          <div className="relative bg-action-primary rounded-lg overflow-hidden w-full flex flex-col mobile:flex-row mobile:items-stretch mobile:h-[560px]">
+            {/* Text column */}
+            <div className="flex flex-col gap-md p-xl flex-1 justify-start">
+              <EyebrowLabel variant="dark" icon={eyebrowIcon ?? null}>{eyebrow}</EyebrowLabel>
+              <h2 className="text-heading-md text-text-on-dark max-w-[565px]">{heading}</h2>
+              {body && <p className="text-body-md text-white/60 max-w-[460px]">{body}</p>}
             </div>
-          )}
-        </div>
+            {/* Media column */}
+            {media && (
+              <div className="flex-1 relative overflow-hidden h-[240px] mobile:h-auto">
+                {media}
+              </div>
+            )}
+          </div>
+        )}
 
-        {/* Feature cards row — 2-up and shorter on phone, full 4-up at laptop. */}
-        <div className="grid grid-cols-2 gap-sm laptop:grid-cols-4">
+        {/* Feature cards row — 2-up on phone, then one column per tile at laptop. */}
+        <div className={cn('grid grid-cols-2 gap-sm items-stretch', features.length === 3 ? 'laptop:grid-cols-3' : 'laptop:grid-cols-4')}>
           {features.map((f, i) => (
-            <CardSmall
+            <div
               key={i}
-              color="blue-pale"
-              icon={f.icon}
-              heading={f.title}
-              className="h-[200px] mobile:h-[320px] justify-between"
-            />
+              className="flex flex-col h-full rounded-lg border border-border-light bg-surface-secondary overflow-hidden"
+            >
+              <div className="flex p-lg h-[210px]">
+                {f.visual ?? (f.icon ? <div className="m-auto text-text-primary">{f.icon}</div> : null)}
+              </div>
+              <div className="flex flex-col gap-xs p-lg pt-0">
+                <h3 className="text-heading-sm text-text-primary">{f.title}</h3>
+                {f.description && <p className="text-body-sm text-text-secondary">{f.description}</p>}
+              </div>
+            </div>
           ))}
         </div>
 
