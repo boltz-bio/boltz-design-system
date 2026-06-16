@@ -100,26 +100,26 @@ export const NewsItem = React.forwardRef<HTMLAnchorElement, NewsItemProps>(
         <a
           ref={ref}
           href={href}
-          className={cn('group flex flex-col mobile:flex-row gap-md mobile:gap-[40px] items-start no-underline w-full', className)}
+          className={cn('group flex flex-row gap-md mobile:gap-[40px] items-start no-underline w-full', className)}
           {...rest}
         >
           {/* Text */}
-          <div className="flex flex-col gap-[12px] flex-1 min-w-0 order-2 mobile:order-1">
+          <div className="flex flex-col gap-[12px] flex-1 min-w-0 order-1">
             <p className="font-sans font-regular text-body-md text-text-primary group-hover:underline decoration-current underline-offset-2 transition-all duration-base ease-standard" style={{ textDecorationThickness: '1px' }}>
               {title}
             </p>
             <Meta category={category} date={date} />
           </div>
-          {/* Cover node, else a fixed 278×174 thumbnail box. Full width on phone,
-              fixed 278px from mobile: (>=768). Image sits above text on phone. */}
+          {/* Cover node, else a fixed thumbnail box. Compact 128px thumbnail beside
+              the text on phone; grows to the full 278px from mobile: (>=768). */}
           {cover ? (
-            <div className="w-full mobile:w-[278px] flex-shrink-0 order-1 mobile:order-2">{cover}</div>
+            <div className="w-[128px] mobile:w-[278px] flex-shrink-0 order-2">{cover}</div>
           ) : (
             <Thumbnail
               src={thumbnail}
               alt={thumbnailAlt}
               radius="md"
-              className="w-full mobile:w-[278px] h-[174px] aspect-auto flex-shrink-0 order-1 mobile:order-2"
+              className="w-[128px] mobile:w-[278px] h-[80px] mobile:h-[174px] aspect-auto flex-shrink-0 order-2"
             />
           )}
         </a>
