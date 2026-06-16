@@ -152,7 +152,7 @@ export const ListItemTab = React.forwardRef<HTMLButtonElement, ListItemTabProps>
       )}
       {...rest}
     >
-      <div className="flex gap-[20px] items-start w-full">
+      <div className="flex flex-col gap-[12px] tablet:flex-row tablet:gap-[20px] items-start w-full">
         {/* Icon — 48×48 */}
         <div className="w-[48px] h-[48px] flex-shrink-0 flex items-center justify-center text-text-primary">
           {icon}
@@ -196,34 +196,44 @@ export interface ListItemTabGroupProps extends React.HTMLAttributes<HTMLDivEleme
 export const ListItemTabGroup = React.forwardRef<HTMLDivElement, ListItemTabGroupProps>(
   ({ className, items, active = 0, onActiveChange, ...rest }, ref) => {
     const itemRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
-    const [bg, setBg] = React.useState({ top: 0, height: 0 });
+    const [bg, setBg] = React.useState({ top: 0, left: 0, width: 0, height: 0 });
 
-    // Measure the active item and move the sliding background to it.
+    // Measure the active item and move the sliding background to it. Track all four
+    // edges so the pill follows the active item in either layout — the side-by-side
+    // row (mobile) or the stacked column (tablet+) — and re-measure on resize.
     React.useEffect(() => {
-      const el = itemRefs.current[active];
-      if (el) setBg({ top: el.offsetTop, height: el.offsetHeight });
+      const measure = () => {
+        const el = itemRefs.current[active];
+        if (el) setBg({ top: el.offsetTop, left: el.offsetLeft, width: el.offsetWidth, height: el.offsetHeight });
+      };
+      measure();
+      window.addEventListener('resize', measure);
+      return () => window.removeEventListener('resize', measure);
     }, [active]);
 
     return (
       <div
         ref={ref}
         role="tablist"
-        className={cn('relative flex flex-col', className)}
+        className={cn('relative flex flex-row gap-sm tablet:flex-col tablet:gap-0', className)}
         {...rest}
       >
         {/* Animated background pill */}
         <div
-          className="absolute left-0 right-0 bg-blue-light rounded-lg pointer-events-none"
+          className="absolute bg-blue-light rounded-lg pointer-events-none"
           style={{
             top: bg.top,
+            left: bg.left,
+            width: bg.width,
             height: bg.height,
-            transition: 'top 420ms cubic-bezier(0.76, 0, 0.24, 1), height 420ms cubic-bezier(0.76, 0, 0.24, 1)',
+            transition: 'top 420ms cubic-bezier(0.76, 0, 0.24, 1), left 420ms cubic-bezier(0.76, 0, 0.24, 1), width 420ms cubic-bezier(0.76, 0, 0.24, 1), height 420ms cubic-bezier(0.76, 0, 0.24, 1)',
           }}
         />
         {items.map((item, i) => (
           <ListItemTab
             key={i}
             ref={(el) => { itemRefs.current[i] = el; }}
+            className="flex-1 min-w-0 tablet:flex-none"
             icon={item.icon}
             heading={item.heading}
             description={item.description}

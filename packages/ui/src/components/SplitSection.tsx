@@ -55,8 +55,9 @@ export interface SplitSectionProps
 
 // Side-by-side direction at laptop+; left/right swap order, above/below stay stacked.
 const rowDir: Record<MediaPosition, string> = {
-  right: 'laptop:flex-row',
-  left: 'laptop:flex-row-reverse',
+  // Mobile-first: stack by default (flex-col), split into columns at laptop+.
+  right: 'flex-col laptop:flex-row',
+  left: 'flex-col laptop:flex-row-reverse',
   above: 'flex-col-reverse',
   below: 'flex-col',
 };

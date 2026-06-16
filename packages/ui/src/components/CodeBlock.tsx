@@ -33,6 +33,10 @@ export interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   tabs?: CodeTab[];
   /** Code to show when no tabs provided */
   code?: string;
+  /** Controlled active tab index. Omit for uncontrolled (internal state). */
+  activeTab?: number;
+  /** Called with the new index when a tab is selected. */
+  onTabChange?: (index: number) => void;
 }
 
 // ── Color maps ────────────────────────────────────────────────────────────────
@@ -119,10 +123,17 @@ interface SandboxProps {
   tabs?: CodeTab[];
   code?: string;
   contained?: boolean;
+  activeTab?: number;
+  onTabChange?: (index: number) => void;
 }
 
-function Sandbox({ color, tabs, code, contained }: SandboxProps) {
-  const [activeTab, setActiveTab] = React.useState(0);
+function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTabChange }: SandboxProps) {
+  const [internalTab, setInternalTab] = React.useState(0);
+  const activeTab = controlledTab ?? internalTab;
+  const setActiveTab = (i: number) => {
+    onTabChange?.(i);
+    if (controlledTab == null) setInternalTab(i);
+  };
   const [copied, setCopied] = React.useState(false);
 
   // Sliding indicator — measure active tab's offsetLeft + offsetWidth.
@@ -278,7 +289,7 @@ function Sandbox({ color, tabs, code, contained }: SandboxProps) {
 // ── CodeBlock ─────────────────────────────────────────────────────────────────
 
 export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  ({ className, color = 'sage', contained = false, tabs, code, ...rest }, ref) => {
+  ({ className, color = 'sage', contained = false, tabs, code, activeTab, onTabChange, ...rest }, ref) => {
 
     if (contained) {
       return (
@@ -297,7 +308,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           <CodePattern />
           {/* Card sits above the pattern */}
           <div className="relative z-10 w-full max-w-[654px] min-w-0">
-            <Sandbox color={color} tabs={tabs} code={code} contained />
+            <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} contained />
           </div>
         </div>
       );
@@ -305,7 +316,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
 
     return (
       <div ref={ref} className={cn('w-full', className)} {...rest}>
-        <Sandbox color={color} tabs={tabs} code={code} contained={false} />
+        <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} contained={false} />
       </div>
     );
   },
