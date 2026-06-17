@@ -49,8 +49,9 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
           </div>
         )}
 
-        {/* Feature cards row — 2-up on phone, then one column per tile at laptop. */}
-        <div className={cn('grid grid-cols-2 gap-sm items-stretch', features.length === 3 ? 'laptop:grid-cols-3' : 'laptop:grid-cols-4')}>
+        {/* Feature cards row — 1-up on phone (avoids cramped 2-col), 2-up from
+            tablet, then one column per tile at laptop. */}
+        <div className={cn('grid grid-cols-1 mobile:grid-cols-2 gap-sm items-stretch', features.length === 3 ? 'laptop:grid-cols-3' : 'laptop:grid-cols-4')}>
           {features.map((f, i) => (
             <div
               key={i}
