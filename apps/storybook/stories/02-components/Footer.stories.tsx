@@ -23,6 +23,10 @@ export const Default: Story = {
   render: () => <Footer />,
 };
 
+export const WithCopyright: Story = {
+  render: () => <Footer copyright={'Boltz \u00a9 2026'} />,
+};
+
 export const CustomLinks: Story = {
   render: () => (
     <Footer
