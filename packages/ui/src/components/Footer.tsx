@@ -34,6 +34,8 @@ export interface FooterColumn {
 export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode;
   columns?: FooterColumn[];
+  /** Optional notice displayed below the footer links. */
+  copyright?: React.ReactNode;
 }
 
 // ── Default columns ───────────────────────────────────────────────────────────
@@ -80,7 +82,7 @@ const BoltzMark = () => (
 // ── Footer ────────────────────────────────────────────────────────────────────
 
 export const Footer = React.forwardRef<HTMLElement, FooterProps>(
-  ({ className, logo, columns = DEFAULT_COLUMNS, ...rest }, ref) => (
+  ({ className, logo, columns = DEFAULT_COLUMNS, copyright, ...rest }, ref) => (
     <footer
       ref={ref}
       className={cn('relative w-full bg-white overflow-hidden', className)}
@@ -126,6 +128,11 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(
           ))}
         </div>
       </div>
+      {copyright && (
+        <div className="relative z-10 max-w-container mx-auto px-md pb-xl mobile:px-40">
+          <p className="text-body-sm text-text-muted">{copyright}</p>
+        </div>
+      )}
     </footer>
   ),
 );
