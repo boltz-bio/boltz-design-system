@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ArrowRight } from 'iconoir-react';
 import { cn } from '../utils';
 import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
 
@@ -63,7 +64,8 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
           circleStyles[variant],
         )}
       >
-        <span className={arrowSpin}>→</span>
+        {/* SVG arrow (not the → glyph) so it stays centred as it rotates. */}
+        <ArrowRight width={14} height={14} strokeWidth={1.5} className={arrowSpin} />
       </span>
     </button>
   ),

@@ -13,8 +13,10 @@ export const disabledState = 'disabled:opacity-60 disabled:pointer-events-none';
 export const interactive = 'cursor-pointer select-none';
 
 /**
- * ↗ glyph behaviour: a `→` rotated -45° (so it reads as ↗) that spins back to
- * `→` on hover. Used by the pill CTAs (Button, NavCta). Requires a `group` parent.
+ * ↗ arrow behaviour: an `ArrowRight` icon rotated -45° (so it reads as ↗) that
+ * spins back to `→` on hover. Used by the pill CTAs (Button, NavCta). Use the SVG
+ * icon, not the `→` text glyph — the glyph's ink sits off-centre in its text box
+ * and drifts when rotated. Requires a `group` parent.
  */
 export const arrowSpin =
   'inline-block -rotate-45 group-hover:rotate-0 transition-transform duration-spring ease-spring';
