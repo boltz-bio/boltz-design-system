@@ -9,6 +9,7 @@ import { focusRing } from '../styles';
 //
 // Visual rules:
 // - Header: heading-md (32px) title, optional tierra-200 badge pill, +/− toggle
+//   (badge stacks under the title below the `mobile` breakpoint)
 // - Separator: 1px border-border-light below each item
 // - Body: body-md text-text-secondary + optional actions slot
 // - Motion: duration-slow (350ms) ease-standard for expand/collapse
@@ -61,12 +62,17 @@ export const AccordionItem = ({
         >
           {/* Title + badge cluster left (10px gap from the row); toggle is pushed
               right by the ml-auto on the +/− control below.
+              Mobile-first: below `mobile:` the badge stacks under the title so a
+              long badge label never squeezes the title or pushes the toggle off
+              the row; from `mobile:` up they sit inline.
               Line-height + tracking come from the text-heading-md token (which is
               responsive) — do not re-specify them here. */}
-          <span className="text-heading-md text-text-primary">
-            {title}
+          <span className="flex min-w-0 flex-col items-start gap-8 mobile:flex-row mobile:items-center mobile:gap-10">
+            <span className="text-heading-md text-text-primary">
+              {title}
+            </span>
+            {badge}
           </span>
-          {badge}
           {/* Animated +/− toggle — vertical bar scales to 0 on open */}
           <span
             aria-hidden="true"

@@ -41,6 +41,12 @@ export interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
   activeTab?: number;
   /** Called with the new index when a tab is selected. */
   onTabChange?: (index: number) => void;
+  /**
+   * Extra classes on the scrollable code area — e.g. a max height plus
+   * `overflow-y-auto` so samples of different lengths keep the block a steady
+   * size. Omit for the default (grows to fit the code).
+   */
+  codeClassName?: string;
 }
 
 // ── Color maps ────────────────────────────────────────────────────────────────
@@ -118,9 +124,10 @@ interface SandboxProps {
   contained?: boolean;
   activeTab?: number;
   onTabChange?: (index: number) => void;
+  codeClassName?: string;
 }
 
-function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTabChange }: SandboxProps) {
+function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTabChange, codeClassName }: SandboxProps) {
   const [internalTab, setInternalTab] = React.useState(0);
   const activeTab = controlledTab ?? internalTab;
   const setActiveTab = (i: number) => {
@@ -257,7 +264,7 @@ function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTab
       </div>
 
       {/* Code area — the active tab's code, syntax-highlighted (highlight.js). */}
-      <div className="p-md mobile:p-[32px]">
+      <div className={cn('p-md mobile:p-[32px]', codeClassName)}>
         <pre className="font-mono text-mono-md text-text-primary leading-[1.6] overflow-x-auto whitespace-pre m-0">
           <code className="hljs" dangerouslySetInnerHTML={{ __html: codeHtml }} />
         </pre>
@@ -269,7 +276,7 @@ function Sandbox({ color, tabs, code, contained, activeTab: controlledTab, onTab
 // ── CodeBlock ─────────────────────────────────────────────────────────────────
 
 export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  ({ className, color = 'sage', contained = false, tabs, code, activeTab, onTabChange, ...rest }, ref) => {
+  ({ className, color = 'sage', contained = false, tabs, code, activeTab, onTabChange, codeClassName, ...rest }, ref) => {
 
     if (contained) {
       return (
@@ -288,7 +295,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
           <CodePattern />
           {/* Card sits above the pattern */}
           <div className="relative z-10 w-full max-w-[654px] min-w-0">
-            <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} contained />
+            <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} codeClassName={codeClassName} contained />
           </div>
         </div>
       );
@@ -296,7 +303,7 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
 
     return (
       <div ref={ref} className={cn('w-full', className)} {...rest}>
-        <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} contained={false} />
+        <Sandbox color={color} tabs={tabs} code={code} activeTab={activeTab} onTabChange={onTabChange} codeClassName={codeClassName} contained={false} />
       </div>
     );
   },

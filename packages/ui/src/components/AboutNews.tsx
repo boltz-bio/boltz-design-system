@@ -45,9 +45,9 @@ export const AboutNews = React.forwardRef<HTMLElement, AboutNewsProps>(
     onCtaClick,
     ...rest
   }, ref) => (
-    <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
+    <section ref={ref} className={cn('w-full py-xl tablet:py-2xl', className)} {...rest}>
       <div className="max-w-container mx-auto px-md tablet:px-40">
-        <div className="grid grid-cols-1 gap-2xl laptop:grid-cols-2 laptop:gap-[128px] items-start">
+        <div className="grid grid-cols-1 gap-xl mobile:gap-2xl laptop:grid-cols-2 laptop:gap-[128px] items-start">
 
           {/* Left — about copy */}
           <div className="flex flex-col gap-md">

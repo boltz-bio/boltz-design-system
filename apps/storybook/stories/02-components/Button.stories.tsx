@@ -10,12 +10,12 @@ const meta = {
     docs: {
       description: {
         component:
-          'The primary action control, available as a black variant for light surfaces and a white variant for dark surfaces. Supports an optional trailing arrow suffix for navigational actions.',
+          'The primary action control, available as a black variant for light surfaces, a white variant for dark surfaces, and an outlined secondary variant to pair with a black CTA. Supports an optional trailing arrow suffix for navigational actions.',
       },
     },
   },
   argTypes: {
-    variant: { control: 'select', options: ['black', 'white'] },
+    variant: { control: 'select', options: ['black', 'white', 'outlined', 'outlined-white'] },
     suffix: { control: 'select', options: ['arrow-icon', 'arrow-text', 'none'] },
   },
 } satisfies Meta<typeof Button>;
@@ -30,6 +30,35 @@ export const Black: Story = {
 export const White: Story = {
   args: { variant: 'white', children: 'Get early access' },
   parameters: { backgrounds: { default: 'surface-card-dark' } },
+};
+
+export const Outlined: Story = {
+  args: { variant: 'outlined', children: 'Talk to our team' },
+};
+
+export const PrimaryWithSecondary: Story = {
+  name: 'Primary + secondary pair',
+  render: () => (
+    <div className="flex flex-wrap gap-md items-center p-lg bg-surface-primary rounded-lg border border-border-light">
+      <Button variant="black">Start designing</Button>
+      <Button variant="outlined">Talk to our team</Button>
+    </div>
+  ),
+};
+
+export const OutlinedWhite: Story = {
+  args: { variant: 'outlined-white', children: 'Talk to our team' },
+  parameters: { backgrounds: { default: 'surface-card-dark' } },
+};
+
+export const PrimaryWithSecondaryOnDark: Story = {
+  name: 'Primary + secondary pair (on dark)',
+  render: () => (
+    <div className="flex flex-wrap gap-md items-center p-lg bg-surface-card-dark rounded-lg">
+      <Button variant="white">Try Boltz Lab</Button>
+      <Button variant="outlined-white">Talk to our team</Button>
+    </div>
+  ),
 };
 
 export const BothVariants: Story = {
@@ -61,4 +90,21 @@ export const SuffixVariants: Story = {
 
 export const Disabled: Story = {
   args: { variant: 'black', children: 'Disabled', disabled: true },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-col gap-md p-lg bg-surface-primary rounded-lg border border-border-light">
+      <div className="flex gap-md items-center">
+        <span className="text-body-sm text-text-muted w-[120px]">md (default)</span>
+        <Button variant="black">Talk to our team</Button>
+        <Button variant="outlined">Start designing</Button>
+      </div>
+      <div className="flex gap-md items-center">
+        <span className="text-body-sm text-text-muted w-[120px]">lg</span>
+        <Button variant="black" size="lg">Talk to our team</Button>
+        <Button variant="outlined" size="lg">Start designing</Button>
+      </div>
+    </div>
+  ),
 };
