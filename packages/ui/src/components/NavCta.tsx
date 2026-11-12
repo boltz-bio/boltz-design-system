@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArrowRight } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
+import { focusRing, disabledState, interactive, arrowSpin, opticalTextCenter } from '../styles';
 
 // Spec: DESIGN.md `nav-cta` + Figma nodes 58:243 / 58:244
 // Source of truth: components.html `.nav-cta` / `.nav-cta__icon`
@@ -52,7 +52,7 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
       )}
       {...rest}
     >
-      <span>{children}</span>
+      <span className={opticalTextCenter}>{children}</span>
 
       {/* Inner filled circle — sits flush inside the pill's right edge */}
       <span

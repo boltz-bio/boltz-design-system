@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Menu, Xmark } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, interactive } from '../styles';
+import { focusRing, interactive, opticalTextCenter } from '../styles';
 import { NavCta } from './NavCta';
 import { Logo } from './Logo';
 
@@ -77,6 +77,7 @@ export const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
       className={cn(
         'h-36 px-20 rounded-full border inline-flex items-center',
         'text-body-sm whitespace-nowrap no-underline',
+        opticalTextCenter,
         'transition-colors duration-base ease-standard',
         tone === 'dark'
           ? cn('border-white/60 text-white', active ? 'bg-transparent' : 'bg-transparent hover:bg-white/10')

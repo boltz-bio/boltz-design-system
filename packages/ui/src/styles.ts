@@ -20,3 +20,13 @@ export const interactive = 'cursor-pointer select-none';
  */
 export const arrowSpin =
   'inline-block -rotate-45 group-hover:rotate-0 transition-transform duration-spring ease-spring';
+
+/**
+ * Optical vertical centring for text inside fixed-height controls (buttons,
+ * pills, tabs). Stabil Grotesk's line metrics sit the glyphs low: a mathematically
+ * centred label renders ~0.7px low for capitals and ~2.3px low for lowercase.
+ * 2px of bottom padding inside an `items-center` control lifts the text ~1.5px,
+ * splitting the difference so mixed-case labels read as centred (measured:
+ * optical centre within ±0.1px across the 36 / 40 / 44px controls).
+ */
+export const opticalTextCenter = 'pb-2';

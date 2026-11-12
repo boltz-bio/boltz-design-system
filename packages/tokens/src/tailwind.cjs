@@ -106,6 +106,7 @@ module.exports = {
       '3xl': '120px',
       section: '160px',
       // pixel values referenced in DESIGN.md component specs:
+      '2': '2px',
       '4': '4px',
       '6': '6px',
       '8': '8px',
@@ -149,6 +150,7 @@ module.exports = {
       'body-lg': ['var(--font-body-lg)', { lineHeight: 'var(--lh-body-lg)', letterSpacing: 'var(--ls-body-lg)' }],
       'body-md': ['var(--font-body-md)', { lineHeight: 'var(--lh-body-md)', letterSpacing: 'var(--ls-body-md)' }],
       'body-sm': ['var(--font-body-sm)', { lineHeight: 'var(--lh-body-sm)', letterSpacing: 'var(--ls-body-sm)' }],
+      'label-md': ['var(--font-label-md)', { lineHeight: 'var(--lh-label-md)', letterSpacing: 'var(--ls-label-md)' }],
       'mono-md': ['var(--font-mono-md)', { lineHeight: 'var(--lh-mono-md)' }],
     },
     fontWeight: {

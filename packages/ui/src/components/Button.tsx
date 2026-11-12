@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ArrowRight } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
+import { focusRing, disabledState, interactive, arrowSpin, opticalTextCenter } from '../styles';
 
 // Spec: DESIGN.md `button-primary` + Figma node 58-134
 // Source of truth: components.html `.btn--outlined` / `.btn--white`
@@ -30,7 +30,8 @@ import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
 //                     beside a `white` CTA on dark / black backgrounds.
 //
 // Sizes:
-//   "md" (default) — 36px pill + circle, body-sm label (Figma spec)
+//   "md" (default) — 40px pill + circle, label-md (16px) label, 18px side padding
+//                    (one step up from the original 36px / body-sm Figma spec)
 //   "lg"           — 44px pill + circle, body-md label, 20px side padding
 //                    → prominent CTAs, e.g. the primary hero
 //
@@ -50,9 +51,9 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 // Per-size geometry. On hover the label's right padding grows by the circle's
-// width (md: 16 + 36 = 52, lg: 20 + 44 = 64) and the circle pulls back by the same.
+// width (md: 18 + 40 = 58, lg: 20 + 44 = 64) and the circle pulls back by the same.
 const sizeStyles: Record<Size, { label: string; labelHover: string; circle: string; arrow: number }> = {
-  md: { label: 'h-36 text-body-sm pl-16 pr-16', labelHover: 'group-hover:pr-52', circle: 'h-36 w-36 group-hover:-ml-36', arrow: 16 },
+  md: { label: 'h-40 text-label-md pl-18 pr-18', labelHover: 'group-hover:pr-[58px]', circle: 'h-40 w-40 group-hover:-ml-40', arrow: 17 },
   lg: { label: 'h-44 text-body-md pl-20 pr-20', labelHover: 'group-hover:pr-[64px]', circle: 'h-44 w-44 group-hover:-ml-44', arrow: 18 },
 };
 
@@ -99,6 +100,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {/* Label pill */}
         <span
           className={cn(
+            opticalTextCenter,
             'rounded-full border',
             'inline-flex items-center',
             'whitespace-nowrap',

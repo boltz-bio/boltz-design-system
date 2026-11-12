@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ViewGrid, List } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, interactive } from '../styles';
+import { focusRing, interactive, opticalTextCenter } from '../styles';
 
 // Spec: components.html tab-bar / filter-tab-bar (Figma node 57-4617)
 //
@@ -30,6 +30,7 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
         'h-36 px-20 rounded-full border border-action-primary',
         'inline-flex items-center',
         'text-body-sm whitespace-nowrap',
+        opticalTextCenter,
         interactive,
         '-ml-px first:ml-0',   // merge border seam
         active
