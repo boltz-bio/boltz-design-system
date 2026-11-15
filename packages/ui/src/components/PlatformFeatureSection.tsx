@@ -27,7 +27,7 @@ export interface PlatformFeatureSectionProps extends React.HTMLAttributes<HTMLEl
 
 export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeatureSectionProps>(
   ({ className, eyebrowIcon, eyebrow = 'Platform', heading, body, media, features, ...rest }, ref) => (
-    <section ref={ref} className={cn('w-full py-2xl', className)} {...rest}>
+    <section ref={ref} className={cn('w-full py-xl tablet:py-2xl', className)} {...rest}>
       <div className="max-w-container mx-auto px-md tablet:px-40 flex flex-col gap-sm">
 
         {/* Hero card — black, split: text left + media right. Rendered only when a
@@ -49,13 +49,31 @@ export const PlatformFeatureSection = React.forwardRef<HTMLElement, PlatformFeat
           </div>
         )}
 
-        {/* Feature cards row — 1-up on phone (avoids cramped 2-col), 2-up from
-            tablet, then one column per tile at laptop. */}
-        <div className={cn('grid grid-cols-1 mobile:grid-cols-2 gap-sm items-stretch', features.length === 3 ? 'laptop:grid-cols-3' : 'laptop:grid-cols-4')}>
+        {/* Feature cards row — on phones a swipeable row (each card 80% wide, so
+            the next one peeks in as a cue; bleeds to the screen edges and snaps
+            card by card) instead of a tall stack. 2-up grid from `mobile:` (an
+            odd last card spans the row so it isn't left half-empty); three
+            tiles go 3-up from `tablet:`, four go 4-up at `laptop:`. */}
+        <div
+          className={cn(
+            'flex gap-sm overflow-x-auto snap-x snap-mandatory scroll-px-md -mx-md px-md',
+            '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+            'mobile:grid mobile:grid-cols-2 mobile:items-stretch mobile:overflow-visible mobile:mx-0 mobile:px-0',
+            features.length === 3 ? 'tablet:grid-cols-3' : 'laptop:grid-cols-4',
+          )}
+        >
           {features.map((f, i) => (
             <div
               key={i}
-              className="flex flex-col h-full rounded-lg border border-border-light bg-surface-secondary overflow-hidden"
+              className={cn(
+                // Phones: no fixed height so the row's default stretch makes every card
+                // as tall as the tallest (a % height would block that); grid from `mobile:`.
+                'flex flex-col self-stretch w-4/5 shrink-0 snap-start mobile:h-full mobile:w-auto mobile:shrink rounded-lg border border-border-light bg-surface-secondary overflow-hidden',
+                // Odd count: last card spans the 2-up row, back to one column once
+                // the grid widens (3-up at tablet for three, 4-up at laptop otherwise).
+                features.length % 2 === 1 && i === features.length - 1 &&
+                  (features.length === 3 ? 'mobile:col-span-2 tablet:col-span-1' : 'mobile:col-span-2 laptop:col-span-1'),
+              )}
             >
               <div className="flex p-lg h-[210px]">
                 {f.visual ?? (f.icon ? <div className="m-auto text-text-primary">{f.icon}</div> : null)}

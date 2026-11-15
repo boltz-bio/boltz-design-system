@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../utils';
-import { focusRing, disabledState, interactive } from '../styles';
+import { focusRing, disabledState, interactive, opticalTextCenter } from '../styles';
 
 // Spec: DESIGN.md text button variant + Figma node 58-134
 // Source of truth: components.html `.btn--text` / `.btn--text-dark`
 //
 // Structure: plain text — no pill, no border, no background.
-//   body-sm (15px), inline-flex, optional ↗ suffix.
+//   label-md (16px), 40px tall to sit level with the default Button, inline-flex,
+//   optional ↗ suffix.
 //
 // Variants:
 //   light (default) — black text  → light backgrounds
@@ -16,8 +17,9 @@ import { focusRing, disabledState, interactive } from '../styles';
 const textButtonVariants = cva(
   [
     'group relative inline-flex items-center gap-6',
-    'h-36 bg-transparent border-none',
-    'text-body-sm whitespace-nowrap',
+    'h-40 bg-transparent border-none',
+    'text-label-md whitespace-nowrap',
+    opticalTextCenter,
     interactive,
     focusRing,
     disabledState,

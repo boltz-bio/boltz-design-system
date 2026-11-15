@@ -7,7 +7,7 @@ import { Button } from './Button';
 //
 // Structure: a vertical list of rows, each with:
 //   Left:  heading-sm (24px) + body-md (18px, text-secondary)  — max-w ~880px
-//   Right: Button (split-pill, black variant)
+//   Right: Button (split-pill, black variant) — stacks below the text on phones
 //   Separator: border-top (1px, border-light) + py-xl (40px) on each row
 //
 // Usage (composable):
@@ -42,9 +42,14 @@ export const LinkSectionRow = React.forwardRef<HTMLDivElement, LinkSectionRowPro
     <div
       ref={ref}
       className={cn(
-        'flex items-center justify-between',
-        'border-t border-border-light py-xl',
-        'gap-xl',
+        // Mobile-first: stack heading/body above the CTA on phones so the copy
+        // gets the full width; side by side from `mobile:` up.
+        'flex flex-col items-start gap-lg',
+        'mobile:flex-row mobile:items-center mobile:justify-between mobile:gap-xl',
+        'border-t border-border-light py-lg mobile:py-xl',
+        // First row: no divider or top padding, so the section's own padding is
+        // the only space above its first heading (consistent with other sections).
+        'first:border-t-0 first:pt-0',
         className,
       )}
       {...rest}

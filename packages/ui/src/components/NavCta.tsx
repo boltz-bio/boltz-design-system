@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { ArrowRight } from 'iconoir-react';
 import { cn } from '../utils';
-import { focusRing, disabledState, interactive, arrowSpin } from '../styles';
+import { focusRing, disabledState, interactive, arrowSpin, opticalTextCenter } from '../styles';
 
 // Spec: DESIGN.md `nav-cta` + Figma nodes 58:243 / 58:244
 // Source of truth: components.html `.nav-cta` / `.nav-cta__icon`
@@ -51,7 +52,7 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
       )}
       {...rest}
     >
-      <span>{children}</span>
+      <span className={opticalTextCenter}>{children}</span>
 
       {/* Inner filled circle — sits flush inside the pill's right edge */}
       <span
@@ -63,7 +64,8 @@ export const NavCta = React.forwardRef<HTMLButtonElement, NavCtaProps>(
           circleStyles[variant],
         )}
       >
-        <span className={arrowSpin}>→</span>
+        {/* SVG arrow (not the → glyph) so it stays centred as it rotates. */}
+        <ArrowRight width={14} height={14} strokeWidth={1.5} className={arrowSpin} />
       </span>
     </button>
   ),

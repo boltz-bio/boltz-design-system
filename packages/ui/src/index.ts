@@ -25,7 +25,9 @@ export type { BadgeProps } from './components/Badge';
 export { Accordion, AccordionItem, AccordionBadge, AccordionActions } from './components/Accordion';
 export type { AccordionProps, AccordionItemProps, AccordionBadgeProps, AccordionActionsProps } from './components/Accordion';
 
-export { NavBar, NavLink } from './components/NavBar';
+export { NavBar, NavLink, navMenuItemClass } from './components/NavBar';
+export { Field, TextInput, TextArea, Select, Checkbox, CheckboxGroup, EmailListInput } from './components/Form';
+export type { FieldProps, TextInputProps, TextAreaProps, SelectProps, SelectOption, CheckboxProps, CheckboxGroupProps, EmailListInputProps } from './components/Form';
 export type { NavBarProps, NavLinkProps } from './components/NavBar';
 
 export { ListItem, ListItemApp, ListItemTab, ListItemTabGroup } from './components/ListItem';
