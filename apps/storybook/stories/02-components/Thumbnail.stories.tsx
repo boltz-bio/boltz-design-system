@@ -129,7 +129,7 @@ export const BlogCovers: Story = {
       </Section>
 
       <Section title="Centered headline with inline eyebrow and explicit line breaks">
-        <BlogThumbnail tone="blue" align="left" titlePosition="center" eyebrow="Advancing" eyebrowPosition="inline" title={'the biomolecular\nfrontier'} blobShape={8} />
+        <BlogThumbnail tone="blue" align="left" titlePosition="center" eyebrow="Research" eyebrowPosition="inline" title={'A centered headline\nwith a line break'} blobShape={8} />
       </Section>
 
       <Section title="Scalable — same cover at 240px and full width">
