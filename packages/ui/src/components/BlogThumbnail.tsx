@@ -49,6 +49,9 @@ export interface BlogThumbnailProps extends React.HTMLAttributes<HTMLDivElement>
   category?: Category;
   /** Small uppercase eyebrow above the title. Overrides the category default. */
   eyebrow?: string;
+  /** Keep the eyebrow with a centered title or place it in the top row. */
+  eyebrowPosition?: 'inline' | 'top';
+  /** Headline; newline characters preserve intentional line breaks. */
   title?: string;
   /** Horizontal alignment of the text block. Default 'left'. */
   align?: 'left' | 'center';
@@ -75,6 +78,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
       tone = 'sage',
       category,
       eyebrow,
+      eyebrowPosition = 'top',
       title,
       align = 'left',
       titlePosition = 'bottom',
@@ -94,7 +98,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
     // Logo sits opposite the title (title bottom → logo top).
     const logoAtTop = titlePosition === 'bottom';
     // When text is centered vertically and there's an eyebrow, split eyebrow to top row.
-    const splitCenter = titlePosition === 'center' && !!resolvedEyebrow;
+    const splitCenter = titlePosition === 'center' && !!resolvedEyebrow && eyebrowPosition === 'top';
 
     // ── Blobs ──────────────────────────────────────────────────────────────────
     // Figma node 57:3218 placement:
@@ -150,7 +154,7 @@ export const BlogThumbnail = React.forwardRef<HTMLDivElement, BlogThumbnailProps
     ) : null;
 
     const titleEl = title ? (
-      <span className={cn('font-sans text-[7cqw] leading-[1.2] tracking-[-0.03em] [text-wrap:balance]', ink)}>
+      <span className={cn('font-sans text-[7cqw] leading-[1.2] tracking-[-0.03em] whitespace-pre-line [text-wrap:balance]', ink)}>
         {title}
       </span>
     ) : null;

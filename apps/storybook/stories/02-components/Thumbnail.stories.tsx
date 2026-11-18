@@ -128,6 +128,10 @@ export const BlogCovers: Story = {
         <BlogThumbnail tone="tierra" category="other" title="Inside the Boltz inference stack" titlePosition="top" blobLayer="front" blobShape={9} />
       </Section>
 
+      <Section title="Centered headline with inline eyebrow and explicit line breaks">
+        <BlogThumbnail tone="blue" align="left" titlePosition="center" eyebrow="Research" eyebrowPosition="inline" title={'A centered headline\nwith a line break'} blobShape={8} />
+      </Section>
+
       <Section title="Scalable — same cover at 240px and full width">
         <div className="w-[240px]"><BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} /></div>
         <BlogThumbnail tone="sage" category="product-launch" title="Boltz-prot-1" renderSrc={PROTEIN} blobShape={8} />
